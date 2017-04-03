@@ -1,4 +1,8 @@
-# python-getting-started
+##DB URL (DATABASE_URL)
+<postgres://haezqswxdtwsyg:4f67fdd699eec15173563272e5763977049af5d9bc308e1fc28accfccb91924c@ec2-54-247-166-129.eu-west-1.compute.amazonaws.com:5432/d4mqogcp0i0r3s>
+
+
+# Based on python-getting-started
 
 A barebones Python app, which can easily be deployed to Heroku.
 

@@ -1,8 +1,8 @@
 {
-  "name": "Start on Heroku: Python",
-  "description": "A barebones Python app, which can easily be deployed to Heroku.",
+  "name": "DAAK Store of Awesome stuff",
+  "description": "Webshop for online games, to be deployed to Heroku.",
   "image": "heroku/python",
-  "repository": "https://github.com/heroku/python-getting-started",
+  "repository": "https://git.heroku.com/daak-store.git",
   "keywords": ["python", "django" ],
   "addons": [ "heroku-postgresql" ]
 }
