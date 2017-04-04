@@ -49,6 +49,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    # add your stuff here SOCIAL, AUTH, ETC
 )
 
 ROOT_URLCONF = 'gettingstarted.urls'
