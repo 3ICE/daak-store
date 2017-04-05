@@ -23,7 +23,8 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 
 # SECURITY WARNING: change this before deploying to production!
 SECRET_KEY = 'i+acxn5(akgsn!sr4^qgf(^m&*@+g1@u^t@=8s@axc41ml*f=s'
-
+SOCIAL_AUTH_FACEBOOK_KEY ='727866270697259'
+SOCIAL_AUTH_FACEBOOK_SECRET ='5f017e556dc60091f4c3b01a57da1e7c'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 

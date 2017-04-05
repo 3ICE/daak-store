@@ -8,7 +8,9 @@ import hello.views
 
 # Example:
 # url(r'^blog/', include('blog.urls')),
-
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'home'
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
     url(r'^db', hello.views.db, name='db'),
