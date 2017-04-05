@@ -78,9 +78,8 @@ TEMPLATES = [
 WSGI_APPLICATION = 'gettingstarted.wsgi.application'
 
 
-# Database
+# Database login
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-
 DATABASES = {
     'default': {
         # 'ENGINE': 'django.db.backends.sqlite3',
@@ -93,27 +92,13 @@ DATABASES = {
         'PORT': '',
     }
 }
+
 AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
-
-# Database login
-# https://docs.djangoproject.com/en/1.9/ref/settings/#databases
-#database login
-#DATABASES = {
-#    'default': {
- #       'ENGINE': 'django.db.backends.sqlite3',
- #       'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#    }
-#}
-
-
-# Password validation
-# https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
-
 
 # Password validation
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
@@ -171,9 +156,9 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.10/howto/static-files/
 #login part
-#STATIC_URL = '/static/'
+STATIC_URL = '/static/'
 
 
-#LOGIN_URL = 'login'
-#LOGOUT_URL = 'logout'
-#LOGIN_REDIRECT_URL = 'home'
+LOGIN_URL = 'login'
+LOGOUT_URL = 'logout'
+LOGIN_REDIRECT_URL = 'home'
