@@ -26,6 +26,8 @@ SECRET_KEY = 'i+acxn5(akgsn!sr4^qgf(^m&*@+g1@u^t@=8s@axc41ml*f=s'
 SOCIAL_AUTH_FACEBOOK_KEY ='727866270697259'
 SOCIAL_AUTH_FACEBOOK_SECRET ='5f017e556dc60091f4c3b01a57da1e7c'
 SOCIAL_AUTH_REDIRECT_IS_HTTPS = True
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '445215232007-odl1jus5p01sn4a4og8j8f6ssb9p886c' # 3ICE: .apps.googleusercontent.com
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Rzxr9_kQPu1lPJupkDHAk1aw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
@@ -52,7 +54,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
-    # add your stuff here for SOCIAL, AUTH, ETC
+    # 3ICE: add your stuff here for SOCIAL, AUTH, ETC
     'social_django.middleware.SocialAuthExceptionMiddleware',
 )
 
@@ -84,6 +86,7 @@ WSGI_APPLICATION = 'gettingstarted.wsgi.application'
 # https://docs.djangoproject.com/en/1.9/ref/settings/#databases
 DATABASES = {
     'default': {
+        # 3ICE: Uncomment for testing locally (or just install postgresql)
         # 'ENGINE': 'django.db.backends.sqlite3',
         # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
@@ -99,6 +102,7 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.github.GithubOAuth2',
     'social_core.backends.twitter.TwitterOAuth',
     'social_core.backends.facebook.FacebookOAuth2',
+    'social_core.backends.google.GoogleOAuth2',
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -106,18 +110,10 @@ AUTHENTICATION_BACKENDS = (
 # https://docs.djangoproject.com/en/1.9/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',
-    },
-    {
-        'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
-    },
+    {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.MinimumLengthValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.CommonPasswordValidator',},
+    {'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',},
 ]
 
 # Internationalization
@@ -142,7 +138,6 @@ ALLOWED_HOSTS = ['*']
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
-
 STATIC_ROOT = os.path.join(PROJECT_ROOT, 'staticfiles')
 STATIC_URL = '/static/'
 
@@ -155,11 +150,7 @@ STATICFILES_DIRS = (
 # https://warehouse.python.org/project/whitenoise/
 STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/1.10/howto/static-files/
 #login part
-STATIC_URL = '/static/'
-
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'

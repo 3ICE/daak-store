@@ -1,6 +1,15 @@
 ##DB URL (DATABASE_URL)
 <postgres://haezqswxdtwsyg:4f67fdd699eec15173563272e5763977049af5d9bc308e1fc28accfccb91924c@ec2-54-247-166-129.eu-west-1.compute.amazonaws.com:5432/d4mqogcp0i0r3s>
 
+##Google OAuth
+client ID
+```
+445215232007-odl1jus5p01sn4a4og8j8f6ssb9p886c.apps.googleusercontent.com
+```
+client secret
+```
+Rzxr9_kQPu1lPJupkDHAk1aw
+```
 
 # Based on python-getting-started
 
