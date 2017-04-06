@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block header %}
+{{ block.super }}
+<script type="text/javascript" src="{% static 'script.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+
+{% include "menu_core.html" %}
+
+
+<div id="tableContainer">
+
+{% if logged_in %}
+	{% if developer %}
+		{% include "devloper_ui.html"}
+	{% endif %}
+	{% if gamer %}
+		{% if playing %}
+			{% include game.url %}
+		{% else %}
+			{% include "shop.html" %}
+		{% endif %}
+	{% endif %}
+{% else %}
+	{% include "login.html" %}
+{% endif %}
+
+</div>
+{% endblock %}
