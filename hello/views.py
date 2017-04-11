@@ -24,8 +24,12 @@ def signup(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
-            login(request, user)
-            return redirect('index')
+            developer =request.POST.get("developer",none)
+            if developer in ["developer_box"]:
+                return redirect('profile_developer')
+            else:
+                login(request, user)
+                return redirect('index')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
