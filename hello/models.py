@@ -4,5 +4,5 @@ from django.contrib.auth.models import User
 class Greeting(models.Model):
     when = models.DateTimeField('date created', auto_now_add=True)
 class Developer(models.Model):
-    user = models.OnetoOneField(User,on_delete=models.CASCADE)
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
 
