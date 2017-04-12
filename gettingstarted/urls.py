@@ -18,5 +18,6 @@ urlpatterns = [
     url(r'^logout/$', auth_views.logout, {'template_name': 'logged_out.html'}, name='logout'),
     url(r'^profile_developer/$', hello.views.profile_developer, name='profile_developer'),
     url(r'^signup/$', hello.views.signup, name='signup'),
+    url(r'^add_game/$', hello.views.add_game, name='add_game'),
     url("^soc/", include("social_django.urls", namespace="social"))
 ]
