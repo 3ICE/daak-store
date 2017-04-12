@@ -6,10 +6,14 @@ from .forms import add_Game_Form
 from .models import *
 from .forms import SignUpForm
 
+
 def index(request):
     return render(request, 'index.html')
+
+
 def profile_developer(request):
-    return render(request,'profile_developer.html')
+    return render(request, 'profile_developer.html')
+
 
 def db(request):
     greeting = Greeting()
@@ -27,7 +31,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
             login(request, user)
-            developer =request.POST.get("developer", None)
+            developer = request.POST.get("developer", None)
             if developer in ["developer_box"]:
 
                 return redirect('profile_developer')
@@ -37,16 +41,18 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
+
+
 def add_Game(request):
     if request.user.is_authenticated():
-        if request.method=='POST':
+        if request.method == 'POST':
             form = add_Game_Form(data=request.POST)
             if form.is_valid():
-                game=form.save(commit=False)
-                game.game_developer=request.user
+                game = form.save(commit=False)
+                game.game_developer = request.user
                 game.save()
             else:
                 print(form.errors)
-            return render_to_response("templates/add_game.html",{"form":form})
+            return render_to_response("templates/add_game.html", {"form": form})
     else:
         raise Http404()
