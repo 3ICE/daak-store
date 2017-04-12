@@ -54,5 +54,7 @@ def addgame(request):
             else:
                 print(form.errors)
             return render_to_response("templates/add_game.html", {"form": form})
+        else:
+            return redirect("login")
     else:
         raise Http404()
