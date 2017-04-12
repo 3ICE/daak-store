@@ -2,9 +2,9 @@ from django.shortcuts import *
 from django.http import HttpResponse
 from django.contrib.auth import *
 from django.contrib.auth.models import User
-from .forms import add_Game_Form
+from .forms import *
 from .models import *
-from .forms import SignUpForm
+
 
 
 def index(request):
@@ -43,10 +43,10 @@ def signup(request):
     return render(request, 'signup.html', {'form': form})
 
 
-def add_Game(request):
+def addgame(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
-            form = add_Game_Form(data=request.POST)
+            form = AddGameForm(data=request.POST)
             if form.is_valid():
                 game = form.save(commit=False)
                 game.game_developer = request.user

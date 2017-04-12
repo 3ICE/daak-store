@@ -12,7 +12,7 @@ class SignUpForm(UserCreationForm):
         fields = ('username', 'email', 'password1', 'password2',)
 
 
-class add_Game_Form(forms.ModelForm):
+class AddGameForm(forms.ModelForm):
     class Meta:
         model = Game
         fields = ('game_name', 'game_url', 'game_price')
