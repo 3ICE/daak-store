@@ -45,7 +45,7 @@ def signup(request):
 
 def addgame(request):
     if request.user.is_authenticated():
-        if request.method == 'POST':
+        if request.method == 'POST' or True:
             form = AddGameForm(data=request.POST)
             if form.is_valid():
                 game = form.save(commit=False)
