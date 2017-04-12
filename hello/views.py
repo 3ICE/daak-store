@@ -53,7 +53,7 @@ def addgame(request):
                 game.save()
             else:
                 print(form.errors)
-            return render_to_response("hello/templates/add_game.html", {"form": form})
+            return render_to_response("add_game.html", {"form": form})
         else:
             return redirect("login")
     else:
