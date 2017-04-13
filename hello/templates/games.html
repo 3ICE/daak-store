@@ -5,7 +5,7 @@
 {% block content %}
 <div>
 {% for game in allgames %}
-<a href="game/{{game.game_url}}">
+<a href="./game/{{game.game_name}}">
     <b>
     {{game.game_name }}
     </b> by
@@ -14,6 +14,7 @@
   </a>
   {% empty %}
       <li>No games yet.</li>
+      <a href="{% url 'addgame' %}">Want to add game? Click here</a>
 {% endfor %}
 </div>
 {% endblock %}
