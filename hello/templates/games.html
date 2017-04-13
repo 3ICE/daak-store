@@ -1,0 +1,12 @@
+<div>
+{% for game in allgames %}
+<a href="game/{{game.game_url}}">
+    <b>
+    {{game.game_name }}
+    </b> by
+    {{game.game_developer}}
+    ${{game.game_price|floatformat:2}}
+  </a>
+  
+{% endfor %}
+</div>

@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
 
-{% block title %}See you!{% endblock %}
+{% block title %}Welcome {{request.user.username}}{% endblock %}
 
 {% block content %}
   <h2>Developer View</h2>
-  <p>You are currently in as developer.</p>
+  <p>You are currently logged in as developer {{request.user.username}}. </p>
+  <p>
+    <a href="{% url 'addgame' %}">Add Game</a>
+  </p>
 
 {% endblock %}
