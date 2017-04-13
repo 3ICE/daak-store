@@ -8,10 +8,10 @@ from django.template import RequestContext
 
 
 def index(request):
-    return render(request, 'index.html',{"allgames":Store.objects.all()})
+    return render(request, 'index.html')
 
 def games(request):
-    return render(request, 'games.html',{"allgames":Store.objects.all()})
+    return render(request, 'games.html',{"allgames":Game.objects.all()})
 def profile_developer(request):
     return render(request, 'profile_developer.html')
 

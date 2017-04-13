@@ -12,7 +12,8 @@
     {{game.game_developer}}
     ${{game.game_price|floatformat:2}}
   </a>
-
+  {% empty %}
+      <li>No games yet.</li>
 {% endfor %}
 </div>
 {% endblock %}
