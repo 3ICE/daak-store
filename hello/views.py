@@ -14,7 +14,7 @@ def games(request):
     return render(request, 'games.html',{"allgames":Game.objects.all()})
 
 def game(request,name):
-    return render(request, 'game.html',{"game":Game.objects.get(game_name=name)})
+    return render(request, 'game.html',{"game":Game.objects.get(game_name=name.replace("_"," "))})
 
 def profile_developer(request):
     return render(request, 'profile_developer.html')
