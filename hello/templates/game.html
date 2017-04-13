@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block title %}{{game.game_name}}{% endblock %}
+
+{% block content %}
+<div>
+  <iframe src="{{game.game_url}}" width="80%" height="95%">
+    <p>Your browser does not support iframes.</p>
+  </iframe>
+<a href="{{game.game_name.split|join:"_"}}">
+    <b>
+    {{game.game_name }}
+    </b> by
+    {{game.game_developer}}
+    <br />
+    ${{game.game_price|floatformat:2}}
+  </a>
+</div>
+<p><a href="{% url 'games' %}">Go back</a> to games list</p>
+{% endblock %}
