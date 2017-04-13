@@ -19,6 +19,6 @@ urlpatterns = [
     url(r'^profile_developer/$', hello.views.profile_developer, name='profile_developer'),
     url(r'^signup/$', hello.views.signup, name='signup'),
     url(r'^add_game/$', hello.views.addgame, name='addgame'),
-    url("^soc/", include("social_django.urls", namespace="social"))
+    url("^soc/", include("social_django.urls", namespace="social")),
     url(r'^games/$', hello.views.games, name='games')
 ]
