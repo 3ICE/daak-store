@@ -87,14 +87,14 @@ WSGI_APPLICATION = 'gettingstarted.wsgi.application'
 DATABASES = {
     'default': {
         # 3ICE: Uncomment for testing locally (or just install postgresql)
-        # 'ENGINE': 'django.db.backends.sqlite3',
-        # 'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.sqlite3',
+        #'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'd4mqogcp0i0r3s', # my project
-        'USER': 'haezqswxdtwsyg', # my project user
-        'PASSWORD': '4f67fdd699eec15173563272e5763977049af5d9bc308e1fc28accfccb91924c',
-        'HOST': 'localhost',
-        'PORT': '',
+        'NAME': 'df7rhflvq4frep', # my project
+        'USER': 'sbvmrpauyydvmw', # my project user
+        'PASSWORD': 'a3931779672cdc997150a87a4befddf1dc8602c9722d8f75ed46388a5c410054',
+        'HOST': 'ec2-54-228-235-185.eu-west-1.compute.amazonaws.com',
+        'PORT': '5432',
     }
 }
 
