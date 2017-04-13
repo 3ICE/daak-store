@@ -5,7 +5,7 @@
 {% block content %}
 <div>
 {% for game in allgames %}
-<a href="./game/{{game.game_name}}">
+<a href="{{game.game_name.split|join:"_"}}">
     <b>
     {{game.game_name }}
     </b> by
