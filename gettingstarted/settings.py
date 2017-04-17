@@ -11,7 +11,7 @@ https://docs.djangoproject.com/en/1.8/ref/settings/
 
 import os
 import dj_database_url
-import BogusSMTPConnection
+from BogusSMTPConnection import *
 from django.core import mail
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -22,7 +22,6 @@ EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
 if DEBUG:
-
     mail.SMTPConnection = BogusSMTPConnection
 
 # SECURITY WARNING: change this before deploying to production!
