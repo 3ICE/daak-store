@@ -73,7 +73,7 @@
     <ul class="nav navbar-nav navbar-right">
       <li class="navbar-right">
         {% if user.is_authenticated %}
-        <a href="/profile/"><span class="glyphicon glyphicon-book"></span> Profile</a>
+        <a href="{% url 'profile_developer' %}"><span class="glyphicon glyphicon-book"></span> Profile</a>
         {% else %}
         <a href="{% url 'signup' %}"><span class="glyphicon glyphicon-book"></span> Register</a>
         {% endif %}
