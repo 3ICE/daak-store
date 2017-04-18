@@ -21,5 +21,6 @@ urlpatterns = [
     url(r'^add_game/$', hello.views.addgame, name='addgame'),
     url("^soc/", include("social_django.urls", namespace="social")),
     url(r'^games/(\w+)$', hello.views.game, name='game'),
-    url(r'^games/$', hello.views.games, name='games')
+    url(r'^games/$', hello.views.games, name='games'),
+
 ]
