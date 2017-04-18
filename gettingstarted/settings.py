@@ -32,7 +32,7 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Rzxr9_kQPu1lPJupkDHAk1aw'
 DEBUG = True
 
 if DEBUG:
-    from BogusSMTPConnection import *
+    from .BogusSMTPConnection import *
     from django.core import mail
     mail.SMTPConnection = BogusSMTPConnection
 
