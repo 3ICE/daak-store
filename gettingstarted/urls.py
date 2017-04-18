@@ -16,6 +16,10 @@ urlpatterns = [
     url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logged_out.html'}, name='logout'),
+    url(r'^profile_developer/$', hello.views.profile_developer, name='profile_developer'),
     url(r'^signup/$', hello.views.signup, name='signup'),
-    url("^soc/", include("social_django.urls", namespace="social"))
+    url(r'^add_game/$', hello.views.addgame, name='addgame'),
+    url("^soc/", include("social_django.urls", namespace="social")),
+    url(r'^games/(\w+)$', hello.views.game, name='game'),
+    url(r'^games/$', hello.views.games, name='games')
 ]

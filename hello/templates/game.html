@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}{{game.game_name}}{% endblock %}
+
+{% block header %}
+<script>
+$(document).ready(){
+  "use strict"
+window.addEventListener("message", receiveMessage, false);
+
+function receiveMessage(event)
+{
+  var origin = event.origin || event.originalEvent.origin; // For Chrome, the origin property is in the event.originalEvent object.
+  if (origin !== "http://example.org:8080")
+    return;
+
+  // ...
+}
+}
+</script>
+{% endblock %}
+
+
+{% block content %}
+<div>
+  <iframe src="{{game.game_url}}" width="80%" height="1080px" frameborder="0">
+    <p>Your browser does not support iframes.</p>
+  </iframe>
+  <br />
+<a href="{{game.game_name.split|join:"_"}}">
+    <b>
+    {{game.game_name }}
+    </b> by
+    {{game.game_developer}}
+    <br />
+    ${{game.game_price|floatformat:2}}
+  </a>
+</div>
+<p><a href="{% url 'games' %}">Go back</a> to games list</p>
+{% endblock %}

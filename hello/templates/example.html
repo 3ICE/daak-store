@@ -1,0 +1,108 @@
+//Get data from sent message
+
+					var data = evt.originalEvent.data;
+
+
+
+					//if SCORE, display score on parent HTML
+
+					if (data.messageType == "SCORE"){
+
+						$('#scores').html(data.score);
+
+					}
+
+
+
+					else if (data.messageType == "SAVE"){
+
+
+
+						var gameid = document.getElementById("gameid").value;
+
+						var playerid = document.getElementById("playerid").value;
+
+
+
+                                		var csrftoken = getCookie('csrftoken');
+
+                                		$.ajax({
+
+                                        		type : "POST",
+
+                                        		url : "/savegamestate/",
+
+                                        		data : {'gameid': gameid, 'playerid': playerid, 'jsondata' : JSON.stringify(data), 'csrfmiddlewaretoken': csrftoken},
+
+							dataType : "json",
+
+                                        		success : function(data){
+
+
+
+								//var gamedata = '<p>';
+
+                                                                //gamedata += "Player items: " + data["gameState"] + '</p>';
+
+                                                                //gamedata += '<p>' + "Score: " + data['score'] + '</p><br>';
+
+                                                                //$('#gamestate').html(gamedata);
+
+								alert("Game saved successfully!");
+
+                                        		}
+
+                                		});
+
+					}
+
+					else if (data.messageType == "LOAD_REQUEST"){
+
+						var csrftoken = getCookie('csrftoken');
+
+						var gameid = document.getElementById("gameid").value;
+
+						var playerid = document.getElementById("playerid").value;
+
+						$.ajax({
+
+							type : "POST",
+
+							url : "/loadgamestate/",
+
+							data : {'gameid': gameid, 'playerid': playerid, 'jsondata' : JSON.stringify(data), 'csrfmiddlewaretoken' : csrftoken},
+
+							dataType : "json",
+
+							success : function(data){
+
+								// Gamestate exists, messageType = LOAD
+
+								if (data['messageType'] == "LOAD"){
+
+									alert("Gamestate loaded!");
+
+
+
+								}
+
+								// No gamestate found, messageType = MESSAGE
+
+								else {
+
+									alert("No saved gamestate present!");
+
+								}
+
+								document.getElementById("iframe").contentWindow.postMessage(data, "*");
+
+							}
+
+						});
+
+					}
+
+				});
+
+  			});
+Chat Conversation End
