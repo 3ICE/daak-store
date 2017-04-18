@@ -12,12 +12,23 @@
     {{game.game_developer}}
     <br />
     ${{game.game_price|floatformat:2}}
-    <br />  
+    <br />
   </a>
-  <button type="button" onclick="var result = confirm("Want to delete?");
-  if (result) {
-  //Logic to delete the item
-  }">Delete</button>
+  <button onclick="myFunction()">Try it</button>
+
+  <p id="demo"></p>
+
+  <script>
+  function myFunction() {
+      var x;
+      if (confirm("Press a button!") == true) {
+          x = "You pressed delete!";
+      } else {
+          x = "You pressed Cancel!";
+      }
+      document.getElementById("demo").innerHTML = x;
+  }
+  </script>
   {% empty %}
       <li>No games yet.</li>
       <a href="{% url 'addgame' %}">Want to add game? Click here</a>
