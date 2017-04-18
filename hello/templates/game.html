@@ -59,6 +59,7 @@ function receiveMessage(event)
 
 
 {% block content %}
+<div align="center" id="centertag">
 <div>
   <iframe src="{{game.game_url}}" width="80%" height="1080px" frameborder="0">
     <p>Your browser does not support iframes.</p>
@@ -75,3 +76,4 @@ function receiveMessage(event)
 </div>
 <p><a href="{% url 'games' %}">Go back</a> to games list</p>
 {% endblock %}
+</div>

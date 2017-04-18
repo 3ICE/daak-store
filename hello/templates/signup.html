@@ -16,18 +16,7 @@ button {
     margin: 4px 2px;
     cursor: pointer;
 }
-input{
-    background-color: #003250;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
+
 /*input[type=button] {
     background-color: #003250;
 
@@ -38,7 +27,7 @@ input{
 
 {% endblock %}
 {% block content %}
-
+<div align="center" id="centertag">
   <h2>Sign up</h2>
   <form method="post">
     {% csrf_token %}
@@ -58,3 +47,4 @@ input{
     <button type="submit">Sign up</button>
   </form>
 {% endblock %}
+</div>
