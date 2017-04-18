@@ -23,7 +23,7 @@ EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587 #Gmail SMTP port (TLS): 587 OR #Gmail SMTP port (SSL): 465
 EMAIL_HOST_USER = 'daakstore@gmail.com'
-EMAIL_HOST_PASSWORD = 'daaparkr'
+EMAIL_HOST_PASSWORD = 'daaparkr' # 3ICE: Hi. Yes that's our gmail password. Don't hack us...
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
