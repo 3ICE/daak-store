@@ -3,7 +3,6 @@ from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth.models import User
 from .models import *
 
-# just for push checking
 class SignUpForm(UserCreationForm):
     email = forms.EmailField(max_length=254, help_text='Required. Provide a valid email address.')
 
