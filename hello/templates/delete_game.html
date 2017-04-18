@@ -13,7 +13,10 @@
     <br />
     ${{game.game_price|floatformat:2}}
     <br />
-    <button type="button" onclick="if(confirm("Are you sure!"))">Delete</button>
+    <button type="button" onclick="var result = confirm("Want to delete?");
+if (result) {
+    //Logic to delete the item
+}">Delete</button>
   </a>
   {% empty %}
       <li>No games yet.</li>
