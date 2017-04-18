@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
-
+{% block header %}
+<style type="text/css">
+.registration-container{
+position: relative;
+background: #B1DBFF;
+width: 600px;
+ margin:0px auto; 
+}
+</style>
+{% endblock %}
 {% block title %}Welcome {{request.user.username}}{% endblock %}
 
 {% block content %}
+<div align="center" id="centertag" class="registration-container">
   <h2>Developer View</h2>
   <p>You are currently logged in as developer {{request.user.username}}. </p>
   <p>
@@ -11,3 +21,4 @@
   </p>
 
 {% endblock %}
+</div>
