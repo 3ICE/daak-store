@@ -28,18 +28,18 @@ input{
     margin: 4px 2px;
     cursor: pointer;
 }
-/*input[type=button] {
-    background-color: #003250;
-
-} 
-
-*/
+.registration-container{
+position: relative;
+background: #B1DBFF;
+width: 600px;
+ margin:0px auto;
+}
 </style>
 
 {% endblock %}
 
 {% block content %}
-<div align="center" id="centertag">
+<div align="center" id="centertag" class="registration-container">
   <h2>Log in to My Site</h2>
   {% if form.errors %}
     <p style="color: red">Your username and password didn't match. Please try again.</p>
