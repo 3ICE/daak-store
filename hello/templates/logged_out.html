@@ -1,9 +1,23 @@
 {% extends 'base.html' %}
-
+{% block header %}
+<style type="text/css">
+.registration-container{
+position: relative;
+background: #B1DBFF;
+width: 600px;
+ margin:0px auto;
+}
+ul {
+  list-style-type: none;
+}
+</style>
+{% endblock %}
 {% block title %}See you!{% endblock %}
 
 {% block content %}
+<div align="center" id="centertag" class="registration-container">
   <h2>Logged out</h2>
   <p>You have been successfully logged out.</p>
   <p><a href="{% url 'login' %}">Log in</a> again.</p>
 {% endblock %}
+</div> 

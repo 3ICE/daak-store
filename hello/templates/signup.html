@@ -1,14 +1,47 @@
 {% extends 'base.html' %}
+{% block header %}
+<link href="{{ STATIC_URL }}styles.css" rel="stylesheet" type="text/css" />
 
+<style type="text/css">
+
+button {
+    background-color: #003250;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+/*input[type=button] {
+    background-color: #003250;
+
+} 
+
+*/
+.registration-container{
+position: relative;
+background: #B1DBFF;
+width: 600px;
+ margin:0px auto;
+}
+</style>
+
+{% endblock %}
 {% block content %}
+<div align="center" id="centertag" class="registration-container">
   <h2>Sign up</h2>
   <form method="post">
     {% csrf_token %}
     {% for field in form %}
       <p>
-        {{ field.label_tag }}<br>
-        {{ field }}
-        {% if field.help_text %}
+        {{ field.label_tag }}<br />
+        {{ field }}<br />
+        {% if field.help_text %} 
           <small style="color: grey">{{ field.help_text }}</small>
         {% endif %}
         {% for error in field.errors %}
@@ -20,3 +53,4 @@
     <button type="submit">Sign up</button>
   </form>
 {% endblock %}
+</div>
