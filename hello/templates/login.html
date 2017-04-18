@@ -1,9 +1,10 @@
 {% extends 'base.html' %}
-
+{% block header %}
 <link href="{{ STATIC_URL }}styles.css" rel="stylesheet" type="text/css" />
+{% block header %}
 
-<div align="center" id="centertag" style="background-color:#4CAF50;color:#000000;">
 {% block content %}
+<div align="center" id="centertag" style="background-color:#4CAF50;color:#000000;">
   <h2>Log in to My Site</h2>
   {% if form.errors %}
     <p style="color: red">Your username and password didn't match. Please try again.</p>
@@ -26,5 +27,5 @@
     <button type="submit">Log in</button>
     <a href="{% url 'signup' %}">Don't have an account? Sign up now!</a>
   </form>
-{% endblock %}
 </div>
+{% endblock %}
