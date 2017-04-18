@@ -13,7 +13,7 @@
     <br />
     ${{game.game_price|floatformat:2}}
     <br />
-    <button type="button" onclick="alert('Hello world!')">Delete</button>
+    <button type="button" onclick="if(confirm("Are you sure!"))">Delete</button>
   </a>
   {% empty %}
       <li>No games yet.</li>

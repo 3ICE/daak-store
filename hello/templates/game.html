@@ -1,9 +1,9 @@
 {% extends 'base.html' %}
+{% block title %}{{game.game_name}}{% endblock %}
 {% block header %}
-<link href="{{ STATIC_URL }}styles.css" rel="stylesheet" type="text/css" />
+<!-- <link href="{{ STATIC_URL }}styles.css" rel="stylesheet" type="text/css" /> -->
 
 <style type="text/css">
-
 button {
     background-color: #003250;
     border: none;
@@ -20,14 +20,10 @@ button {
 position: relative;
 background: #B1DBFF;
 width: 600px;
- margin:0px auto; 
+margin:0px auto;
 }
 </style>
 
-{% endblock %}
-{% block title %}{{game.game_name}}{% endblock %}
-
-{% block header %}
 <script>
 $(document).ready(){
   "use strict"
