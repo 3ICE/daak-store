@@ -18,7 +18,8 @@ def game(request,name):
 
 def profile_developer(request):
     return render(request, 'profile_developer.html')
-
+def delete_game(request):
+    return render(request,'delete_game.html')
 
 def db(request):
     greeting = Greeting()
