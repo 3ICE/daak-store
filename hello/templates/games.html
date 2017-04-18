@@ -1,8 +1,18 @@
 {% extends 'base.html' %}
-
+{% block header %}
+<style type="text/css">
+.registration-container{
+position: relative;
+background: #B1DBFF;
+width: 600px;
+ margin:0px auto; 
+}
+</style>
+{% endblock %}
 {% block title %}Welcome {{request.user.username}}{% endblock %}
 
 {% block content %}
+<div align="center" id="centertag" class="registration-container">
 <div>
 {% for game in allgames %}
 <a href="{{game.game_name.split|join:"_"}}">
@@ -19,3 +29,4 @@
 {% endfor %}
 </div>
 {% endblock %}
+</div>
