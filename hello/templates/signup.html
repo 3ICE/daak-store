@@ -23,11 +23,17 @@ button {
 } 
 
 */
+.registration-container{
+position: relative;
+background: rgba(240, 248, 255, 0.5);
+width: 600px;
+ margin:0px auto;
+}
 </style>
 
 {% endblock %}
 {% block content %}
-<div align="center" id="centertag">
+<div align="center" id="centertag" class="registration-container">
   <h2>Sign up</h2>
   <form method="post">
     {% csrf_token %}
