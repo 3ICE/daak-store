@@ -16,14 +16,10 @@ import dj_database_url
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 PROJECT_ROOT = os.path.dirname(os.path.abspath(__file__))
-DEBUG=True;
+
 EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.8/howto/deployment/checklist/
-if DEBUG:
-    from BogusSMTPConnection import *
-    from django.core import mail
-    mail.SMTPConnection = BogusSMTPConnection
 
 # SECURITY WARNING: change this before deploying to production!
 SECRET_KEY = 'i+acxn5(akgsn!sr4^qgf(^m&*@+g1@u^t@=8s@axc41ml*f=s'
@@ -35,6 +31,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Rzxr9_kQPu1lPJupkDHAk1aw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
+if DEBUG:
+    from BogusSMTPConnection import *
+    from django.core import mail
+    mail.SMTPConnection = BogusSMTPConnection
 
 # Application definition
 
