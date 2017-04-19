@@ -79,7 +79,7 @@ def addgame(request):
     else:
         return redirect("login")
 def delete(request):
-    if request.POST.get('Delete'):
+    if request.POST.get('delete'):
         obj.delete()
 
 
