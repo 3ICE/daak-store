@@ -91,24 +91,23 @@ def delete(request):
 # email validation
 def send_confirmation_mail(name, pw, email):
     secure_link = name + "$$$$" + pw
-    msg = 'Dear ' + name + """,
-    Welcome to DAAK store!
-    Thank you for registering in our store of awesome stuffs.
-    
-    We will validate your email id promptly.
-    Please click this link to verify you email address and complete registration:"""\
+    msg = """
+          Dear %(name)s,
+          Welcome to DAAK store!
+          Thank you for registering in our store of awesome stuffs.
+          
+          We will validate your id promptly.
+          Please click this link to verify you email address and complete registration:
+          %(link)s
+          And then kindly login again to continue.
+          
+          Best regards,
+          The DAAK team of awesome stuffs!
+          http://daak-store.herokuapp.com/
+          """ % {'name': name, 'link': secure_link}
+
     #<a href="https://daak-store.herokuapp.com/user_verification/""" + secure_link + """
     #">https://daak-store.herokuapp.com/user_verification/""" + secure_link + """</a>
-    
-    +secure_link +"""
-    And then kindly login again to continue.
-    
-    Best regards,
-    The Daak team
-    Thanks,
-    The DAAK team of awesome!
-    http://daak-store.herokuapp.com/
-    """
     send_mail('Please confirm your registration at DAAK store, ' + name,
               msg, 'daaktest@gmail.com', [email])
 
