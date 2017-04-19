@@ -100,7 +100,7 @@ The Daak team'''
 
 
 #Varifying the user account
-def user_verification(request, conf_code):
+def user_verification(request, user_details):
 
     username, password = user_details.split(':::')
     user = User.objects.filter(username=username, password=password)
