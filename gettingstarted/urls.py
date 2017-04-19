@@ -23,5 +23,5 @@ urlpatterns = [
     url(r'^delete_game/$', hello.views.delete_game, name='delete_game'),
     url(r'^registration/$', hello.views.registration, name='registration'),
     url(r'^game_confirm_delete/$', hello.views.delete_game, name='game_confirm_delete'),
-    url(r'^user_verification/(\.+)$', hello.views.user_verification, name='user_verification'),
+    url(r'^user_verification/(.+)$', hello.views.user_verification, name='user_verification'),
 ]
