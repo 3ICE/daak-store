@@ -14,10 +14,12 @@ def games(request):
     return render(request, 'games.html',{"allgames":Game.objects.all()})
 
 def game(request,name):
-    return render(request, 'game.html',{"game":Game.objects.get(game_name=name.replace("_"," "))})
+    return render(request, 'game.html')
 
 def profile_developer(request):
     return render(request, 'profile_developer.html')
+def player(request):
+    return render(request, 'player.html')
 def delete_game(request):
     return render(request, 'delete_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
@@ -32,6 +34,7 @@ def db(request):
 
 def signup(request):
     if request.method == 'POST':
+
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
@@ -41,11 +44,10 @@ def signup(request):
             login(request, user)
             developer = request.POST.get("developer", None)
             if developer in ["developer_box"]:
-
                 return redirect('profile_developer')
             else:
 
-                return redirect('index')
+                return redirect('player')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})

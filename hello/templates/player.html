@@ -13,16 +13,10 @@ width: 600px;
 
 {% block content %}
 <div align="center" id="centertag" class="registration-container">
-
-    <h2>Developer View</h2>
-    <p>You are currently logged in as developer {{request.user.username}}. </p>
-
-
+  <h2>Player View</h2>
+  <p>You are currently logged in as Player {{request.user.username}}. </p>
   <p>
-
-    <li><a href="{% url 'addgame' %}">Add Game</a></li>
     <li><a href="{% url 'games' %}">Play games</a></li>
-    <li><a href="{% url 'delete_game' %}">Delete Game</a></li>
   </p>
 
 {% endblock %}
