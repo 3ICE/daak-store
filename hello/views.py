@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from .forms import *
 from .models import *
 from django.template import RequestContext
+from django.core.mail import send_mail
+
 
 
 def index(request):
@@ -23,6 +25,13 @@ def player(request):
 def delete_game(request):
     return render(request, 'delete_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
+def registration(request):
+    #registered = True
+    
+    return render(request, 'registration.html')
+
+
+
 
 
 def db(request):
@@ -34,10 +43,9 @@ def db(request):
 
 def signup(request):
     if request.method == 'POST':
-        is_developer = False
+
         form = SignUpForm(request.POST)
         if form.is_valid():
-
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
@@ -45,10 +53,10 @@ def signup(request):
             login(request, user)
             developer = request.POST.get("developer", None)
             if developer in ["developer_box"]:
-                is_developer = True
-                return redirect('profile_developer')
-
+                mail(user)
+                return redirect('registration')
             else:
+                mail(user)
                 return redirect('player')
     else:
         form = SignUpForm()
@@ -71,3 +79,38 @@ def addgame(request):
             return redirect("login")
     else:
         return redirect("login")
+
+
+# email validation
+def mail(user):
+
+    user_details = "%s:::%s"%(user.username, user.password)
+    subject = 'Registration confirmation mail'
+    message = 'Dear ' + user.username + ''',
+Thank you for registering in daak-store of awesome stuffs.
+We have validated your email id.
+Kindly login again to continue by clicking on this link: https://daak-store.herokuapp.com/login/''' + '''
+
+Best regards,
+The Daak team'''
+    recipient_list = []
+    recipient_list.append(user.email)
+    send_mail(subject, message, 'daaktest@gmail.com', recipient_list, fail_silently=False)
+
+
+
+
+#Varifying the user account
+#def user_verification(request, user_details):
+#
+#    username, password = user_details.split(':::')
+#    user = User.objects.filter(username=username, password=password)
+#    if user is not None:
+#        user.update(is_active = True)
+#        message = "Your account is now verified!"
+#    else:
+#        message = "Verification error!"
+#
+#   return render_to_response('profile_developer',context_instance=RequestContext(request, {'message': message}))
+
+

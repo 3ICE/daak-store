@@ -1,0 +1,41 @@
+
+{% block header %}
+<style type="text/css">
+
+button {
+    background-color: #003250;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
+
+/*input[type=button] {
+    background-color: #003250;
+
+} 
+
+*/
+.registration-container{
+position: relative;
+background: #B1DBFF;
+width: 600px;
+ margin:0px auto;
+}
+</style>
+
+{% endblock %}
+
+{% block content %}
+<div align="center" id="centertag" class="registration-container">
+                    
+                        <strong>Thank you for registering! <br> You must validate your account before you can log in. <br> Check your inbox for the validation link!</strong> <br>
+                        <a href="{% url 'login' %}">Proceed to Login page</a><br />
+
+            </div>
+{% endblock %}
