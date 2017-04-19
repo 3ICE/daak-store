@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import *
 
 class Player(User, PermissionsMixin):
+    is_superuser = models.BooleanField(default=False)
     developer = models.BooleanField(default=True)
     # player is not necessary, simply check if not developer
     active = models.BooleanField(default=False)
