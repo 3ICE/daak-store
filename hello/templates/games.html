@@ -27,9 +27,7 @@ width: 600px;
     <br />
     ${{game.game_price|floatformat:2}}
   </a>
-  {% if !signup.saved %}{
-    <button type="button" onclick="alert('Bought')">Buy!</button>
-  }
+
   {% empty %}
       <li>No games yet.</li>
       <a href="{% url 'addgame' %}">Want to add game? Click here</a>
