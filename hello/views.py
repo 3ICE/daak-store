@@ -41,18 +41,21 @@ def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
-            form.save()
+            user_db = form.save(commit=False)
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user = authenticate(username=username, password=raw_password)
-            login(request, user)
+            user_auth = authenticate(username=username, password=raw_password)
+            player=Player.objects.filter(username=user_auth.username)
+            login(request, user_auth)
             developer = request.POST.get("developer", None)
+            user_db.update(developer = True)
+            user_db.save()
             if developer in ["developer_box"]:
-                mail(user)
+                mail(user_auth)
                 return redirect('registration')
             else:
-                mail(user)
-                return redirect('player')
+                mail(user_auth)
+                return redirect('profile_player')
     else:
         form = SignUpForm() # 3ICE: Possibly stop using this, since we need to send the email
     return render(request, 'signup.html', {'form': form})
@@ -103,7 +106,7 @@ http://daak-store.herokuapp.com/
 #Verifying the user account
 def user_verification(request, secure_link):
     name, pwd = secure_link.split('$$$$')
-    user = User.objects.filter(username=name, password=pwd)
+    user = Player.objects.filter(username=name, password=pwd)
     if user:
         user.update(active = True)
         user.save()
