@@ -46,11 +46,11 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             email = form.cleaned_data.get('email')
             user_auth = authenticate(username=name, password=raw_password)
-            #login(request, user_auth)
+            login(request, user_auth)
             developer = request.POST.get("developer", None)
             user_db.save()
-            player=Player.objects.filter(username=name)
-            player.update(developer = True)# sup spaghetti code TODO clarify
+            #player=Player.objects.filter(username=name)
+            #player.update(developer = True)# sup spaghetti code TODO clarify
             #player.save()
             if developer in ["developer_box"]:
                 send_confirmation_mail(name, raw_password, )
@@ -108,14 +108,14 @@ def send_confirmation_mail(name, pw, email):
 #Verifying the user account
 def user_verification(request, secure_link):
     name, pwd = secure_link.split('$$$$')
-    user = Player.objects.filter(username=name, password=pwd)
+    user = User.objects.filter(username=name, password=pwd) # Player
     if user:
         user.update(active = True)
         user.save()
         msg = "We have validated your email id!"
     else:
         msg = "Verification error!"
-    if request.user.developer:
+    if True: #request.user.developer: #TODO fix me
       return render(request, 'profile_developer.html', {'msg': msg})
     else:
       return render(request, 'profile_player.html', {'msg': msg})
