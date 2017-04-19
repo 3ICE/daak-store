@@ -33,6 +33,7 @@ def db(request):
 
 
 def signup(request):
+    saved = False
     if request.method == 'POST':
         form = SignUpForm(request.POST)
         if form.is_valid():
@@ -43,11 +44,11 @@ def signup(request):
             login(request, user)
             developer = request.POST.get("developer", None)
             if developer in ["developer_box"]:
-
+                saved =true
                 return redirect('profile_developer')
             else:
 
-                return redirect('player')
+                return redirect('profile_developer')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
