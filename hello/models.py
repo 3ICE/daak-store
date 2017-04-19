@@ -1,7 +1,7 @@
 from django.db import models
-from django.contrib.auth.models import User
+from django.contrib.auth.models import *
 
-class Player(User):
+class Player(User, PermissionsMixin):
     developer = models.BooleanField(default=True)
     # player is not necessary, simply check if not developer
     active = models.BooleanField(default=False)
