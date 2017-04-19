@@ -45,11 +45,12 @@ def signup(request):
             name = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user_auth = authenticate(username=name, password=raw_password)
-            player=Player.objects.filter(username=name)
             #login(request, user_auth)
             developer = request.POST.get("developer", None)
-            user_db.update(developer = True)
             user_db.save()
+            player=Player.objects.filter(username=name)
+            player.update(developer = True)
+            player.save() # sup spaghetti code TODO clarify
             if developer in ["developer_box"]:
                 mail(user_auth)
                 return redirect('registration')
