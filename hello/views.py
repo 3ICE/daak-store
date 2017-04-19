@@ -96,9 +96,11 @@ def send_confirmation_mail(name, pw, email):
     Thank you for registering in our store of awesome stuffs.
     
     We will validate your email id promptly.
-    Please click this link to verify you email address and complete registration:
-    <a href="https://daak-store.herokuapp.com/user_verification/""" + secure_link + """
-    ">https://daak-store.herokuapp.com/user_verification/""" + secure_link + """</a>
+    Please click this link to verify you email address and complete registration:"""\
+    #<a href="https://daak-store.herokuapp.com/user_verification/""" + secure_link + """
+    #">https://daak-store.herokuapp.com/user_verification/""" + secure_link + """</a>
+    
+    +secure_link +"""
     And then kindly login again to continue.
     
     Best regards,
