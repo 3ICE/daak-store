@@ -165,7 +165,7 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-if(signup.developer in ["developer_box"]):
+if(signup.developer):
     LOGIN_REDIRECT_URL = 'profile_developer'
 else:
     LOGIN_REDIRECT_URL = 'player'
