@@ -45,7 +45,7 @@ def signup(request):
             name = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             email = form.cleaned_data.get('email')
-            user = authenticate(username=name, password=raw_password)
+            user_db = authenticate(username=name, password=raw_password)
             login(request, user_db)
             dev = request.POST.get("developer", None)
             user_db.save()
