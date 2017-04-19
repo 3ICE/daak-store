@@ -23,6 +23,9 @@ def player(request):
 def delete_game(request):
     return render(request, 'delete_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
+def registration(request):
+    return render(request, 'registration.html')
+
 
 
 def db(request):
@@ -44,7 +47,7 @@ def signup(request):
             login(request, user)
             developer = request.POST.get("developer", None)
             if developer in ["developer_box"]:
-                return redirect('profile_developer')
+                return redirect('registration')
             else:
 
                 return redirect('player')
