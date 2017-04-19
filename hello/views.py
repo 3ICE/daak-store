@@ -98,7 +98,7 @@ def send_confirmation_mail(name, pw, email):
           
           We will validate your id promptly.
           Please click this link to verify you email address and complete registration:
-          %(link)s
+          https://daak-store.herokuapp.com/user_verification/%(link)s
           And then kindly login again to continue.
           
           Best regards,
