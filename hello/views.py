@@ -47,20 +47,22 @@ def signup(request):
             email = form.cleaned_data.get('email')
             user = authenticate(username=name, password=raw_password)
             # 3ICE: Temporarily auth them (worked like this before
-            user_db.active = True
-            user_db.save()
-            
-            login(request, user_db)
+            #user_db.active = True
+            #user_db.save()
+            send_confirmation_mail(name, raw_password, email)
+            #login(request, user_db)
             dev = request.POST.get("developer", None)
+            user_db.developer=dev
             user_db.save()
-            #player=Player.objects.create(user=user_db, developer=dev, active=False)
-            #player=Player.objects.create(user=user, developer=dev, active=False)
-            if dev in ["developer_box"]:
-                send_confirmation_mail(name, raw_password, )
-                return redirect('registration')
-            else:
-                send_confirmation_mail(name, raw_password, )
-                return redirect('profile_player')
+            ##player=Player.objects.create(user=user_db, developer=dev, active=False)
+            ##player=Player.objects.create(user=user, developer=dev, active=False)
+            #if dev in ["developer_box"]:
+            #    return redirect('registration')
+            #else:
+            #    return redirect('profile_player')
+            return redirect('login')
+        else: return render(request, 'signup.html', {'form': form}) # displays all errors in red automatically
+          
     else:
         form = SignUpForm() # 3ICE: Possibly stop using this, since we need to send the email
     return render(request, 'signup.html', {'form': form})
