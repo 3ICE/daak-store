@@ -2,7 +2,6 @@ from django.shortcuts import *
 from django.http import HttpResponse
 from django.contrib.auth import *
 from django.contrib.auth.models import User
-from .forms import *
 from .models import *
 from django.template import RequestContext
 from django.core.mail import send_mail
