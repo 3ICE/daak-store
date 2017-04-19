@@ -79,7 +79,7 @@ def addgame(request):
     else:
         return redirect("login")
 
-def deletegame(request,id,template_name = 'daak-store/hello/templates/game_confirm_delete.html'):
+def deletegame(request,id,template_name = 'daak-store/hello/templates/delete_game.html'):
     if request.user.is_authenticated():
         game_to_delete = games.object.get(pk =id)
         if request.method =='POST':
