@@ -115,14 +115,17 @@ def send_confirmation_mail(name, pw, email):
 #Verifying the user account
 def user_verification(request, secure_link):
     name, pwd = secure_link.split('$$$$')
-    user = User.objects.filter(username=name, password=pwd) # Player
-    if user:
+    user = User.objects.filter(username=name, password=pwd)
+    # Player knows if he's a developer or not:
+    player = Player.objects.filter(user=user)
+    if player:
         user.update(active = True)
+        player.update(activated = True)
         user.save()
         msg = "We have validated your email id!"
     else:
         msg = "Verification error!"
-    if True: #request.user.developer: #TODO fix me
+    if player.developer: #request.user.developer didn't work, so here's a workaround
       return render(request, 'profile_developer.html', {'msg': msg})
     else:
       return render(request, 'profile_player.html', {'msg': msg})
