@@ -90,8 +90,8 @@ def mail(user):
 Thank you for registering on our website!
 Your can verify your account by clicking on this link: https://daak-store.herokuapp.com/profile_developer/''' + conf_code + '''
 Best regards,
-The Gladiators team'''
+The Daak team'''
     recipient_list = []
     recipient_list.append(user.email)
-    send_mail(subject, message, 'alapandummy@gmail.com', recipient_list, fail_silently=False)
+    send_mail(subject, message, 'daakstore@gmail.com', recipient_list, fail_silently=False)
 
