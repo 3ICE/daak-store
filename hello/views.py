@@ -42,10 +42,10 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user_db = form.save(commit=False)
-            username = form.cleaned_data.get('username')
+            name = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
-            user_auth = authenticate(username=username, password=raw_password)
-            player=Player.objects.filter(username=user_auth.username)
+            user_auth = authenticate(username=name, password=raw_password)
+            player=Player.objects.filter(username=name)
             login(request, user_auth)
             developer = request.POST.get("developer", None)
             user_db.update(developer = True)
