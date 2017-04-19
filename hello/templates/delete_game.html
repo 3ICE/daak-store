@@ -14,21 +14,14 @@
     ${{game.game_price|floatformat:2}}
     <br />
   </a>
-  <button onclick="myFunction()">Delete</button>
+  <form action="/delete_game/" method="post">
+  {% csrf_token %}
+  {{ form.as_p }}
+  <input type="submit" name="delete" value="delete" />
 
   <p id="demo"></p>
 
-  <script>
-  function myFunction() {
-      var x;
-      if (confirm("Press a button!") == true) {
-          x = "You pressed delete!";
-      } else {
-          x = "You pressed Cancel!";
-      }
-      document.getElementById("demo").innerHTML = x;
-  }
-  </script>
+
   {% empty %}
       <li>No games yet.</li>
       <a href="{% url 'addgame' %}">Want to add game? Click here</a>
