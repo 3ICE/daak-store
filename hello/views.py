@@ -89,7 +89,7 @@ def mail(user):
     message = 'Dear ' + user.username + ''',
 Thank you for registering in daak-store of awesome stuffs.
 We have validated your email id.
-Kindly login again to continue by clicking on this link: https://daak-store.herokuapp.com/login/''' + user_details + '''
+Kindly login again to continue by clicking on this link: https://daak-store.herokuapp.com/login/''' + '''
 
 Best regards,
 The Daak team'''
