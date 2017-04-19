@@ -13,14 +13,11 @@ width: 600px;
 
 {% block content %}
 <div align="center" id="centertag" class="registration-container">
-  if(signup.saved==true){
+
     <h2>Developer View</h2>
     <p>You are currently logged in as developer {{request.user.username}}. </p>
-  }
-  else{
-    <h2>Player View</h2>
-    <p>You are currently logged in as Player {{request.user.username}}. </p>
-  }
+
+
   <p>
 
     <li><a href="{% url 'addgame' %}">Add Game</a></li>

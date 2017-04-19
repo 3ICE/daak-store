@@ -48,7 +48,7 @@ def signup(request):
                 return redirect('profile_developer')
             else:
 
-                return redirect('profile_developer')
+                return redirect('player')
     else:
         form = SignUpForm()
     return render(request, 'signup.html', {'form': form})
