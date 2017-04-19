@@ -7,30 +7,24 @@ background: #B1DBFF;
 width: 600px;
  margin:0px auto;
 }
-#centertag a{
-  display: block;
-  border: 1px solid;
-}
 </style>
 {% endblock %}
 {% block title %}Welcome {{request.user.username}}{% endblock %}
 
 {% block content %}
 <div align="center" id="centertag" class="registration-container">
-<div>
-{% for game in allgames %}
-<a href="{{game.game_name.split|join:"_"}}">
-    <b>
-    {{game.game_name }}
-    </b> by
-    {{game.game_developer}}
-    <br />
-    ${{game.game_price|floatformat:2}}
-  </a>
-  <button onclick="alert('Bought!')">Buy</button>
-  {% empty %}
+  <h2>Developer View</h2>
+  <p>You are currently logged in as developer {{request.user.username}}. </p>
+  <p>
+<<<<<<< HEAD
 
-{% endfor %}
-</div>
+
+=======
+
+    <li><a href="{% url 'games' %}">Play games</a></li>
+    
+>>>>>>> 9ea380be519e759853309798011b6a0529d4dcd6
+  </p>
+
 {% endblock %}
 </div>
