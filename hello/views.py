@@ -86,9 +86,10 @@ def mail(user):
 
     user_details = "%s:::%s"%(user.username, user.password)
     subject = 'Registration confirmation mail'
-    message = 'Dear ' + user.first_name + ''',
+    message = 'Dear ' + user.username + ''',
 Thank you for registering in daak-store of awesome stuffs.
-Your can verify your account by clicking on this link: https://daak-store.herokuapp.com/user_verification/''' + user_details + '''
+We have validated your email id.
+Kindly login again to continue by clicking on this link: https://daak-store.herokuapp.com/login/''' + user_details + '''
 
 Best regards,
 The Daak team'''
@@ -100,16 +101,16 @@ The Daak team'''
 
 
 #Varifying the user account
-def user_verification(request, user_details):
-
-    username, password = user_details.split(':::')
-    user = User.objects.filter(username=username, password=password)
-    if user is not None:
-        user.update(is_active = True)
-        message = "Your account is now verified!"
-    else:
-        message = "Verification error!"
-
-    return render_to_response('profile_developer',context_instance=RequestContext(request, {'message': message}))
+#def user_verification(request, user_details):
+#
+#    username, password = user_details.split(':::')
+#    user = User.objects.filter(username=username, password=password)
+#    if user is not None:
+#        user.update(is_active = True)
+#        message = "Your account is now verified!"
+#    else:
+#        message = "Verification error!"
+#
+#   return render_to_response('profile_developer',context_instance=RequestContext(request, {'message': message}))
 
 
