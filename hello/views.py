@@ -47,7 +47,7 @@ def signup(request):
             email = form.cleaned_data.get('email')
             user = authenticate(username=name, password=raw_password)
             # 3ICE: Temporarily auth them (worked like this before
-            user_db.update(active = True)
+            user_db.active = True
             user_db.save()
             
             login(request, user_db)
