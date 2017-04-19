@@ -12,18 +12,19 @@ width: 600px;
 {% block title %}Welcome {{request.user.username}}{% endblock %}
 
 {% block content %}
+{% if msg %}
+    <p style="color:blue;">{{msg}}</p>
+{% endif %}
 <div align="center" id="centertag" class="registration-container">
-
-    <h2>Developer View</h2>
-    <p>You are currently logged in as developer {{request.user.username}}. </p>
-
-
+  <h2>Developer View</h2>
+  <p>You are currently logged in as Developer {{request.user.username}}.</p>
+  <p><em>Let's develop some games, shall we!?</em></p>
   <p>
-
-    <li><a href="{% url 'addgame' %}">Add Game</a></li>
-    <li><a href="{% url 'games' %}">Play games</a></li>
-    <li><a href="{% url 'delete_game' %}">Delete Game</a></li>
+    <ul>
+      <li><a href="{% url 'addgame' %}">Add Game</a></li>
+      <li><a href="{% url 'games' %}">Play games</a></li>
+      <li><a href="{% url 'delete_game' %}">Delete Game</a></li>
+    </ul>
   </p>
-
 {% endblock %}
 </div>

@@ -6,9 +6,6 @@ admin.autodiscover()
 
 import hello.views
 
-# Example:
-# url(r'^blog/', include('blog.urls')),
-
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
     url(r'^db', hello.views.db, name='db'),
@@ -17,14 +14,14 @@ urlpatterns = [
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
     url(r'^logout/$', auth_views.logout, {'template_name': 'logged_out.html'}, name='logout'),
     url(r'^profile_developer/$', hello.views.profile_developer, name='profile_developer'),
+    url(r'^profile_player/$', hello.views.profile_player, name='profile_player'),
     url(r'^signup/$', hello.views.signup, name='signup'),
     url(r'^add_game/$', hello.views.addgame, name='addgame'),
     url("^soc/", include("social_django.urls", namespace="social")),
     url(r'^games/(\w+)$', hello.views.game, name='game'),
     url(r'^games/$', hello.views.games, name='games'),
     url(r'^delete_game/$', hello.views.delete_game, name='delete_game'),
-    url(r'^player/$', hello.views.player, name='player'),
     url(r'^registration/$', hello.views.registration, name='registration'),
-    url(r'^game_confirm_delete/$', hello.views.delete_game, name='game_confirm_delete')
-    #url(r'^user_verification/(\w+)$', hello.views.user_verification, name='user_verification')
+    url(r'^game_confirm_delete/$', hello.views.delete_game, name='game_confirm_delete'),
+    url(r'^user_verification/(\.+)$', hello.views.user_verification, name='user_verification'),
 ]

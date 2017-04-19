@@ -2,10 +2,10 @@ from django.shortcuts import *
 from django.http import HttpResponse
 from django.contrib.auth import *
 from django.contrib.auth.models import User
+from .forms import *
 from .models import *
 from django.template import RequestContext
 from django.core.mail import send_mail
-
 
 
 def index(request):
@@ -15,12 +15,14 @@ def games(request):
     return render(request, 'games.html',{"allgames":Game.objects.all()})
 
 def game(request,name):
-    return render(request, 'game.html')
+    return render(request, 'game.html',{"game":Game.objects.get(game_name=name.replace("_"," "))})
 
 def profile_developer(request):
     return render(request, 'profile_developer.html')
-def player(request):
-    return render(request, 'player.html')
+
+def profile_player(request):
+    return render(request, 'profile_player.html')
+
 def delete_game(request):
     return render(request, 'delete_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
@@ -29,20 +31,14 @@ def registration(request):
     
     return render(request, 'registration.html')
 
-
-
-
-
 def db(request):
     greeting = Greeting()
     greeting.save()
     greetings = Greeting.objects.all()
     return render(request, 'db.html', {'greetings': greetings})
 
-
 def signup(request):
     if request.method == 'POST':
-
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
@@ -58,13 +54,13 @@ def signup(request):
                 mail(user)
                 return redirect('player')
     else:
-        form = SignUpForm()
+        form = SignUpForm() # 3ICE: Possibly stop using this, since we need to send the email
     return render(request, 'signup.html', {'form': form})
 
 
 def addgame(request):
     if request.user.is_authenticated():
-        if request.method == 'POST' or True:
+        if request.method == 'POST' or True: # TODO Don't use "or True", it skips the if check entirely
             form = AddGameForm(data=request.POST)
             if form.is_valid():
                 game = form.save(commit=False)
@@ -73,7 +69,6 @@ def addgame(request):
             else:
                 print(form.errors)
             return render(request,"add_game.html", {"form": form})
-
         else:
             return redirect("login")
     else:
@@ -91,34 +86,38 @@ def deletegame(request,id,template_name = 'daak-store/hello/templates/delete_gam
 
 # email validation
 def mail(user):
+    secure_link = user.username + "$$$$" + user.password
+    msg = 'Dear ' + user.username + """,
+Welcome to DAAK store!
+Thank you for registering in our store of awesome stuffs.
 
-    user_details = "%s:::%s"%(user.username, user.password)
-    subject = 'Registration confirmation mail'
-    message = 'Dear ' + user.username + ''',
-Thank you for registering in daak-store of awesome stuffs.
-We have validated your email id.
-Kindly login again to continue by clicking on this link: https://daak-store.herokuapp.com/login/''' + '''
+We will validate your email id promptly.
+Please click this link to verify you email address and complete registration:
+https://daak-store.herokuapp.com/user_verification/""" + secure_link + """
+
+And then kindly login again to continue.
 
 Best regards,
-The Daak team'''
-    recipient_list = []
-    recipient_list.append(user.email)
-    send_mail(subject, message, 'daaktest@gmail.com', recipient_list, fail_silently=False)
+The Daak team
+Thanks,
+The DAAK team of awesome!
+http://daak-store.herokuapp.com/
+"""
+    send_mail('Please confirm your registration at DAAK store, ' + user.username,
+              msg, 'daaktest@gmail.com', [user.email])
 
-
-
-
-#Varifying the user account
-#def user_verification(request, user_details):
-#
-#    username, password = user_details.split(':::')
-#    user = User.objects.filter(username=username, password=password)
-#    if user is not None:
-#        user.update(is_active = True)
-#        message = "Your account is now verified!"
-#    else:
-#        message = "Verification error!"
-#
-#   return render_to_response('profile_developer',context_instance=RequestContext(request, {'message': message}))
-
+#Verifying the user account
+def user_verification(request, secure_link):
+    name, pwd = secure_link.split('$$$$')
+    user = User.objects.filter(username=name, password=pwd)
+    if user:
+        user.update(active = True)
+        user.save()
+        msg = "We have validated your email id!"
+    else:
+        msg = "Verification error!"
+    if request.user.developer:
+      return render(request, 'profile_developer.html', {'msg': msg})
+    else:
+      return render(request, 'profile_player.html', {'msg': msg})
 
