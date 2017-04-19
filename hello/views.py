@@ -84,14 +84,32 @@ def addgame(request):
 # email validation
 def mail(user):
 
-    conf_code = "%s:::%s"%(user.username, user.password)
+    user_details = "%s:::%s"%(user.username, user.password)
     subject = 'Registration confirmation mail'
     message = 'Dear ' + user.first_name + ''',
-Thank you for registering on our website!
-Your can verify your account by clicking on this link: https://daak-store.herokuapp.com/profile_developer/''' + conf_code + '''
+Thank you for registering in daak-store of awesome stuffs.
+Your can verify your account by clicking on this link: https://daak-store.herokuapp.com/profile_developer/''' + user_details + '''
+
 Best regards,
 The Daak team'''
     recipient_list = []
     recipient_list.append(user.email)
     send_mail(subject, message, 'daaktest@gmail.com', recipient_list, fail_silently=False)
+
+
+
+
+#Varifying the user account
+def user_verification(request, conf_code):
+
+    username, password = user_details.split(':::')
+    user = User.objects.filter(username=username, password=password)
+    if user is not None:
+        user.update(is_active = True)
+        message = "Your account is now verified!"
+    else:
+        message = "Verification error!"
+
+    return render_to_response('profile_developer',context_instance=RequestContext(request, {'message': message}))
+
 
