@@ -88,7 +88,7 @@ def mail(user):
     subject = 'Registration confirmation mail'
     message = 'Dear ' + user.first_name + ''',
 Thank you for registering in daak-store of awesome stuffs.
-Your can verify your account by clicking on this link: https://daak-store.herokuapp.com/profile_developer/''' + user_details + '''
+Your can verify your account by clicking on this link: https://daak-store.herokuapp.com/user_verification/''' + user_details + '''
 
 Best regards,
 The Daak team'''
