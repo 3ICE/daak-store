@@ -44,6 +44,7 @@ def signup(request):
             user_db = form.save(commit=False)
             name = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
+            email = form.cleaned_data.get('email')
             user_auth = authenticate(username=name, password=raw_password)
             #login(request, user_auth)
             developer = request.POST.get("developer", None)
@@ -52,10 +53,10 @@ def signup(request):
             player.update(developer = True)# sup spaghetti code TODO clarify
             #player.save()
             if developer in ["developer_box"]:
-                mail(user_auth)
+                send_confirmation_mail(name, raw_password, )
                 return redirect('registration')
             else:
-                mail(user_auth)
+                send_confirmation_mail(name, raw_password, )
                 return redirect('profile_player')
     else:
         form = SignUpForm() # 3ICE: Possibly stop using this, since we need to send the email
@@ -83,26 +84,26 @@ def delete(request):
 
 
 # email validation
-def mail(user):
-    secure_link = user.username + "$$$$" + user.password
-    msg = 'Dear ' + user.username + """,
-Welcome to DAAK store!
-Thank you for registering in our store of awesome stuffs.
-
-We will validate your email id promptly.
-Please click this link to verify you email address and complete registration:
-https://daak-store.herokuapp.com/user_verification/""" + secure_link + """
-
-And then kindly login again to continue.
-
-Best regards,
-The Daak team
-Thanks,
-The DAAK team of awesome!
-http://daak-store.herokuapp.com/
-"""
-    send_mail('Please confirm your registration at DAAK store, ' + user.username,
-              msg, 'daaktest@gmail.com', [user.email])
+def send_confirmation_mail(name, pw, email):
+    secure_link = name + "$$$$" + pw
+    msg = 'Dear ' + name + """,
+    Welcome to DAAK store!
+    Thank you for registering in our store of awesome stuffs.
+    
+    We will validate your email id promptly.
+    Please click this link to verify you email address and complete registration:
+    <a href="https://daak-store.herokuapp.com/user_verification/""" + secure_link + """
+    ">https://daak-store.herokuapp.com/user_verification/""" + secure_link + """</a>
+    And then kindly login again to continue.
+    
+    Best regards,
+    The Daak team
+    Thanks,
+    The DAAK team of awesome!
+    http://daak-store.herokuapp.com/
+    """
+    send_mail('Please confirm your registration at DAAK store, ' + name,
+              msg, 'daaktest@gmail.com', [email])
 
 #Verifying the user account
 def user_verification(request, secure_link):
