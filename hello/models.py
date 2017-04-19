@@ -1,14 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import *
 
-#class User(models.Model):
-#    is_superuser = models.BooleanField(default=False)
-#    developer = models.BooleanField(default=True)
-#    # player is not necessary, simply check if not developer
-#    active = models.BooleanField(default=False)
-#
-#    def method_example(self):
-#        pass
+class Player(models.Model):
+    developer = models.BooleanField(default=False)
+    # player is not necessary, simply check if not developer
+    activated = models.BooleanField(default=False)
+    user = models.OneToOneField(User)
+
+    def method_example(self):
+        pass
 
 class Game(models.Model):
     game_name = models.CharField(max_length=255, unique=True)

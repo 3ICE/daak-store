@@ -47,12 +47,11 @@ def signup(request):
             email = form.cleaned_data.get('email')
             user = authenticate(username=name, password=raw_password)
             login(request, user)
-            developer = request.POST.get("developer", None)
+            dev = request.POST.get("developer", None)
             user_db.save()
-            #player=Player.objects.filter(username=name)
-            #player.update(developer = True)# sup spaghetti code TODO clarify
-            #player.save()
-            if developer in ["developer_box"]:
+            player=Player.objects.create(user=user_db, developer=dev, active=False)
+            player=Player.objects.create(user=user, developer=dev, active=False)
+            if dev in ["developer_box"]:
                 send_confirmation_mail(name, raw_password, )
                 return redirect('registration')
             else:
