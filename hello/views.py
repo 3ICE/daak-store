@@ -46,11 +46,15 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             email = form.cleaned_data.get('email')
             user_db = authenticate(username=name, password=raw_password)
+            # 3ICE: Temporarily auth them (worked like this before
+            user_db.update(active = True)
+            user_db.save()
+            
             login(request, user_db)
             dev = request.POST.get("developer", None)
             user_db.save()
-            player=Player.objects.create(user=user_db, developer=dev, active=False)
-            player=Player.objects.create(user=user, developer=dev, active=False)
+            #player=Player.objects.create(user=user_db, developer=dev, active=False)
+            #player=Player.objects.create(user=user, developer=dev, active=False)
             if dev in ["developer_box"]:
                 send_confirmation_mail(name, raw_password, )
                 return redirect('registration')
