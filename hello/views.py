@@ -5,6 +5,8 @@ from django.contrib.auth.models import User
 from .forms import *
 from .models import *
 from django.template import RequestContext
+from django.core.mail import send_mail
+
 
 
 def index(request):
@@ -24,7 +26,11 @@ def delete_game(request):
     return render(request, 'delete_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
 def registration(request):
+    #registered = True
+    
     return render(request, 'registration.html')
+
+
 
 
 
@@ -47,9 +53,10 @@ def signup(request):
             login(request, user)
             developer = request.POST.get("developer", None)
             if developer in ["developer_box"]:
+                mail(user)
                 return redirect('registration')
             else:
-
+                mail(user)
                 return redirect('player')
     else:
         form = SignUpForm()
@@ -72,3 +79,19 @@ def addgame(request):
             return redirect("login")
     else:
         return redirect("login")
+
+
+# email validation
+def mail(user):
+
+    conf_code = "%s:::%s"%(user.username, user.password)
+    subject = 'Registration confirmation mail'
+    message = 'Dear ' + user.first_name + ''',
+Thank you for registering on our website!
+Your can verify your account by clicking on this link: https://daak-store.herokuapp.com/profile_developer/''' + conf_code + '''
+Best regards,
+The Gladiators team'''
+    recipient_list = []
+    recipient_list.append(user.email)
+    send_mail(subject, message, 'alapandummy@gmail.com', recipient_list, fail_silently=False)
+
