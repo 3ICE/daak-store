@@ -19,7 +19,7 @@ def game(request,name):
 def profile_developer(request):
     return render(request, 'profile_developer.html')
 def player(request):
-    return render(request, 'player.html',{"allgames": Game.objects.filter(player=request.user)})
+    return render(request, 'player.html')
 def delete_game(request):
     return render(request, 'delete_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
