@@ -46,7 +46,7 @@ def signup(request):
             raw_password = form.cleaned_data.get('password1')
             user_auth = authenticate(username=name, password=raw_password)
             player=Player.objects.filter(username=name)
-            login(request, user_auth)
+            #login(request, user_auth)
             developer = request.POST.get("developer", None)
             user_db.update(developer = True)
             user_db.save()
