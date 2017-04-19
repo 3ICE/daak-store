@@ -34,9 +34,10 @@ def db(request):
 
 def signup(request):
     if request.method == 'POST':
-
+        is_developer = False
         form = SignUpForm(request.POST)
         if form.is_valid():
+
             form.save()
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
@@ -44,9 +45,10 @@ def signup(request):
             login(request, user)
             developer = request.POST.get("developer", None)
             if developer in ["developer_box"]:
+                is_developer = True
                 return redirect('profile_developer')
-            else:
 
+            else:
                 return redirect('player')
     else:
         form = SignUpForm()
