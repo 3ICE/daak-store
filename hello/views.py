@@ -93,5 +93,5 @@ Best regards,
 The Daak team'''
     recipient_list = []
     recipient_list.append(user.email)
-    send_mail(subject, message, 'daakstore@gmail.com', recipient_list, fail_silently=False)
+    send_mail(subject, message, 'daaktest@gmail.com', recipient_list, fail_silently=False)
 
