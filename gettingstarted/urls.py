@@ -23,4 +23,5 @@ urlpatterns = [
     url(r'^games/(\w+)$', hello.views.game, name='game'),
     url(r'^games/$', hello.views.games, name='games'),
     url(r'^delete_game/$', hello.views.delete_game, name='delete_game')
+    url(r'^player/$', hello.views.player, name='player')
 ]

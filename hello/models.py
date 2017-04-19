@@ -13,5 +13,4 @@ class Game(models.Model):
 class Scores(models.Model):
     game = models.ForeignKey(Game)
     player = models.ForeignKey(User)
-
     score = models.PositiveIntegerField(default=0)
