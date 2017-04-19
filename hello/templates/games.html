@@ -5,7 +5,7 @@
 position: relative;
 background: #B1DBFF;
 width: 600px;
- margin:0px auto; 
+ margin:0px auto;
 }
 #centertag a{
   display: block;
@@ -27,6 +27,9 @@ width: 600px;
     <br />
     ${{game.game_price|floatformat:2}}
   </a>
+  (%if !signup.saved%){
+    <button type="button" onclick="alert('Bought')">Buy!</button>
+  }
   {% empty %}
       <li>No games yet.</li>
       <a href="{% url 'addgame' %}">Want to add game? Click here</a>
