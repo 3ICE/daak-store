@@ -80,6 +80,15 @@ def addgame(request):
     else:
         return redirect("login")
 
+def deletegame(request,id,template_name = 'daak-store/hello/templates/game_confirm_delete.html'):
+    if request.user.is_authenticated():
+        game_to_delete = games.object.get(pk =id)
+        if request.method =='POST':
+            games.delete()
+            return redirect("profile_developer")
+        return render(request,template_name,{'object':games})
+    else:
+        return redirect("index")
 
 # email validation
 def mail(user):
