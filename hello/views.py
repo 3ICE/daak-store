@@ -35,6 +35,7 @@ def db(request):
 def signup(request):
     saved = False
     if request.method == 'POST':
+
         form = SignUpForm(request.POST)
         if form.is_valid():
             form.save()
@@ -44,7 +45,7 @@ def signup(request):
             login(request, user)
             developer = request.POST.get("developer", None)
             if developer in ["developer_box"]:
-                saved =true
+                saved =True
                 return redirect('profile_developer')
             else:
 
