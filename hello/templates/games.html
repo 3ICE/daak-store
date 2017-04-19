@@ -27,7 +27,7 @@ width: 600px;
     <br />
     ${{game.game_price|floatformat:2}}
   </a>
-  (%if !signup.saved%){
+  {% if signup.saved==False %}{
     <button type="button" onclick="alert('Bought')">Buy!</button>
   }
   {% empty %}
