@@ -117,7 +117,7 @@ def user_verification(request, secure_link):
     name, pwd = secure_link.split('$$$$')
     user = User.objects.filter(username=name, password=pwd)
     # Player knows if he's a developer or not:
-    player = Player.objects.filter(user=user)
+    player = Player.objects.get(user=user)
     if player:
         user.update(active = True)
         player.update(activated = True)
@@ -125,7 +125,7 @@ def user_verification(request, secure_link):
         msg = "We have validated your email id!"
     else:
         msg = "Verification error!"
-    if player[:1].developer: #request.user.developer didn't work, so here's a workaround
+    if player.developer: #request.user.developer didn't work, so here's a workaround
       return render(request, 'profile_developer.html', {'msg': msg})
     else:
       return render(request, 'profile_player.html', {'msg': msg})
