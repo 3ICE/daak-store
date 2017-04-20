@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <head>
+            <title>Confirm game deletion</title>
+            {% load staticfiles %}
+            <link rel="stylesheet" type="text/css" href="{% static 'gamestore/style.css'%}" />
+    </head>
+    <body>
+        <div class="content">
+            <div class="top_block title">
+              <div class="content">
+
+
+            </div>
+        </div>
+            <div class="background left">
+            </div>
+            <div class="left_block left">
+              <div class="content">
+
+
+              </div>
+            </div>
+            <div class="background right">
+            </div>
+            <div class="right_block right">
+                <div class="content">
+
+                </div>
+            </div>
+            <div class="background main">
+            </div>
+            <div class="center_block main">
+                <div class="content">
+                    <div id="category">
+                    <form method="post">{% csrf_token %}
+                        <p>Are you sure you want to delete "{{ object }}" ?</p>
+                        <br>
+                        <input type="submit" value="Submit" />
+                    </form>
+                    <br><br>
+                    <a href="/delete_game">Cancel</a>
+                </div>
+            </div>
+            </div>
+        </div>
+    </body>
+</html>

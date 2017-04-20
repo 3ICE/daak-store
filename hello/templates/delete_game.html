@@ -19,21 +19,7 @@
   {{ form.as_p }}
   <p>Click the button to display a confirm box.</p>
 
-<button onclick="myFunction()">Delete</button>
-
-<p id="demo"></p>
-
-<script>
-function myFunction() {
-    var x;
-    if (confirm("Are you sure you want to delete?") == true) {
-        x = "Deleted!";
-    } else {
-        x = "Canceled!";
-    }
-    document.getElementById("demo").innerHTML = x;
-}
-</script>
+<td width="10%" align="center"><a href="/delete/{{Game.game_name,user.user_name}}"> Delete this game</a></td>
 
 
   <p id="demo"></p>
