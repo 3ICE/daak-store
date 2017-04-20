@@ -120,7 +120,6 @@ def user_verification(request, secure_link):
     if player:
         #user.update(active = True)
         player.activated = True
-        user.save()
         player.save()
         msg = "We have validated your email id!"
     else:
