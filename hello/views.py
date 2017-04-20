@@ -49,12 +49,12 @@ def signup(request):
             # 3ICE: Temporarily auth them (worked like this before)
             #user_db.active = True
             #user_db.save()
-            #login(request, user_db)
+            #login(request, user_db) # 3ICE: Don't bloody try to log in when it's not an activated account...
             dev = request.POST.get("developer", None)
             user_db.developer=dev
             user_db.save()
-            ##player=Player.objects.create(user=user_db, developer=dev, active=False)
-            ##player=Player.objects.create(user=user, developer=dev, active=False)
+            player=Player.objects.create(user=user_db, developer=dev)
+            player=Player.objects.create(user=user, developer=dev)
             hashed_password = user_db.password
             send_confirmation_mail(name, hashed_password, email)
             #if dev in ["developer_box"]:
