@@ -22,7 +22,7 @@ urlpatterns = [
     url(r'^games/$', hello.views.games, name='games'),
     url(r'^delete_game/$', hello.views.delete_game, name='delete_game'),
     url(r'^registration/$', hello.views.registration, name='registration'),
-    url(r'^game_confirm_delete/$', hello.views.delete_game, name='game_confirm_delete'),
+    url(r'^game_confirmation_delete/$', hello.views.deletegame, name='game_confirmation_delete'),
     url(r'^user_verification/(.+)$', hello.views.user_verification, name='user_verification'),
-    url(r'^delete/', hello.views.deletegame, name= ' deletegame'),
+
 ]
