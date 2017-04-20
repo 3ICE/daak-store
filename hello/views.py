@@ -83,7 +83,7 @@ def addgame(request):
             return redirect("login")
     else:
         return redirect("login")
-def deletegame(request,name,user):
+def deletegame(request,name):
     if request.user.is_authenticated() and not request.user.is_anonymous():
         game = Game.objects.get(game_name=name)
         if request.method == 'POST':
