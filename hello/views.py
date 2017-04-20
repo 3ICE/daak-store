@@ -119,8 +119,9 @@ def user_verification(request, secure_link):
     player = Player.objects.get(user=user)
     if player:
         #user.update(active = True)
-        player.update(activated = True)
+        player.activated = True
         user.save()
+        player.save()
         msg = "We have validated your email id!"
     else:
         msg = "Verification error!"
