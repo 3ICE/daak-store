@@ -50,13 +50,13 @@ def signup(request):
             #user_db.active = True
             #user_db.save()
             #login(request, user_db) # 3ICE: Don't bloody try to log in when it's not an activated account...
-            dev = request.POST.get("developer", None)
+            dev = True if request.POST.get("developer", None) != None
             user_db.developer=dev
             user_db.save()
-            player=Player.objects.create(user=user_db, developer=dev)
+            player=Player.objects.create(user=user_db, developer=dev, activated=False)
             hashed_password = user_db.password
             send_confirmation_mail(name, hashed_password, email)
-            #if dev in ["developer_box"]:
+            #if dev in ["developer_box"]: #3ICE: This is not how you check the existence of a checkbox.
             #    return redirect('registration')
             #else:
             #    return redirect('profile_player')
