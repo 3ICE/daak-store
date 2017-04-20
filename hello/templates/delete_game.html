@@ -1,9 +1,12 @@
 {% extends 'base.html' %}
-
+{% block header %}
 {% block title %}Welcome {{request.user.username}}{% endblock %}
 
+{% load static %}
+<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
+{% endblock %}
 {% block content %}
-<div>
+<div align="center" id="centertag" class="registration-container">
 {% for game in allgames %}
 <a href="{{game.game_name.split|join:"_"}}">
     <b>
