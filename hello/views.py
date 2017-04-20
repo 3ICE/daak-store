@@ -50,7 +50,7 @@ def signup(request):
             #user_db.active = True
             #user_db.save()
             #login(request, user_db) # 3ICE: Don't bloody try to log in when it's not an activated account...
-            dev = True if request.POST.get("developer", None) != None
+            dev = request.POST.get("developer", "not_developer") == "developer_box"
             user_db.developer=dev
             user_db.save()
             player=Player.objects.create(user=user_db, developer=dev, activated=False)
