@@ -4,7 +4,7 @@ from django.contrib.auth.models import *
 class Player(models.Model):
     developer = models.BooleanField(default=False)
     # player is not necessary, simply check if not developer
-    #activated = models.BooleanField(default=False) # 3ICE: Can remove...
+    activated = models.BooleanField(default=False) # 3ICE: Can't remove...
     user = models.OneToOneField(User)
 
     def method_example(self):
