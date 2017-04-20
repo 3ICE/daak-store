@@ -54,7 +54,6 @@ def signup(request):
             user_db.developer=dev
             user_db.save()
             player=Player.objects.create(user=user_db, developer=dev)
-            player=Player.objects.create(user=user, developer=dev)
             hashed_password = user_db.password
             send_confirmation_mail(name, hashed_password, email)
             #if dev in ["developer_box"]:
