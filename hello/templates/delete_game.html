@@ -17,7 +17,24 @@
   <form action="/delete_game/" method="post">
   {% csrf_token %}
   {{ form.as_p }}
-  <input type="submit" name="delete" value="delete" />
+  <p>Click the button to display a confirm box.</p>
+
+<button onclick="myFunction()">Delete</button>
+
+<p id="demo"></p>
+
+<script>
+function myFunction() {
+    var x;
+    if (confirm("Are you sure you want to delete?") == true) {
+        x = "Deleted!";
+    } else {
+        x = "Canceled!";
+    }
+    document.getElementById("demo").innerHTML = x;
+}
+</script>
+
 
   <p id="demo"></p>
 

@@ -25,7 +25,8 @@ def profile_player(request):
 
 def delete_game(request):
     return render(request, 'delete_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
-
+    if request.POST.get('delete'):
+        game.delete()
 def registration(request):
     #registered = True
     
@@ -83,9 +84,8 @@ def addgame(request):
             return redirect("login")
     else:
         return redirect("login")
-def delete(request):
-    if request.POST.get('delete'):
-        obj.delete()
+
+
 
 
 # email validation
