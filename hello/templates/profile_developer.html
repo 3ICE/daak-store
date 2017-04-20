@@ -1,13 +1,9 @@
 {% extends 'base.html' %}
 {% block header %}
-<style type="text/css">
-.registration-container{
-position: relative;
-background: #B1DBFF;
-width: 600px;
- margin:0px auto;
-}
-</style>
+{% load static %}
+<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
+
+
 {% endblock %}
 {% block title %}Welcome {{request.user.username}}{% endblock %}
 
