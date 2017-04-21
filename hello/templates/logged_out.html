@@ -1,16 +1,13 @@
 {% extends 'base.html' %}
-{% block header %}
-{% load static %}
-<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
-
-
-{% endblock %}
 {% block title %}See you!{% endblock %}
+{% block header %}
+<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
+{% endblock %}
 
 {% block content %}
 <div align="center" id="centertag" class="registration-container">
   <h2>Logged out</h2>
   <p>You have been successfully logged out.</p>
-  <p><a href="{% url 'login' %}">Log in</a> again.</p>
-{% endblock %}
+  <p><a href="{% url 'login' %}">Log in again</a></p>
 </div> 
+{% endblock %}
