@@ -1,48 +1,18 @@
-<!DOCTYPE html>
-<html>
-    <head>
-            <title>Confirm game deletion</title>
-            {% load staticfiles %}
-            <link rel="stylesheet" type="text/css" href="{% static 'gamestore/style.css'%}" />
-    </head>
-    <body>
-        <div class="content">
-            <div class="top_block title">
-              <div class="content">
+{% extends 'base.html' %}
+{% block title %}Are you sure you want to delete {{game.game_name}}, {{request.user.username}}?{% endblock %}
+{% block header %}
+{% load static %}
+<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
+{% endblock %}
+{% block content %}
 
-
-            </div>
-        </div>
-            <div class="background left">
-            </div>
-            <div class="left_block left">
-              <div class="content">
-
-
-              </div>
-            </div>
-            <div class="background right">
-            </div>
-            <div class="right_block right">
-                <div class="content">
-
-                </div>
-            </div>
-            <div class="background main">
-            </div>
-            <div class="center_block main">
-                <div class="content">
-                    <div id="category">
+                <div id = "centertag">
                     <form method="post">{% csrf_token %}
-                        <p>Are you sure you want to delete "{{ object }}" ?</p>
+                        <p>Are you sure you want to delete {{game.game_name}}, {{request.user.username}}?</p>
                         <br>
                         <input type="submit" value="Submit" />
                     </form>
                     <br><br>
-                    <a href="/delete_game">Cancel</a>
+                    <a href="{% url 'delete_game' %}">Click here if you have changed your mind?</a>
                 </div>
-            </div>
-            </div>
-        </div>
-    </body>
-</html>
+{% endblock %}

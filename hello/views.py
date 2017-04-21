@@ -1,12 +1,13 @@
 from django.shortcuts import *
-from django.http import HttpResponse
+from django.http import HttpResponse,Http404
 from django.contrib.auth import *
 from django.contrib.auth.models import User
 from .forms import *
 from .models import *
 from django.template import RequestContext
 from django.core.mail import send_mail
-
+from django.views.generic.edit import UpdateView
+from hello.models import Game
 
 def index(request):
     return render(request, 'index.html')
@@ -85,33 +86,45 @@ def addgame(request):
             return redirect("login")
     else:
         return redirect("login")
-def deletegame(request,game_name):
-    if request.user.is_authenticated() and not request.user.is_anonymous():
-        game = Game.objects.get(game_name=request.game_name)
-        if request.method == 'POST':
+
+def game_confirmation_delete(request, game_name):
+    if request.user.is_authenticated():
+        try:
+            game = Game.objects.get(game_name =game_name)
+        except Game.DoesNotExist:
+            return redirect("delete_game")
+        if not game:
+            return redirect("delete_game")
+        player = Player.objects.get(user =request.user)
+        if request.user == game.game_developer:
             game.delete()
-            # return redirect('/delete_game/')
-        return render(request, '/delete_game/', {{"allgames": Game.objects.filter(game_developer=request.user)}})
+        else:
+            raise Http404("<h2>You are not authorized to delete this game!</h2><p>You are logged in as "+request.user.username+" but the game can only be delted by "+game.game_developer.username)
+        return render(request, "game_confirmation_delete.html", {"game": game})
     else:
-        return render_to_response('/profile_developer/', context_instance=RequestContext(request))
+        return redirect("login")
+class edit_game(UpdateView):
+    model = Game
+    fields =['game_name','game_url','game_price']
+    template_name_suffix = '_update_form'
 
 # email validation
 def send_confirmation_mail(name, pw, email):
     secure_link = name + "$$$$" + pw
     msg = """
-          Dear %(name)s,
-          Welcome to DAAK store!
-          Thank you for registering in our store of awesome stuffs.
-          
-          We will validate your id promptly.
-          Please click this link to verify you email address and complete registration:
-          https://daak-store.herokuapp.com/user_verification/%(link)s
-          And then kindly login again to continue.
-          
-          Best regards,
-          The DAAK team of awesome stuffs!
-          http://daak-store.herokuapp.com/
-          """ % {'name': name, 'link': secure_link}
+Dear %(name)s,
+Welcome to DAAK store!
+Thank you for registering in our store of awesome stuffs.
+
+We will validate your id promptly.
+Please click this link to verify you email address and complete registration:
+https://daak-store.herokuapp.com/user_verification/%(link)s
+And then kindly login again to continue.
+
+Best regards,
+The DAAK team of awesome stuffs!
+http://daak-store.herokuapp.com/
+""" % {'name': name, 'link': secure_link}
 
     #<a href="https://daak-store.herokuapp.com/user_verification/""" + secure_link + """
     #">https://daak-store.herokuapp.com/user_verification/""" + secure_link + """</a>
