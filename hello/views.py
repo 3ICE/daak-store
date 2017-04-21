@@ -11,6 +11,7 @@ from hello.models import Game
 from hashlib import md5
 
 
+
 def index(request):
     return render(request, 'index.html')
 
@@ -82,17 +83,15 @@ def signup(request):
 
 def addgame(request):
     if request.user.is_authenticated():
-        if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
+        if request.method == 'POST' or True: # TODO Don't use "or True", it skips the if check entirely
             form = AddGameForm(data=request.POST)
             if form.is_valid():
                 game = form.save(commit=False)
                 game.game_developer = request.user
-                game_edited = Game.objects.filter(game_name=game_name)
-                game_edited_price=Game.objects.filter(game_price=game_price)
-                game.game_name=game_edited_price
+                game.save()
             else:
                 print(form.errors)
-            return render(request, "add_game.html", {"form": form})
+            return render(request,"add_game.html", {"form": form})
         else:
             return redirect("login")
     else:
@@ -112,7 +111,7 @@ def game_confirmation_delete(request, game_name):
             game.delete()
         else:
             raise Http404(
-                "<h2>You are not authorized to delete this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be delted by " + game.game_developer.username)
+                "<h2>You are not authorized to delete this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be deleted by " + game.game_developer.username)
         return render(request, "game_confirmation_delete.html", {"game": game})
     else:
         return redirect("login")
@@ -120,15 +119,14 @@ def game_confirmation_delete(request, game_name):
 
 def edit_game(request, game_name):
     try:
-        game = Game.objects.get(game_name=game_name)
+        game_edited = Game.objects.get(game_name=game_name)
     except Game.DoesNotExist:
         return redirect("update")
     if not game:
         return redirect("update")
     if request.user.is_authenticated():
         if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
-            game_edited = Game.objects.get(game_name)
-            form = EditGameForm(data=game_edited)
+            form = EditGameForm({'game_name':game_name,'game_price':game_edited.game_price,'game_url':game_edited.game_url})
             if form.is_valid():
                 new_game_data = form.save(commit=False)
                 if(new_game_data.game_developer == request.user):
@@ -138,7 +136,7 @@ def edit_game(request, game_name):
                     game_edited.save()
                 else:
                     raise Http404(
-                        "<h2>You are not authorized to delete this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be delted by " + game.game_developer.username)
+                        "<h2>You are not authorized to edit this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be edited by " + game.game_developer.username)
             else:
                 print(form.errors)
             return render(request, "update.html", {"form": form})
@@ -187,6 +185,7 @@ def user_verification(request, secure_link):
     if player.developer:  # request.user.developer didn't work, so here's a workaround
         return render(request, 'profile_developer.html', {'msg': msg})
     else:
+<<<<<<< HEAD
       return render(request, 'profile_player.html', {'msg': msg})
 
 #payment logic
@@ -204,3 +203,6 @@ def pay_begin(request, game_name):
         return render(request,'pay_begin.html',{'game_name':game_name,'pid':pid,'price':price,'checksum':checksum} )
     else:
         return redirect("login")
+=======
+        return render(request, 'profile_player.html', {'msg': msg})
+>>>>>>> 4ce5f32f57c9798ebe3fd26e7603fc80d3958cdd
