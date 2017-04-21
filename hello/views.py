@@ -90,10 +90,10 @@ def game_confirmation_delete(request, game_name):
     if request.user.is_authenticated():
         game = Game.objects.get(game_name =game_name)
         player = Player.objects.get(user =request.user)
-        if player == game.game_developer:
+        if request.user == game.game_developer:
             game.delete()
         else:
-            raise Http404("You are not authorized to delete this game!")
+            raise Http404("<h2>You are not authorized to delete this game!</h2><p>You are logged in as "+request.user.username+" but the game can only be delted by "+game.game_developer.username)
         return render(request, "game_confirmation_delete.html", {"game": game})
     else:
         return redirect("login")
