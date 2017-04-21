@@ -85,15 +85,16 @@ def addgame(request):
             return redirect("login")
     else:
         return redirect("login")
-def deletegame(request,game_name):
-    if request.user.is_authenticated() and not request.user.is_anonymous():
+
+def game_confirmation_delete(request,game_name):
+    if request.user.is_authenticated():
         game = Game.objects.get(game_name=request.game_name)
-        if request.method == 'POST':
-            game.delete()
-            # return redirect('/delete_game/')
+        player = Player.objects.get(user = request.user)
+            if player = game.author:
+                game.delete() 
         return render(request, '/delete_game/', {{"allgames": Game.objects.filter(game_developer=request.user)}})
     else:
-        return render_to_response('/profile_developer/', context_instance=RequestContext(request))
+        return redirect("login")
 
 # email validation
 def send_confirmation_mail(name, pw, email):
