@@ -86,10 +86,16 @@ def addgame(request):
             if form.is_valid():
                 game = form.save(commit=False)
                 game.game_developer = request.user
+                game_edited = Game.objects.filter(game_name=game_name)
+                game.game_name = game_edited
+                game_edited_price=Game.objects.filter(game_price=game_price)
+                game.game_name=game_edited_price
+                game_edited_url = Game.objects.filter(game_url=game_url)
+                game.game_url = game_edited_url
                 game.save()
             else:
                 print(form.errors)
-            return render(request, "add_game.html", {"form": form})
+            return render(request, "update.html", {"form": form})
         else:
             return redirect("login")
     else:
@@ -130,7 +136,7 @@ def edit_game(request, game_name):
                 if form.is_valid():
                     game = form.save(commit=False)
                     game.game_developer = request.user
-                    game.save()
+
                 else:
                     print(form.errors)
                 return render(request, "update.html", {"form": form})
