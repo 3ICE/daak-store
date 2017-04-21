@@ -16,7 +16,7 @@ ul {
 <div align="center" id="centertag" class="registration-container">
   <h2>Add Game</h2>
   <p>Logged in as {{request.user.username}}</p>
-  <form action="/add_game/" method="post">
+  <action="/add_game/" method="post">
 {% csrf_token %}
 {{ form.as_p }}
   <input type="submit" name="s" value="Add" />
