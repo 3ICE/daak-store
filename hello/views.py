@@ -8,6 +8,7 @@ from django.template import RequestContext
 from django.core.mail import send_mail
 from django.views.generic.edit import UpdateView
 from hello.models import Game
+from hashlib import md5
 
 def index(request):
     return render(request, 'index.html')
@@ -149,3 +150,18 @@ def user_verification(request, secure_link):
     else:
       return render(request, 'profile_player.html', {'msg': msg})
 
+#payment logic
+def pay_begin(request, game_name):
+    if request.user.is_authenticated():
+        game = Games.objects.get(game_name=game_name)
+        pid = request.user.username
+        pid+= game_name
+        sid = "DanielArjunAparajitaKrishna"
+        price = game.game_price
+        secret_key = "5fe36a21b3cee01cb248a127892391de"
+        check_string ="pid={}&sid={}&amount={}&token={}".format(pid, sid, amount, secret_key)
+        m = md5(check_string.encode("ascii"))
+        checksum = m.hexdigest()
+        return render(request,'pay_begin.html',{'game_name':game_name,'pid':pid,'price':price,'checksum':checksum} )
+    else:
+        return redirect("login")
