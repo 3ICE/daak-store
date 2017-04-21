@@ -6,7 +6,8 @@ from .forms import *
 from .models import *
 from django.template import RequestContext
 from django.core.mail import send_mail
-
+from django.views.generic.edit import UpdateView
+from hello.models import Game
 
 def index(request):
     return render(request, 'index.html')
@@ -99,6 +100,10 @@ def game_confirmation_delete(request, game_name):
         return render(request, "game_confirmation_delete.html", {"game": game})
     else:
         return redirect("login")
+def edit_game(UpdateView):
+    model = Game
+    fields =['game_name','game_url','game_price']
+    template_name_suffix = '_update_form'
 
 # email validation
 def send_confirmation_mail(name, pw, email):
