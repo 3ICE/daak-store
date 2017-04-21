@@ -196,7 +196,7 @@ def pay_begin(request, game_name):
         sid = "DanielArjunAparajitaKrishna"
         price = game.game_price
         secret_key = "5fe36a21b3cee01cb248a127892391de"
-        check_string ="pid={}&sid={}&amount={}&token={}".format(pid, sid, amount, secret_key)
+        check_string ="pid={}&sid={}&price={}&token={}".format(pid, sid, price, secret_key)
         m = md5(check_string.encode("ascii"))
         checksum = m.hexdigest()
         return render(request,'pay_begin.html',{'game_name':game_name,'pid':pid,'price':price,'checksum':checksum} )
