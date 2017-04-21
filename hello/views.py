@@ -91,7 +91,7 @@ def game_confirmation_delete(request, game_name):
     if request.user.is_authenticated():
         try:
             game = Game.objects.get(game_name =game_name)
-        except DoesNotExist:
+        except Game.DoesNotExist:
             return redirect("delete_game")
         if not game:
             return redirect("delete_game")
