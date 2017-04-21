@@ -103,7 +103,7 @@ def game_confirmation_delete(request, game_name):
         return render(request, "game_confirmation_delete.html", {"game": game})
     else:
         return redirect("login")
-def edit_game(UpdateView):
+class edit_game(UpdateView):
     model = Game
     fields =['game_name','game_url','game_price']
     template_name_suffix = '_update_form'
