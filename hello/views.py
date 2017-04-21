@@ -92,7 +92,7 @@ def game_confirmation_delete(request, game_name):
         player = Player.objects.get(user =request.user)
         if player == game.game_developer:
             game.delete() 
-        return render(request, "delete_game.html", {"allgames": Game.objects.filter(game_developer=request.user)})
+        return render(request, "game_confirmation_delete.html", {"game": game})
     else:
         return redirect("login")
 
