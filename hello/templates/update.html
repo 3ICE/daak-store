@@ -10,17 +10,16 @@ ul {
 }
 </style>
 {% endblock %}
-{% block title %}Add Game{% endblock %}
+{% block title %}Edit Game{% endblock %}
 
 {% block content %}
 <div align="center" id="centertag" class="registration-container">
-  <h2>Add Game</h2>
+  <h2>Edit Game</h2>
   <p>Logged in as {{request.user.username}}</p>
-  <form action="/add_game/" method="post">
+  <form action="/update/" method="post">
 {% csrf_token %}
 {{ form.as_p }}
   <input type="submit" name="s" value="Update" />
   </form>
-
-{% endblock %}
 </div>
+{% endblock %}

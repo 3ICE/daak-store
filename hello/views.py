@@ -87,15 +87,11 @@ def addgame(request):
                 game = form.save(commit=False)
                 game.game_developer = request.user
                 game_edited = Game.objects.filter(game_name=game_name)
-                game.game_name = game_edited
                 game_edited_price=Game.objects.filter(game_price=game_price)
                 game.game_name=game_edited_price
-                game_edited_url = Game.objects.filter(game_url=game_url)
-                game.game_url = game_edited_url
-                game.save()
             else:
                 print(form.errors)
-            return render(request, "update.html", {"form": form})
+            return render(request, "add_game.html", {"form": form})
         else:
             return redirect("login")
     else:
@@ -122,33 +118,33 @@ def game_confirmation_delete(request, game_name):
 
 
 def edit_game(request, game_name):
+    try:
+        game = Game.objects.get(game_name=game_name)
+    except Game.DoesNotExist:
+        return redirect("update")
+    if not game:
+        return redirect("update")
     if request.user.is_authenticated():
-        try:
-            game = Game.objects.get(game_name=game_name)
-        except Game.DoesNotExist:
-            return redirect("delete_game")
-        if not game:
-            return redirect("delete_game")
-        player = Player.objects.get(user=request.user)
-        if request.user == game.game_developer:
-            if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
-                form = AddGameForm(data=request.POST)
-                if form.is_valid():
-                    game = form.save(commit=False)
-                    game.game_developer = request.user
-
+        if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
+            game_edited = Game.objects.filter(game_name=game_name)
+            form = EditGameForm(data=game_edited)
+            if form.is_valid():
+                new_game_data = form.save(commit=False)
+                if(new_game_data.game_developer == request.user):
+                    game_edited.game_name=new_game_data.game_name
+                    game_edited.game_price=new_game_data.game_price
+                    game_edited.game_url=new_game_data.game_url
+                    game_edited.save()
                 else:
-                    print(form.errors)
-                return render(request, "update.html", {"form": form})
+                    raise Http404(
+                        "<h2>You are not authorized to delete this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be delted by " + game.game_developer.username)
             else:
-                return redirect("login")
+                print(form.errors)
+            return render(request, "update.html", {"form": form})
         else:
-            raise Http404(
-                "<h2>You are not authorized to edit this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be delted by " + game.game_developer.username)
-        #return render(request, "game_confirmation_delete.html", {"game": game})
+            return redirect("login")
     else:
         return redirect("login")
-
 
 # email validation
 def send_confirmation_mail(name, pw, email):
