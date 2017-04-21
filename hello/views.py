@@ -90,7 +90,7 @@ def game_confirmation_delete(request, game_name):
     if request.user.is_authenticated():
         game = Game.objects.get(game_name =game_name)
         player = Player.objects.get(user =request.user)
-        if player == game.author:
+        if player == game.developer:
             game.delete() 
         return render(request, '/delete_game/', {{"allgames": Game.objects.filter(game_developer=request.user.username)}})
     else:
