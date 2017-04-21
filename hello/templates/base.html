@@ -52,13 +52,12 @@ button {
     margin: 4px 2px;
     cursor: pointer;
 }
-
-
   </style>
-  {% block header %}{% endblock %}
+{% block header %}{% endblock %}
 
 </head>
 <body>
+{% block nav %}
 <nav class="navbar navbar-default navbar-static-top navbar-inverse">
   <div class="container">
     <ul class="nav navbar-nav">
@@ -69,32 +68,33 @@ button {
       {% if user.is_authenticated %}
         <a href="{% url 'logout' %}"><span class="glyphicon glyphicon-user"></span> Log out</a>
       {% else %}
-        <a href="{% url 'login' %}"><span class="glyphicon glyphicon-user"></span>Log in</a>
+        <a href="{% url 'login' %}"><span class="glyphicon glyphicon-user"></span> Log in</a>
       {% endif %}
       </li>
       <li class="dropdown">
         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false"><span class="glyphicon glyphicon-info-sign"></span> Log in with <span class="caret"></span></a>
         <ul class="dropdown-menu" role="menu">
-              <li><a href="{% url 'signup' %}">Sign up</a></li>
-              <li><a href="{% url 'social:begin' 'facebook' %}">Facebook</a></li>
-              <li><a href="/soc/login/google-oauth2/">Google</a></li>
-              <li><a href="{% url 'social:begin' 'twitter' %}">Twitter</a></li>
-              <li><a href="{% url 'social:begin' 'github' %}">Github</a></li>
+          <li><a href="{% url 'signup' %}">Sign up {% if user.is_authenticated %}for another account{% else %}instead{% endif %}</a></li>
+          <li><a href="{% url 'login' %}">Log in{% if user.is_authenticated %} (even though you are already logged in){% endif %}</a>
+          <li><a href="{% url 'social:begin' 'facebook' %}">Facebook</a></li>
+          <li><a href="/soc/login/google-oauth2/">Google</a></li>
+          <li><a href="{% url 'social:begin' 'twitter' %}">Twitter</a></li>
+          <li><a href="{% url 'social:begin' 'github' %}">Github</a></li>
         </ul>
       </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <li class="navbar-right">
-        {% if user.is_authenticated %}
-        <a href="{% url 'profile_developer' %}"><span class="glyphicon glyphicon-book"></span> Profile</a>
-        {% else %}
-        <a href="{% url 'signup' %}"><span class="glyphicon glyphicon-book"></span> Register</a>
-        {% endif %}
+      {% if user.is_authenticated %}
+        <a href="{% url 'profile_developer' %}"><span class="glyphicon glyphicon-book"></span> {{ user.username }}</a> <!--3ICE: Or {{request.user.username}}-->
+      {% else %}
+        <a href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span> Register</a>
+      {% endif %}
       </li>
     </ul>
   </div>
 </nav>
-
+{% endblock %}
 {% block content %}{% endblock %}
 
 </body>
