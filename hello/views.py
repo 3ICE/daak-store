@@ -86,10 +86,10 @@ def addgame(request):
     else:
         return redirect("login")
 
-def game_confirmation_delete(request,game_name):
+def game_confirmation_delete(request, game_name):
     if request.user.is_authenticated():
-        game = Game.objects.get(game_name=request.game_name)
-        player = Player.objects.get(user = request.user)
+        game = Game.objects.get(game_name =game_name)
+        player = Player.objects.get(user =request.user)
         if player == game.author:
             game.delete() 
         return render(request, '/delete_game/', {{"allgames": Game.objects.filter(game_developer=request.user.username)}})
