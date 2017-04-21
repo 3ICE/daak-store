@@ -4,6 +4,7 @@
 {% load static %}
 <link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
 {% endblock %}
+{% block content %}
 
                 <div id = "centertag">
                     <form method="post">{% csrf_token %}
@@ -14,8 +15,4 @@
                     <br><br>
                     <a href="{% url 'delete_game' %}">Click here if you have changed your mind?</a>
                 </div>
-            </div>
-            </div>
-        </div>
-    </body>
-</html>
+{% endblock %}

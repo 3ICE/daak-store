@@ -1,5 +1,5 @@
 from django.shortcuts import *
-from django.http import HttpResponse
+from django.http import HttpResponse,Http404
 from django.contrib.auth import *
 from django.contrib.auth.models import User
 from .forms import *
@@ -87,13 +87,15 @@ def addgame(request):
     else:
         return redirect("login")
 
-def game_confirmation_delete(request,game_name):
+def game_confirmation_delete(request, game_name):
     if request.user.is_authenticated():
-        game = Game.objects.get(game_name=request.game_name)
-        player = Player.objects.get(user = request.user)
-        if player == game.author:
-            game.delete() 
-        return render(request, '/delete_game/', {{"allgames": Game.objects.filter(game_developer=request.user.username)}})
+        game = Game.objects.get(game_name =game_name)
+        player = Player.objects.get(user =request.user)
+        if request.user == game.game_developer:
+            game.delete()
+        else:
+            raise Http404("<h2>You are not authorized to delete this game!</h2><p>You are logged in as "+request.user.username+" but the game can only be delted by "+game.game_developer.username)
+        return render(request, "game_confirmation_delete.html", {"game": game})
     else:
         return redirect("login")
 def edit_game(UpdateView):
