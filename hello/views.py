@@ -190,7 +190,7 @@ def user_verification(request, secure_link):
 #payment logic
 def pay_begin(request, game_name):
     if request.user.is_authenticated():
-        game = Games.objects.get(game_name=game_name)
+        game = Game.objects.get(game_name=game_name)
         pid = request.user.username
         pid+= game_name
         sid = "DanielArjunAparajitaKrishna"
