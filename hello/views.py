@@ -112,19 +112,19 @@ class edit_game(UpdateView):
 def send_confirmation_mail(name, pw, email):
     secure_link = name + "$$$$" + pw
     msg = """
-          Dear %(name)s,
-          Welcome to DAAK store!
-          Thank you for registering in our store of awesome stuffs.
-          
-          We will validate your id promptly.
-          Please click this link to verify you email address and complete registration:
-          https://daak-store.herokuapp.com/user_verification/%(link)s
-          And then kindly login again to continue.
-          
-          Best regards,
-          The DAAK team of awesome stuffs!
-          http://daak-store.herokuapp.com/
-          """ % {'name': name, 'link': secure_link}
+Dear %(name)s,
+Welcome to DAAK store!
+Thank you for registering in our store of awesome stuffs.
+
+We will validate your id promptly.
+Please click this link to verify you email address and complete registration:
+https://daak-store.herokuapp.com/user_verification/%(link)s
+And then kindly login again to continue.
+
+Best regards,
+The DAAK team of awesome stuffs!
+http://daak-store.herokuapp.com/
+""" % {'name': name, 'link': secure_link}
 
     #<a href="https://daak-store.herokuapp.com/user_verification/""" + secure_link + """
     #">https://daak-store.herokuapp.com/user_verification/""" + secure_link + """</a>
