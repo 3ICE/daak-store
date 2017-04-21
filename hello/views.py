@@ -119,14 +119,14 @@ def game_confirmation_delete(request, game_name):
 
 def edit_game(request, game_name):
     try:
-        game = Game.objects.get(game_name=game_name)
+        game = Game.objects.get(game_name)
     except Game.DoesNotExist:
         return redirect("update")
     if not game:
         return redirect("update")
     if request.user.is_authenticated():
         if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
-            game_edited = Game.objects.get(game_name)
+            game_edited = Game.objects.filter(game_name=game_name)
             form = EditGameForm(data=game_edited)
             if form.is_valid():
                 new_game_data = form.save(commit=False)
