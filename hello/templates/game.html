@@ -23,24 +23,24 @@
   $(document).ready(function() {
     "use strict"
     $(window).on('message', function(e) {
-      // For Chrome, the real event is in the event.originalEvent object.
-      var data = e.originalEvent.data;
-      if (data.messageType == "SCORE") {
-        //todo $('#scores').html(data.score);
-      } else if (data.messageType == "SAVE") {
-        $.ajax({
-          type: "POST",
-          url: "/save/",
-          data: {
-            'game_name': '{{game.game_name}}',
-            'player_name': '{{request.user.username}}',
-            'json': JSON.stringify(data),
-            'csrf': getCookie('csrftoken')
-          },
-          dataType: "json",
-        });
-      } else if (data.messageType == "LOAD_REQUEST") {
-        $.ajax({
+        // For Chrome, the real event is in the event.originalEvent object.
+        var data = e.originalEvent.data;
+        if (data.messageType == "SCORE") {
+          //todo $('#scores').html(data.score);
+        } else if (data.messageType == "SAVE") {
+          $.ajax({
+            type: "POST",
+            url: "/save/",
+            data: {
+              'game_name': '{{game.game_name}}',
+              'player_name': '{{request.user.username}}',
+              'json': JSON.stringify(data),
+              'csrf': getCookie('csrftoken')
+            },
+            dataType: "json",
+          });
+        } else if (data.messageType == "LOAD_REQUEST") {
+          $.ajax({
             type: "POST",
             url: "/load/",
             data: {
@@ -51,15 +51,14 @@
             },
             dataType: "json",
           });
-            document.getElementById("game_frame").contentWindow.postMessage(data, "*");
+          document.getElementById("game_frame").contentWindow.postMessage(data, "*");
 
-        }
-        else if (data.messageType == "SETTING") {
+        } else if (data.messageType == "SETTING") {
           document.getElementById("game_frame").width = data.options.width;
           document.getElementById("game_frame").height = data.options.height;
 
         };
-      }
+      })
     });
   });
 
