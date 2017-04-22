@@ -1,10 +1,8 @@
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
-
+import hello.views
 from django.contrib import admin
 admin.autodiscover()
-
-import hello.views
 
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
@@ -25,8 +23,8 @@ urlpatterns = [
     url(r'^game_confirmation_delete/(.+)$', hello.views.game_confirmation_delete, name='game_confirmation_delete'),
     url(r'^user_verification/(.+)$', hello.views.user_verification, name='user_verification'),
     url(r'^update/(.+)$', hello.views.edit_game, name='update'),
-	url(r'^pay_begin/(.+)$', hello.views.pay_begin, name='pay_begin'),
-	#url(r'^pay_success/$', hello.views.pay_success),
-	#url(r'^pay_cancel/$', hello.views.pay_cancel),
-	#url(r'^pay_failed/$', hello.views.pay_failed),
+    url(r'^pay_begin/(.+)$', hello.views.pay_begin, name='pay_begin'),
+    url(r'^pay_success/.*', hello.views.pay_success),
+    url(r'^pay_cancel/.*', hello.views.pay_cancel),
+    url(r'^pay_failed/.*', hello.views.pay_failed),
 ]

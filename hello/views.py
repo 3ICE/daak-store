@@ -192,13 +192,58 @@ def pay_begin(request, game_name):
     if request.user.is_authenticated():
         game = Game.objects.get(game_name=game_name)
         pid = request.user.username
+        pid+= '$$$$'
         pid+= game_name
         sid = "DanielArjunAparajitaKrishna"
         price = game.game_price
         secret_key = "5fe36a21b3cee01cb248a127892391de"
-        check_string ="pid={}&sid={}&price={}&token={}".format(pid, sid, price, secret_key)
+        check_string ="pid={}&sid={}&amount={}&token={}".format(pid, sid, price, secret_key)
         m = md5(check_string.encode("ascii"))
         checksum = m.hexdigest()
         return render(request,'pay_begin.html',{'game_name':game_name,'pid':pid,'price':price,'checksum':checksum} )
+    else:
+        return redirect("login")
+        
+#payment succeeded
+def pay_success(request):
+    if request.user.is_authenticated():
+        pid = request.GET['pid']
+        price = request.GET['amount']
+        checksum = request.GET['checksum']
+        sid = "DanielArjunAparajitaKrishna"
+        secret_key = "5fe36a21b3cee01cb248a127892391de"
+        check_string = "pid={}&sid={}&amount={}&token={}".format(pid, sid, price, secret_key)
+        m = md5(check_string.encode("ascii"))
+        new_checksum = m.hexdigest()
+        username,gamename=pid.split('$$$$')
+        if new_checksum == checksum:
+            game= Games.objects.get(game_name=gamename)
+            user = User.objects.get(username=username)
+            player = Player.objects.get(user=user)
+            if Score.objects.filter(game=game,player=player).exists():
+                raise Http404("<h2> You don't have to pay us twice!,You already have the game in your inventory "+user.username)
+            else:
+                Score.objects.create(game=game,player=player,score=0)
+                Score.save()
+            return render(request,'pay_success.html',{'game':game})
+        else:
+            return render(request,'pay_failed.html')
+    else:
+        return redirect("login")
+            #create a logic which takes care of checking whether player has already bought the game
+            #if the player has already purchased, throw error, navigate back to the game
+            #else add player to the game or vice versa, navigate back to the games list
+
+#payment cancelled
+def pay_cancel(request):
+    if request.user.is_authenticated():
+        return render(request,'pay_cancel.html')
+    else:
+        return redirect("login")
+
+#payment error
+def pay_failed(request):
+    if request.user.is_authenticated():
+        return render(request,'pay_failed.html')
     else:
         return redirect("login")

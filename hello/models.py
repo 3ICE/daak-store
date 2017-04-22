@@ -18,7 +18,8 @@ class Game(models.Model):
     game_copies_sold = models.PositiveIntegerField(default=0)
 
 
-class Scores(models.Model):
+class Score(models.Model):
     game = models.ForeignKey(Game)
     player = models.ForeignKey(User)
     score = models.PositiveIntegerField(default=0)
+    state = models.TextField(blank=True, null=True)
