@@ -38,10 +38,10 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'Rzxr9_kQPu1lPJupkDHAk1aw'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-if DEBUG:
-    from .BogusSMTPConnection import *
-    from django.core import mail
-    mail.SMTPConnection = BogusSMTPConnection
+# if DEBUG:
+#     from .BogusSMTPConnection import *
+#     from django.core import mail
+#     mail.SMTPConnection = BogusSMTPConnection
 
 # Application definition
 
@@ -165,5 +165,5 @@ STATICFILES_STORAGE = 'whitenoise.django.GzipManifestStaticFilesStorage'
 
 LOGIN_URL = 'login'
 LOGOUT_URL = 'logout'
-LOGIN_REDIRECT_URL = 'profile_developer'
+LOGIN_REDIRECT_URL = 'profile_player'
 

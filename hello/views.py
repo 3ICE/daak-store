@@ -17,23 +17,30 @@ def index(request):
 
 
 def games(request):
-    return render(request, 'games.html', {"allgames": Game.objects.all()})
+    if request.user.is_authenticated():
+        return render(request, 'games.html', {"allgames": Game.objects.all()})
 
 
 def game(request, name):
-    return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
+    if request.user.is_authenticated():
+         return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
 
 
 def profile_developer(request):
-    return render(request, 'profile_developer.html')
+    if request.user.is_authenticated():
+        player = Player.objects.get(user=request.user)
+        if not player.developer:
+           return redirect('profile_player')
+        return render(request, 'profile_developer.html')
 
 
 def profile_player(request):
-    return render(request, 'profile_player.html')
-
+    if request.user.is_authenticated():
+        return render(request, 'profile_player.html')
 
 def manage_game(request):
-    return render(request, 'manage_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
+    if request.user.is_authenticated():
+        return render(request, 'manage_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
 
 def registration(request):
