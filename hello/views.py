@@ -199,7 +199,7 @@ def pay_begin(request, game_name):
         check_string ="pid="+pid+"&sid="+sid+"&amount="+str(price)+"&token="+secret_key
         m = md5(check_string.encode("ascii"))
         checksum = m.hexdigest()
-        return render(request,'pay_begin.html',{'game_name':game_name,'pid':pid,'price':price,'checksum':check_string} )
+        return render(request,'pay_begin.html',{'game_name':game_name,'pid':pid,'price':price,'checksum':checksum} )
     else:
         return redirect("login")
         
