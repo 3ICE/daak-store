@@ -14,7 +14,7 @@ class Game(models.Model):
     game_name = models.CharField(max_length=255)
     game_url = models.URLField()
     game_developer = models.ForeignKey(User)
-    game_price = models.FloatField()
+    game_price = models.PositiveIntegerField(default=0)
     game_copies_sold = models.PositiveIntegerField(default=0)
 
 

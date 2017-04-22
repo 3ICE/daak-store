@@ -197,13 +197,11 @@ def user_verification(request, secure_link):
 def pay_begin(request, game_name):
     if request.user.is_authenticated():
         game = Game.objects.get(game_name=game_name)
-        pid = request.user.username
-        pid+= '$$$$'
-        pid+= game_name
+        pid = make_pid(request.user.username,game_name)
         sid = "DanielArjunAparajitaKrishna"
         price = game.game_price
         secret_key = "5fe36a21b3cee01cb248a127892391de"
-        check_string ="pid={}&sid={}&amount={}&token={}".format(pid, sid, price, secret_key)
+        check_string ="pid="+pid+"&sid="+sid+"&amount="+str(price)+"&token="+secret_key
         m = md5(check_string.encode("ascii"))
         checksum = m.hexdigest()
         return render(request,'pay_begin.html',{'game_name':game_name,'pid':pid,'price':price,'checksum':checksum} )
@@ -218,10 +216,10 @@ def pay_success(request):
         checksum = request.GET['checksum']
         sid = "DanielArjunAparajitaKrishna"
         secret_key = "5fe36a21b3cee01cb248a127892391de"
-        check_string = "pid={}&sid={}&amount={}&token={}".format(pid, sid, price, secret_key)
+        check_string ="pid="+pid+"&sid="+sid+"&amount="+str(price)+"&token="+secret_key
         m = md5(check_string.encode("ascii"))
         new_checksum = m.hexdigest()
-        username,gamename=pid.split('$$$$')
+        username,gamename=pid.split('____')
         if new_checksum == checksum:
             game= Game.objects.get(game_name=gamename)
             user = User.objects.get(username=username)
@@ -253,3 +251,10 @@ def pay_failed(request):
         return render(request,'pay_failed.html')
     else:
         return redirect("login")
+
+#regular expression fix
+def make_pid(username,gamename):
+        pid = username
+        pid+= '____'
+        pid+= gamename
+        return pid
