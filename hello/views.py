@@ -236,7 +236,7 @@ def pay_success(request):
     if request.user.is_authenticated():
         pid = request.GET['pid']
         checksum = request.GET['checksum']
-        ref=request.GET['ref']
+        ref = request.GET['ref']
         result = request.GET['result']
         sid = "DanielArjunAparajitaKrishna"
         secret_key = "5fe36a21b3cee01cb248a127892391de"
@@ -294,8 +294,8 @@ def make_pid(username, gamename):
 
 def save(request):
     if request.method == 'POST' and request.is_ajax():
-        data = json.loads(request.POST.get('jsondata', None))
-        state = data['gameState']
+        data = json.loads(request.POST.get('json', None))
+        state = data['state']
         states = json.dumps(state)
         # load player and game associated with this request, and use them to query the Scores object
         game_name = request.POST.get('game_name', None)
@@ -306,3 +306,19 @@ def save(request):
         score.update(score=state["score"])
         score.update(state=states)
         return HttpResponse(states, content_type='application/json')
+
+
+def load(request):
+    if request.method == 'POST' and request.is_ajax():
+        data = json.loads(request.POST.get('json', None))
+        game_name = request.POST.get('game_name', None)
+        player_name = request.POST.get('player_name', None)
+        game = Game.objects.get(game_name=game_name)
+        user = User.objects.get(username=player_name)
+        score= Score.objects.get(game=game, player=user)
+
+        if score.state:
+            data["messageType"] = "LOAD"
+            data["gameState"] = score.state
+
+        return HttpResponse(json.dumps(data), content_type='application/json')

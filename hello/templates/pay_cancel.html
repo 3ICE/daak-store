@@ -1,7 +1,6 @@
 {% extends 'base.html' %}
 {% block title %}Payment cancelled for {{request.user.username}}{% endblock %}
 
-
 {% block content %}
 {% if user.is_authenticated %}
      <h2>Payment cancelled for {{request.user.username}}</h2>
