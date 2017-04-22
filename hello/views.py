@@ -139,7 +139,7 @@ def edit_game(request, game_name):
                         "<h2>You are not authorized to edit this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be edited by " + game.game_developer.username)
             else:
                 print(form.errors)
-            return render(request, "manage_game.html", {"form": form})
+            return render(request, "update.html", {"form": form})
         else:
             return redirect("login")
     else:
