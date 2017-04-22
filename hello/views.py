@@ -206,7 +206,7 @@ def pay_begin(request, game_name):
         
 #payment succeeded
 def pay_success(request):
-    if request.user.is_authentcaited():
+    if request.user.is_authenticated():
         pid = request.GET['pid']
         price = request.GET['amount']
         checksum = request.GET['checksum']
@@ -216,10 +216,35 @@ def pay_success(request):
         m = md5(check_string.encode("ascii"))
         new_checksum = m.hexdigest()
         username,gamename=pid.split('$$$$')
-        if new_checksum == checksum
-            game= Games.object.get(game_name=gamename)
+        if new_checksum == checksum:
+            game= Games.objects.get(game_name=gamename)
             user = User.objects.get(username=username)
             player = Player.objects.get(user=user)
-            #Todo create a logic which takes care of checking whether player has already bought the game
+            if Score.objects.filter(game=game,player=player).exists():
+                raise Http404
+                    "<h2> You don't have to pay us twice!,You already have the game in your inventory "+user.username
+            else:
+                Score.objects.create(game=game,player=player,score=0)
+                Score.save()
+            return render(request,'pay_success.html',{'game':game})
+        else:
+            return render(request,'pay_failed.html')
+    else:
+        return redirect("login")
+            #create a logic which takes care of checking whether player has already bought the game
             #if the player has already purchased, throw error, navigate back to the game
             #else add player to the game or vice versa, navigate back to the games list
+
+#payment cancelled
+def pay_cancel(request)
+    if request.user.is_authenticated();
+        return render(request,'pay_cancel.html')
+    else:
+        return redirect("login")
+
+#payment error
+def pay_failed(request)
+    if request.user.is_authenticated():
+        return render(request,'pay_failed.html')
+    else:
+        return redirect("login")
