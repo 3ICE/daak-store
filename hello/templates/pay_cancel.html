@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Payment cancelled for {{request.user.username}}{% endblock %}
+{% block header %}
+{% load static %}
+
+{% block content %}
+{% if user.is_authenticated %}
+     <h2>Payment cancelled for {{request.user.username}}</h2> 
+{% else %}
+     <a href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span> Register</a>
+{% endif %}
+<div id = "centertag">
+   <p>Purchase games Cancelled !</p>
+</div>
+{% endblock %}

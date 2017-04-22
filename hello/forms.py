@@ -15,3 +15,9 @@ class AddGameForm(forms.ModelForm):
     class Meta:
         model = Game
         fields = ('game_name', 'game_url', 'game_price')
+
+
+class EditGameForm(forms.ModelForm):
+    class Meta:
+        model = Game
+        fields = ('game_name', 'game_url', 'game_price')

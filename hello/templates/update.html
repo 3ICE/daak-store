@@ -1,4 +1,25 @@
-<form action="" method="post">{% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Update" />
-</form>
+
+{% extends 'base.html' %}
+{% block header %}
+{% load static %}
+<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
+
+<style type="text/css">
+ul {
+  list-style-type: none;
+}
+</style>
+{% endblock %}
+{% block title %}Edit Game{% endblock %}
+
+{% block content %}
+<div align="center" id="centertag" class="registration-container">
+  <h2>Edit Game</h2>
+  <p>Logged in as {{request.user.username}}</p>
+  <form action="/update/" method="post">
+{% csrf_token %}
+{{ form.as_p }}
+  <input type="submit" name="s" value="Update" />
+  </form>
+</div>
+{% endblock %}

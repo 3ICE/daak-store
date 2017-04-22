@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% block title %}Payment Success!, Congrats {{request.user.username}}{% endblock %}
+{% block header %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+     <h2>Congrats {{request.user.username}}, your new game is ready to be played. </h2> 
+{% else %}
+     <a href="{% url 'signup' %}"><span class="glyphicon glyphicon-user"></span> Register</a>
+{% endif %}
+<div id = "centertag">
+   <p>Thank you for honouring a creator's work! It's your time to play and break the records.</p>
+   <a href="{% url 'games' %}">Find your game here</a>
+</div>
+{% endblock %}
