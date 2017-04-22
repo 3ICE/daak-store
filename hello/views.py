@@ -236,7 +236,7 @@ def pay_success(request):
 
 #payment cancelled
 def pay_cancel(request):
-    if request.user.is_authenticated();
+    if request.user.is_authenticated():
         return render(request,'pay_cancel.html')
     else:
         return redirect("login")
