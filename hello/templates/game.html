@@ -69,7 +69,7 @@
       for (var i = 0; i < cookies.length; i++) {
         var cookie = jQuery.trim(cookies[i]); // check if cookie string begin with the name wanted
         if (cookie.substring(0, name.length + 1) == (name + '=')) {
-          cookieValue = d ecodeURIComponent(cookie.substring(name.length + 1));
+          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
           break;
         }
       }
