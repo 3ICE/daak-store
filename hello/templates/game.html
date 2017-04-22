@@ -67,7 +67,7 @@
     if (document.cookie && document.cookie != '') {
       var cookies = document.cookie.split(';');
       for (var i = 0; i < cookies.length; i++) {
-        var cookie = j Query.trim(cookies[i]); // check if cookie string begin with the name wanted
+        var cookie = jQuery.trim(cookies[i]); // check if cookie string begin with the name wanted
         if (cookie.substring(0, name.length + 1) == (name + '=')) {
           cookieValue = d ecodeURIComponent(cookie.substring(name.length + 1));
           break;
