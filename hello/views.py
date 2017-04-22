@@ -235,16 +235,18 @@ def pay_begin(request, game_name):
 def pay_success(request):
     if request.user.is_authenticated():
         pid = request.GET['pid']
-        price = request.GET['amount']
         checksum = request.GET['checksum']
         sid = "DanielArjunAparajitaKrishna"
         secret_key = "5fe36a21b3cee01cb248a127892391de"
+        game = Game.objects.get(game_name=gamename)
+        price=game.game_price
         check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
         m = md5(check_string.encode("ascii"))
         new_checksum = m.hexdigest()
         username, gamename = pid.split('____')
+
         if new_checksum == checksum:
-            game = Game.objects.get(game_name=gamename)
+
             user = User.objects.get(username=username)
             player = Player.objects.get(user=user)
             if Score.objects.filter(game=game, player=player).exists():
