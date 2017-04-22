@@ -257,7 +257,7 @@ def pay_success(request):
                     "<h2> You don't have to pay us twice!,You already have the game in your inventory " + user.username)
             else:
                 Score.objects.create(game=game, player=user, score=0)
-                Score.save()
+
             return render(request, 'pay_success.html', {'game': game})
         else:
             return render(request, 'pay_failed.html')
