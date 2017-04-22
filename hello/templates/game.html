@@ -17,6 +17,7 @@
 
   #game_frame {
     border: 0;
+    text-align: center;
   }
 </style>
 <script>
@@ -103,7 +104,7 @@
 {% endblock %} {% block content %}
 <div id="centertag" class="registration-container">
   <div>
-    <iframe id="game_frame" src="{{game.game_url}}" width="1920" height="1080" align='center'>
+    <iframe id="game_frame" src="{{game.game_url}}" width="1920" height="1080">
   <p>Your browser does not support iframes.</p>
 </iframe>
     <br />
