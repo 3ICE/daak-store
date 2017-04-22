@@ -236,12 +236,14 @@ def pay_success(request):
     if request.user.is_authenticated():
         pid = request.GET['pid']
         checksum = request.GET['checksum']
+        ref=request.GET['ref']
+        result = request.GET['result']
         sid = "DanielArjunAparajitaKrishna"
         secret_key = "5fe36a21b3cee01cb248a127892391de"
         username, gamename = pid.split('____')
         game = Game.objects.get(game_name=gamename)
         price = game.game_price
-        check_top_hat = 'pid={}&sid={}&amount={}&token={}'.format(pid, sid, price, secret_key)
+        check_top_hat = 'pid={}&ref={}&result={}&token={}'.format(pid, ref, result, secret_key)
         # check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
         # m = md5(check_string.encode("ascii"))
 
