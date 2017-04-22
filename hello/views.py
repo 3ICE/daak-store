@@ -203,23 +203,23 @@ def pay_begin(request, game_name):
         return render(request,'pay_begin.html',{'game_name':game_name,'pid':pid,'price':price,'checksum':checksum} )
     else:
         return redirect("login")
-		
+        
 #payment succeeded
 def pay_success(request):
-	if request.user.is_authentcaited():
-		pid = request.GET['pid']
-		price = request.GET['amount']
-		checksum = request.GET['checksum']
-		sid = "DanielArjunAparajitaKrishna"
-		secret_key = "5fe36a21b3cee01cb248a127892391de"
-		check_string = "pid={}&sid={}&amount={}&token={}".format(pid, sid, price, secret_key)
-		m = md5(check_string.encode("ascii"))
-		new_checksum = m.hexdigest()
-		username,gamename=pid.split('$$$$')
-		if new_checksum == checksum
-			game= Games.object.get(game_name=gamename)
-			user = User.objects.get(username=username)
-			player = Player.objects.get(user=user)
-			#Todo create a logic which takes care of checking whether player has already bought the game
-			#if the player has already purchased, throw error, navigate back to the game
-			#else add player to the game or vice versa, navigate back to the games list
+    if request.user.is_authentcaited():
+        pid = request.GET['pid']
+        price = request.GET['amount']
+        checksum = request.GET['checksum']
+        sid = "DanielArjunAparajitaKrishna"
+        secret_key = "5fe36a21b3cee01cb248a127892391de"
+        check_string = "pid={}&sid={}&amount={}&token={}".format(pid, sid, price, secret_key)
+        m = md5(check_string.encode("ascii"))
+        new_checksum = m.hexdigest()
+        username,gamename=pid.split('$$$$')
+        if new_checksum == checksum
+            game= Games.object.get(game_name=gamename)
+            user = User.objects.get(username=username)
+            player = Player.objects.get(user=user)
+            #Todo create a logic which takes care of checking whether player has already bought the game
+            #if the player has already purchased, throw error, navigate back to the game
+            #else add player to the game or vice versa, navigate back to the games list
