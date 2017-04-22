@@ -32,8 +32,8 @@ def profile_player(request):
     return render(request, 'profile_player.html')
 
 
-def update_game(request):
-    return render(request, 'update_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
+def manage_game(request):
+    return render(request, 'manage_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
 
 def registration(request):
@@ -103,9 +103,9 @@ def game_confirmation_delete(request, game_name):
         try:
             game = Game.objects.get(game_name=game_name)
         except Game.DoesNotExist:
-            return redirect("update_game")
+            return redirect("manage_game")
         if not game:
-            return redirect("update_game")
+            return redirect("manage_game")
         player = Player.objects.get(user=request.user)
         if request.user == game.game_developer:
             game.delete()
@@ -121,9 +121,9 @@ def edit_game(request, game_name):
     try:
         game_edited = Game.objects.get(game_name=game_name)
     except Game.DoesNotExist:
-        return redirect("update_game")
+        return redirect("manage_game")
     if not game:
-        return redirect("update_game")
+        return redirect("manage_game")
     if request.user.is_authenticated():
         if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
             form = EditGameForm({'game_name':game_name,'game_price':game_edited.game_price,'game_url':game_edited.game_url})
@@ -139,7 +139,7 @@ def edit_game(request, game_name):
                         "<h2>You are not authorized to edit this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be edited by " + game.game_developer.username)
             else:
                 print(form.errors)
-            return render(request, "update_game.html", {"form": form})
+            return render(request, "manage_game.html", {"form": form})
         else:
             return redirect("login")
     else:
