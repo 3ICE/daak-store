@@ -16,7 +16,7 @@
     ${{game.game_price|floatformat:2}}
     <br />
   </a>
-  <form action="/delete_game/" method="post">
+  <form action="/manage_game/" method="post">
   {% csrf_token %}
   {{ form.as_p }}
   <p>Click the button to display a confirm box.</p>
