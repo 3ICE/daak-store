@@ -122,27 +122,26 @@ def edit_game(request, game_name):
         game_edited = Game.objects.get(game_name=game_name)
     except Game.DoesNotExist:
         return redirect("manage_game")
-    if not game:
+    if not game_edited:
         return redirect("manage_game")
     if request.user.is_authenticated():
-        if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
-            form = EditGameForm({'game_name':game_name,'game_price':game_edited.game_price,'game_url':game_edited.game_url})
+        form = EditGameForm({'game_name':game_name,'game_price':game_edited.game_price,'game_url':game_edited.game_url})
+        if request.method == 'POST':
             if form.is_valid():
-                new_game_data = form.save(commit=False)
-                if(new_game_data.game_developer == request.user):
-                    game_edited.game_name=new_game_data.game_name
-                    game_edited.game_price=new_game_data.game_price
-                    game_edited.game_url=new_game_data.game_url
+                if(game_edited.game_developer == request.user):
+                    game_edited.game_name=request.POST['game_name']
+                    game_edited.game_price=request.POST['game_price']
+                    game_edited.game_url=request.POST['game_url']
                     game_edited.save()
-                else:
-                    raise Http404(
-                        "<h2>You are not authorized to edit this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be edited by " + game.game_developer.username)
-            else:
+                    return redirect("manage_game")
+                else: # 3ICE: Logged in as wrong user?
+                    raise Http404("<h2>You are not authorized to edit this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be edited by " + game_edited.game_developer.username)
+            else: # 3ICE: Form not valid, somehow... document.forms[0].submit() maybe?
                 print(form.errors)
-            return render(request, "update.html", {"form": form})
-        else:
-            return redirect("login")
-    else:
+                return render(request, "update.html", {'form':form})
+        else: # 3ICE: request is nto POST, they don't have  form yet, let's give it to them now:
+            return render(request, "update.html", {'form':form})
+    else: # 3ICE: Authentication fail #1 TODO: Check if they activated their account with player (No, not User).
         return redirect("login")
 
 # email validation

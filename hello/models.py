@@ -11,7 +11,7 @@ class Player(models.Model):
         pass
 
 class Game(models.Model):
-    game_name = models.CharField(max_length=255, unique=True)
+    game_name = models.CharField(max_length=255)
     game_url = models.URLField()
     game_developer = models.ForeignKey(User)
     game_price = models.FloatField()
