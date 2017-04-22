@@ -224,7 +224,7 @@ def pay_begin(request, game_name):
         m = md5(check_string.encode("ascii"))
         checksum = m.hexdigest()
         checkstr = "pid=%s&sid=%s&amount=%s&token=%s" % (pid, sid, price, secret_key)
-        check_top_hat= 'pid={}&sid={}&amount={}&token={}'.format(pid, sid, price, secret_key)
+        check_top_hat = 'pid={}&sid={}&amount={}&token={}'.format(pid, sid, price, secret_key)
         return render(request, 'pay_begin.html', {'game_name': game_name, 'pid': pid, 'price': price,
                                                   'checksum': md5hex(check_top_hat.encode("ascii"))})
     else:
@@ -240,13 +240,13 @@ def pay_success(request):
         secret_key = "5fe36a21b3cee01cb248a127892391de"
         username, gamename = pid.split('____')
         game = Game.objects.get(game_name=gamename)
-        price=game.game_price
-        check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
-        m = md5(check_string.encode("ascii"))
-        new_checksum = m.hexdigest()
+        price = game.game_price
+        check_top_hat = 'pid={}&sid={}&amount={}&token={}'.format(pid, sid, price, secret_key)
+        # check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
+        # m = md5(check_string.encode("ascii"))
 
 
-        if new_checksum == checksum:
+        if md5hex(check_top_hat.encode("ascii")) == checksum:
 
             user = User.objects.get(username=username)
             player = Player.objects.get(user=user)
@@ -292,10 +292,9 @@ def make_pid(username, gamename):
 
 def save(request):
     if request.method == 'POST' and request.is_ajax():
-
         data = json.loads(request.POST.get('jsondata', None))
         state = data['gameState']
-        states= json.dumps(state)
+        states = json.dumps(state)
         # load player and game associated with this request, and use them to query the Scores object
         game_name = request.POST.get('game_name', None)
         player_name = request.POST.get('player_name', None)
