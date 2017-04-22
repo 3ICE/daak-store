@@ -15,11 +15,8 @@
     cursor: pointer;
   }
 
-  .registration-container {
-    position: relative;
-    background: #B1DBFF;
-    width: 600px;
-    margin: 0px auto;
+  #game_frame {
+    border: 0;
   }
 </style>
 <script>
@@ -57,8 +54,8 @@
           }
         }
         else if (data.messageType == "SETTING") {
-          document.getElementById("game_frame").width=data.options.width;
-          document.getElementById("game_frame").height=data.options.height;
+          document.getElementById("game_frame").width = data.options.width;
+          document.getElementById("game_frame").height = data.options.height;
 
         };
       }
@@ -104,9 +101,9 @@
   }
 </script>
 {% endblock %} {% block content %}
-<div align="center" id="centertag" class="registration-container">
+<div id="centertag" class="registration-container">
   <div>
-    <iframe id="game_frame" src="{{game.game_url}}" width="1920px" height="1080px" frameborder="0">
+    <iframe id="game_frame" src="{{game.game_url}}" width="1920" height="1080">
   <p>Your browser does not support iframes.</p>
 </iframe>
     <br />
@@ -118,5 +115,5 @@
     </a>
   </div>
   <p><a href="{% url 'games' %}">Go back</a> to games list</p>
-  {% endblock %}
 </div>
+{% endblock %}
