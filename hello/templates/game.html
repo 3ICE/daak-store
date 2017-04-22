@@ -50,8 +50,9 @@
               'csrf': getCookie('csrftoken')
             },
             dataType: "json",
+          });
             document.getElementById("game_frame").contentWindow.postMessage(data, "*");
-          }
+
         }
         else if (data.messageType == "SETTING") {
           document.getElementById("game_frame").width = data.options.width;
@@ -86,7 +87,7 @@
     }
   });
 </script>
-<script>
+<!-- <script>
   $(document).ready() {
 
     window.addEventListener("message", receiveMessage, false);
@@ -99,7 +100,7 @@
       // ...
     }
   }
-</script>
+</script> -->
 {% endblock %} {% block content %}
 <div id="centertag" class="registration-container">
   <div>
