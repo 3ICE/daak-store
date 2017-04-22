@@ -11,15 +11,15 @@ class Player(models.Model):
         pass
 
 class Game(models.Model):
-    game_name = models.CharField(max_length=255, unique=True)
+    game_name = models.CharField(max_length=255)
     game_url = models.URLField()
     game_developer = models.ForeignKey(User)
     game_price = models.FloatField()
     game_copies_sold = models.PositiveIntegerField(default=0)
 
 
-#class Score(models.Model):
-    #game = models.ForeignKey(Game)
-    #player = models.ForeignKey(User)
-    #score = models.PositiveIntegerField(default=0)
-    #state = models.TextField(blank=True, null=True)
+class Score(models.Model):
+    game = models.ForeignKey(Game)
+    player = models.ForeignKey(User)
+    score = models.PositiveIntegerField(default=0)
+    state = models.TextField(blank=True, null=True)
