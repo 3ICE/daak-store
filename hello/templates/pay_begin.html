@@ -19,8 +19,8 @@
     <input type="hidden" name="cancel_url" value="https://daak-store.herokuapp.com/pay_cancel" />
     <input type="hidden" name="error_url" value="https://daak-store.herokuapp.com/pay_failed" />
     <input type="hidden" name="checksum" value="{{checksum}}" />
-    <label for="id_amount">Price</label>
-    <input type="text" id="id_amount" name="amount" value="{{price}}" disabled="disabled" />
+    <label>Price</label>
+    <input type="text" name="amount" value="{{price}}"/>
     <input type="submit" value="Buy"/>
 </form>
 {% endblock %}

@@ -9,7 +9,7 @@ from django.core.mail import send_mail
 from django.views.generic.edit import UpdateView
 from hello.models import Game
 from hashlib import md5
-
+import json
 
 
 def index(request):
@@ -23,20 +23,21 @@ def games(request):
 
 def game(request, name):
     if request.user.is_authenticated():
-         return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
+        return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
 
 
 def profile_developer(request):
     if request.user.is_authenticated():
         player = Player.objects.get(user=request.user)
         if not player.developer:
-           return redirect('profile_player')
+            return redirect('profile_player')
         return render(request, 'profile_developer.html')
 
 
 def profile_player(request):
     if request.user.is_authenticated():
         return render(request, 'profile_player.html')
+
 
 def manage_game(request):
     if request.user.is_authenticated():
@@ -90,7 +91,7 @@ def signup(request):
 
 def addgame(request):
     if request.user.is_authenticated():
-        if request.method == 'POST' or True: # TODO Don't use "or True", it skips the if check entirely
+        if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
             form = AddGameForm(data=request.POST)
             if form.is_valid():
                 game = form.save(commit=False)
@@ -98,7 +99,7 @@ def addgame(request):
                 game.save()
             else:
                 print(form.errors)
-            return render(request,"add_game.html", {"form": form})
+            return render(request, "add_game.html", {"form": form})
         else:
             return redirect("login")
     else:
@@ -132,24 +133,27 @@ def edit_game(request, game_name):
     if not game_edited:
         return redirect("manage_game")
     if request.user.is_authenticated():
-        form = EditGameForm({'game_name':game_name,'game_price':game_edited.game_price,'game_url':game_edited.game_url})
+        form = EditGameForm(
+            {'game_name': game_name, 'game_price': game_edited.game_price, 'game_url': game_edited.game_url})
         if request.method == 'POST':
             if form.is_valid():
-                if(game_edited.game_developer == request.user):
-                    game_edited.game_name=request.POST['game_name']
-                    game_edited.game_price=request.POST['game_price']
-                    game_edited.game_url=request.POST['game_url']
+                if (game_edited.game_developer == request.user):
+                    game_edited.game_name = request.POST['game_name']
+                    game_edited.game_price = request.POST['game_price']
+                    game_edited.game_url = request.POST['game_url']
                     game_edited.save()
                     return redirect("manage_game")
-                else: # 3ICE: Logged in as wrong user?
-                    raise Http404("<h2>You are not authorized to edit this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be edited by " + game_edited.game_developer.username)
-            else: # 3ICE: Form not valid, somehow... document.forms[0].submit() maybe?
+                else:  # 3ICE: Logged in as wrong user?
+                    raise Http404(
+                        "<h2>You are not authorized to edit this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be edited by " + game_edited.game_developer.username)
+            else:  # 3ICE: Form not valid, somehow... document.forms[0].submit() maybe?
                 print(form.errors)
-                return render(request, "update.html", {'form':form})
-        else: # 3ICE: request is nto POST, they don't have  form yet, let's give it to them now:
-            return render(request, "update.html", {'form':form})
-    else: # 3ICE: Authentication fail #1 TODO: Check if they activated their account with player (No, not User).
+                return render(request, "update.html", {'form': form})
+        else:  # 3ICE: request is nto POST, they don't have  form yet, let's give it to them now:
+            return render(request, "update.html", {'form': form})
+    else:  # 3ICE: Authentication fail #1 TODO: Check if they activated their account with player (No, not User).
         return redirect("login")
+
 
 # email validation
 def send_confirmation_mail(name, pw, email):
@@ -191,24 +195,43 @@ def user_verification(request, secure_link):
     if player.developer:  # request.user.developer didn't work, so here's a workaround
         return render(request, 'profile_developer.html', {'msg': msg})
     else:
-      return render(request, 'profile_player.html', {'msg': msg})
+        return render(request, 'profile_player.html', {'msg': msg})
 
-#payment logic
+
+# payment logic
+def md5hex(tohash):
+    """
+  Calculates an MD5 checksum for the given string.
+  """
+    try:
+        import hashlib  # Python >=2.5
+        m = hashlib.md5()
+    except:  # Python <2.5
+        import md5
+        m = md5.new()
+    m.update(tohash)
+    return m.hexdigest()
+
+
 def pay_begin(request, game_name):
     if request.user.is_authenticated():
         game = Game.objects.get(game_name=game_name)
-        pid = make_pid(request.user.username,game_name)
+        pid = make_pid(request.user.username, game_name)
         sid = "DanielArjunAparajitaKrishna"
         price = game.game_price
         secret_key = "5fe36a21b3cee01cb248a127892391de"
-        check_string ="pid="+pid+"&sid="+sid+"&amount="+str(price)+"&token="+secret_key
+        check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
         m = md5(check_string.encode("ascii"))
         checksum = m.hexdigest()
-        return render(request,'pay_begin.html',{'game_name':game_name,'pid':pid,'price':price,'checksum':checksum} )
+        checkstr = "pid=%s&sid=%s&amount=%s&token=%s" % (pid, sid, price, secret_key)
+        check_top_hat= 'pid={}&sid={}&amount={}&token={}'.format(pid, sid, price, secret_key)
+        return render(request, 'pay_begin.html', {'game_name': game_name, 'pid': pid, 'price': price,
+                                                  'checksum': md5hex(check_top_hat.encode("ascii"))})
     else:
         return redirect("login")
-        
-#payment succeeded
+
+
+# payment succeeded
 def pay_success(request):
     if request.user.is_authenticated():
         pid = request.GET['pid']
@@ -216,45 +239,66 @@ def pay_success(request):
         checksum = request.GET['checksum']
         sid = "DanielArjunAparajitaKrishna"
         secret_key = "5fe36a21b3cee01cb248a127892391de"
-        check_string ="pid="+pid+"&sid="+sid+"&amount="+str(price)+"&token="+secret_key
+        check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
         m = md5(check_string.encode("ascii"))
         new_checksum = m.hexdigest()
-        username,gamename=pid.split('____')
+        username, gamename = pid.split('____')
         if new_checksum == checksum:
-            game= Game.objects.get(game_name=gamename)
+            game = Game.objects.get(game_name=gamename)
             user = User.objects.get(username=username)
             player = Player.objects.get(user=user)
-            if Score.objects.filter(game=game,player=player).exists():
-                raise Http404("<h2> You don't have to pay us twice!,You already have the game in your inventory "+user.username)
+            if Score.objects.filter(game=game, player=player).exists():
+                raise Http404(
+                    "<h2> You don't have to pay us twice!,You already have the game in your inventory " + user.username)
             else:
-                Score.objects.create(game=game,player=player,score=0)
+                Score.objects.create(game=game, player=player, score=0)
                 Score.save()
-            return render(request,'pay_success.html',{'game':game})
+            return render(request, 'pay_success.html', {'game': game})
         else:
-            return render(request,'pay_failed.html')
+            return render(request, 'pay_failed.html')
     else:
         return redirect("login")
-            #create a logic which takes care of checking whether player has already bought the game
-            #if the player has already purchased, throw error, navigate back to the game
-            #else add player to the game or vice versa, navigate back to the games list
+        # create a logic which takes care of checking whether player has already bought the game
+        # if the player has already purchased, throw error, navigate back to the game
+        # else add player to the game or vice versa, navigate back to the games list
 
-#payment cancelled
+
+# payment cancelled
 def pay_cancel(request):
     if request.user.is_authenticated():
-        return render(request,'pay_cancel.html')
+        return render(request, 'pay_cancel.html')
     else:
         return redirect("login")
 
-#payment error
+
+# payment error
 def pay_failed(request):
     if request.user.is_authenticated():
-        return render(request,'pay_failed.html')
+        return render(request, 'pay_failed.html')
     else:
         return redirect("login")
 
-#regular expression fix
-def make_pid(username,gamename):
-        pid = username
-        pid+= '____'
-        pid+= gamename
-        return pid
+
+# regular expression fix
+def make_pid(username, gamename):
+    pid = username
+    pid += '____'
+    pid += gamename
+    return pid
+
+
+def save(request):
+    if request.method == 'POST' and request.is_ajax():
+
+        data = json.loads(request.POST.get('jsondata', None))
+        state = data['gameState']
+        states= json.dumps(state)
+        # load player and game associated with this request, and use them to query the Scores object
+        game_name = request.POST.get('game_name', None)
+        player_name = request.POST.get('player_name', None)
+        game = Game.objects.get(game_name=game_name)
+        user = User.objects.get(username=player_name)
+        score = Score.objects.filter(game=game, player=user)
+        score.update(score=state["score"])
+        score.update(state=states)
+        return HttpResponse(states, content_type='application/json')
