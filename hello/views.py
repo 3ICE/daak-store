@@ -252,7 +252,7 @@ def pay_success(request):
 
             user = User.objects.get(username=username)
             player = Player.objects.get(user=user)
-            if Score.objects.filter(game=game, player=player).exists():
+            if Score.objects.filter(game=game, player=user).exists():
                 raise Http404(
                     "<h2> You don't have to pay us twice!,You already have the game in your inventory " + user.username)
             else:
