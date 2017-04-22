@@ -1,10 +1,8 @@
 from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
-
+import hello.views
 from django.contrib import admin
 admin.autodiscover()
-
-import hello.views
 
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
