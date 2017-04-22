@@ -12,8 +12,7 @@
 {% endif %}
 <div id = "centertag">
 <p>Kindly wait as we are redirecting you to the payments site!, Don't reload the page until the payment is done</p>
-<form action="http://payments.webcourse.niksula.hut.fi/pay/" method="POST">
-    {% csrf_token %}
+<form action="https://simplepayments.herokuapp.com/pay/" method="POST">
     <input type="hidden" name="pid" value="{{pid}}" />
     <input type="hidden" name="sid" value="DanielArjunAparajitaKrishna" />
     <input type="hidden" name="success_url" value="https://daak-store.herokuapp.com/pay_success" />
@@ -22,6 +21,6 @@
     <input type="hidden" name="checksum" value="{{checksum}}" />
     <label for="id_amount">Price</label>
     <input type="text" id="id_amount" name="amount" value="{{price}}" disabled="disabled" />
-    <input type="submit" value="Accept Payment"/>
+    <input type="submit" value="Buy"/>
 </form>
 {% endblock %}
