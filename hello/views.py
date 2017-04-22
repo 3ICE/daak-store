@@ -235,14 +235,14 @@ def pay_success(request):
             #else add player to the game or vice versa, navigate back to the games list
 
 #payment cancelled
-def pay_cancel(request)
+def pay_cancel(request):
     if request.user.is_authenticated();
         return render(request,'pay_cancel.html')
     else:
         return redirect("login")
 
 #payment error
-def pay_failed(request)
+def pay_failed(request):
     if request.user.is_authenticated():
         return render(request,'pay_failed.html')
     else:
