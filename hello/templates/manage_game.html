@@ -2,30 +2,18 @@
 {% block title %}Welcome {{request.user.username}}{% endblock %}
 {% block header %}
 {% load static %}
-<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
+<!--<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />-->
 {% endblock %}
 {% block content %}
 <div align="center" id="centertag" class="registration-container">
 {% for game in allgames %}
-<a href="{{game.game_name.split|join:"_"}}">
     <b>
     {{game.game_name }}
     </b> by
     {{game.game_developer}}
     <br />
     ${{game.game_price|floatformat:2}}
-    <br />
-  </a>
-  <form action="/delete_game/" method="post">
-  {% csrf_token %}
-  {{ form.as_p }}
-  <p>Click the button to display a confirm box.</p>
-
-<p><a href="/game_confirmation_delete/{{game.game_name}}"> Delete this game</a></p>
-<p><a href="/update/{{game.game_name}}"> Edit this game</a></p>
-
-
-  <p id="demo"></p>
+<p><a href="/game_confirmation_delete/{{game.game_name}}">Delete this game</a> or <a href="/update/{{game.game_name}}">Edit this game</a></p>
 
 
   {% empty %}
