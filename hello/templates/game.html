@@ -35,7 +35,7 @@
           data: {
             'game_name': '{{game.game_name}}',
             'player_name': '{{request.user.username}}',
-            'json': JSON.stringify(data),
+            'state': JSON.stringify(data),
             'csrfmiddlewaretoken': '{{csrf_token}}'
           },
           dataType: "json",
