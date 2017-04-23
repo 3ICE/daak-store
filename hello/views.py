@@ -10,8 +10,8 @@ from django.views.generic.edit import UpdateView
 from hello.models import Game
 from hashlib import md5
 
-#FOR RESTFUL
-from hello.serializers import ScoreSerializer
+#FOR RESTFUL ScoreSerializer
+from hello.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
