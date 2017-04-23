@@ -1,5 +1,8 @@
 {% extends 'base.html' %}
 {% block header %}
+{% if developer %}
+   <meta http-equiv="refresh" content="0; url=./profile_developer/" />
+{% endif %}
 {% load static %}
 <link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
 
