@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% block header %}
+{% load static %}
+<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
+
+{% endblock %}
+{% block title %}Welcome {{request.user.username}}{% endblock %}
+
+{% block content %}
+<div align="center" id="centertag" class="registration-container">
+<div>
+{% for score in allscores %}
+<a href="{{score.game.split|join:"_"}}">
+    <b>
+    {{score.game }}
+    </b> by
+    {{score.player}}
+    <br />
+    ${{score.score}}
+  </a>
+
+  {% empty %}
+      <li>No games yet.</li>
+      <a href="{% url 'addgame' %}">Want to add game? Click here</a>
+{% endfor %}
+</div>
+{% endblock %}
+</div>
