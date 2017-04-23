@@ -309,10 +309,23 @@ def pay_failed(request):
 
 # displaying high scores in the high scores page
 @api_view(['GET'])
-def highscore(request, game_name):
+def highscores(request, game_name):
 
     if request.user.is_authenticated() and not request.user.is_anonymous():
-        user = request.user
+        game = Game.objects.get(game_name = game_name)
+        scores = Score.objects.filter(game=game)
+
+        if request.method == 'GET':
+             serializer = ScoreSerializer(scores, many=True)
+             return Response(serializer.data)
+    else:
+        return redirect("login")
+
+@api_view(['GET'])
+def highscore(request, game_name, player_name):
+
+    if request.user.is_authenticated() and not request.user.is_anonymous():
+        user = User.objects.get(username = user_name)
         game = Game.objects.get(game_name = game_name)
         score = Score.objects.filter(game=game, player=user)
 
@@ -321,7 +334,6 @@ def highscore(request, game_name):
             return Response(serializer.data)
     else:
         return redirect("login")
-
 
 def save(request):
     if request.method == 'POST' and request.is_ajax():
