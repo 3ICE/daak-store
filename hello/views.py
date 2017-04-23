@@ -11,21 +11,21 @@ from hello.models import Game
 from hashlib import md5
 import json
 
-
+# landing page
 def index(request):
     return render(request, 'index.html')
 
-
+#list of games
 def games(request):
     if request.user.is_authenticated():
         return render(request, 'games.html', {"allgames": Game.objects.all()})
 
-
+#link to a particular game
 def game(request, name):
     if request.user.is_authenticated():
         return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
 
-
+#link to developer's view
 def profile_developer(request):
     if request.user.is_authenticated():
         player = Player.objects.get(user=request.user)
@@ -33,30 +33,23 @@ def profile_developer(request):
             return redirect('profile_player')
         return render(request, 'profile_developer.html')
 
-
+#link to player view
 def profile_player(request):
     if request.user.is_authenticated():
         return render(request, 'profile_player.html')
 
-
+#linking page to options with delete, add and edit games
 def manage_game(request):
     if request.user.is_authenticated():
         return render(request, 'manage_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
-
+#linking to registration
 def registration(request):
     # registered = True
 
     return render(request, 'registration.html')
 
-
-def db(request):
-    greeting = Greeting()
-    greeting.save()
-    greetings = Greeting.objects.all()
-    return render(request, 'db.html', {'greetings': greetings})
-
-
+# takes to the sign up page
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -70,7 +63,7 @@ def signup(request):
             # user_db.active = True
             # user_db.save()
             # login(request, user_db) # 3ICE: Don't bloody try to log in when it's not an activated account...
-            dev = request.POST.get("developer", "not_developer") == "developer_box"
+            dev = request.POST.get("developer", "not_developer") == "developer_box"#check if developer
             user_db.developer = dev
             user_db.save()
             player = Player.objects.create(user=user_db, developer=dev, activated=False)
@@ -88,15 +81,15 @@ def signup(request):
         form = SignUpForm()  # 3ICE: Possibly stop using this, since we need to send the email
     return render(request, 'signup.html', {'form': form})
 
-
+#checks if user is developer and lets him add his game
 def addgame(request):
     if request.user.is_authenticated():
         if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
             form = AddGameForm(data=request.POST)
             if form.is_valid():
                 game = form.save(commit=False)
-                game.game_developer = request.user
-                game.save()
+                game.game_developer = request.user#gets user
+                game.save()#saves
             else:
                 print(form.errors)
             return render(request, "add_game.html", {"form": form})
@@ -105,18 +98,18 @@ def addgame(request):
     else:
         return redirect("login")
 
-
+#checks if it is developers game and lets him delete his game
 def game_confirmation_delete(request, game_name):
     if request.user.is_authenticated():
         try:
-            game = Game.objects.get(game_name=game_name)
+            game = Game.objects.get(game_name=game_name)#get the game based on the name
         except Game.DoesNotExist:
             return redirect("manage_game")
         if not game:
             return redirect("manage_game")
-        player = Player.objects.get(user=request.user)
+        player = Player.objects.get(user=request.user)#get players info to check if developer
         if request.user == game.game_developer:
-            game.delete()
+            game.delete()#lets them delete if developer
         else:
             raise Http404(
                 "<h2>You are not authorized to delete this game!</h2><p>You are logged in as " + request.user.username + " but the game can only be deleted by " + game.game_developer.username)
@@ -124,18 +117,19 @@ def game_confirmation_delete(request, game_name):
     else:
         return redirect("login")
 
-
+#checks if the user is a developer and lets him change name game price and url to the game
 def edit_game(request, game_name):
     try:
-        game_edited = Game.objects.get(game_name=game_name)
+        game_edited = Game.objects.get(game_name=game_name)#gets the game based on its name
     except Game.DoesNotExist:
         return redirect("manage_game")
     if not game_edited:
         return redirect("manage_game")
     if request.user.is_authenticated():
         form = EditGameForm(
-            {'game_name': game_name, 'game_price': game_edited.game_price, 'game_url': game_edited.game_url})
+            {'game_name': game_name, 'game_price': game_edited.game_price, 'game_url': game_edited.game_url})#get original information of the game
         if request.method == 'POST':
+            #lets user edit game if he is developer and it is added by him
             if form.is_valid():
                 if (game_edited.game_developer == request.user):
                     game_edited.game_name = request.POST['game_name']
@@ -212,11 +206,11 @@ def md5hex(tohash):
     m.update(tohash)
     return m.hexdigest()
 
-
+#takes to confirmation payment page
 def pay_begin(request, game_name):
     if request.user.is_authenticated():
         game = Game.objects.get(game_name=game_name)
-        pid = make_pid(request.user.username, game_name)
+        pid = make_pid(request.user.username, game_name)# re to concat username and game user wants to buy
         sid = "DanielArjunAparajitaKrishna"
         price = game.game_price
         secret_key = "5fe36a21b3cee01cb248a127892391de"
@@ -224,7 +218,7 @@ def pay_begin(request, game_name):
         m = md5(check_string.encode("ascii"))
         checksum = m.hexdigest()
         checkstr = "pid=%s&sid=%s&amount=%s&token=%s" % (pid, sid, price, secret_key)
-        check_top_hat = 'pid={}&sid={}&amount={}&token={}'.format(pid, sid, price, secret_key)
+        check_top_hat = 'pid={}&sid={}&amount={}&token={}'.format(pid, sid, price, secret_key)#dedicated to the guy who helped us
         return render(request, 'pay_begin.html', {'game_name': game_name, 'pid': pid, 'price': price,
                                                   'checksum': md5hex(check_top_hat.encode("ascii"))})
     else:
