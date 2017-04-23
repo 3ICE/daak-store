@@ -23,9 +23,13 @@ def games(request):
 
 def game(request, name):
     if request.user.is_authenticated():
-        player = Player.objects.get(user=request.user)
+        game = Game.objects.get(game_name=name)
+        # 3ICE: Player doesn't have a "receipt" in the Score database table, so make them buy first
+        if Score.objects.filter(game=game, player=request.user).exists():
+            return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
+        else:
+            return redirect('pay_begin/' + name)
 
-        return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
 
 
 def profile_developer(request):
@@ -215,6 +219,14 @@ def md5hex(tohash):
     return m.hexdigest()
 
 
+# regular expression fix
+def make_pid(username, game_name):
+    pid = username
+    pid += '____'
+    pid += game_name
+    return pid
+
+
 def pay_begin(request, game_name):
     if request.user.is_authenticated():
         game = Game.objects.get(game_name=game_name)
@@ -222,11 +234,15 @@ def pay_begin(request, game_name):
         sid = "DanielArjunAparajitaKrishna"
         price = game.game_price
         secret_key = "5fe36a21b3cee01cb248a127892391de"
+
+        # 3ICE: Unrelated failures:
         check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
-        m = md5(check_string.encode("ascii"))
-        checksum = m.hexdigest()
+        checksum = md5(check_string.encode("ascii")).hexdigest()
         checkstr = "pid=%s&sid=%s&amount=%s&token=%s" % (pid, sid, price, secret_key)
+        # 3ICE: Thanks to tophattop on slack for prompt assistance:
         check_top_hat = 'pid={}&sid={}&amount={}&token={}'.format(pid, sid, price, secret_key)
+
+        # 3ICE: In the end it was setting the form input "disabled" that caused the error. Not the above.
         return render(request, 'pay_begin.html', {'game_name': game_name, 'pid': pid, 'price': price,
                                                   'checksum': md5hex(check_top_hat.encode("ascii"))})
     else:
@@ -258,6 +274,9 @@ def pay_success(request):
                 # 3ICE: This is the "receipt" for having purchased the game.
                 Score.objects.create(game=game, player=user, score=0)
 
+                # 3ICE: Record sales statistics
+                game.game_sales += 1
+                game.save()
             return render(request, 'pay_success.html', {'game': game})
         else:
             return render(request, 'pay_failed.html')
@@ -282,14 +301,6 @@ def pay_failed(request):
         return render(request, 'pay_failed.html')
     else:
         return redirect("login")
-
-
-# regular expression fix
-def make_pid(username, game_name):
-    pid = username
-    pid += '____'
-    pid += game_name
-    return pid
 
 
 def save(request):
