@@ -338,6 +338,8 @@ def save(request):
         score.update(score=state["score"])
         score.update(state=states)
         return HttpResponse(states, content_type='application/json')
+    else:
+        raise Http404('Not a POST request, not an AJAX request, what are you doing?')
 
 
 def load(request):
@@ -354,3 +356,5 @@ def load(request):
             data["gameState"] = score.state
 
         return HttpResponse(json.dumps(data), content_type='application/json')
+    else:
+        raise Http404('Not a POST request, not an AJAX request, what are you doing?')
