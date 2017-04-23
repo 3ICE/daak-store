@@ -36,7 +36,7 @@
             'game_name': '{{game.game_name}}',
             'player_name': '{{request.user.username}}',
             'json': JSON.stringify(data),
-            'csrf': getCookie('csrftoken')
+            'csrf': '{{csrf_token}}'
           },
           dataType: "json",
         });
@@ -48,7 +48,7 @@
             'game_name': '{{game.game_name}}',
             'player_name': '{{request.user.username}}',
             'json': JSON.stringify(data),
-            'csrf': getCookie('csrftoken')
+            'csrf': '{{csrf_token}}'
           },
           dataType: "json",
         });
@@ -61,21 +61,6 @@
     }) // 3ICE: These two brackets close (window).on
   }); //3ICE: These two close (document).ready and the function(){} inside it.
 
-
-  function getCookie(name) {
-    var cookieValue = null;
-    if (document.cookie && document.cookie != '') {
-      var cookies = document.cookie.split(';');
-      for (var i = 0; i < cookies.length; i++) {
-        var cookie = jQuery.trim(cookies[i]); // check if cookie string begin with the name wanted
-        if (cookie.substring(0, name.length + 1) == (name + '=')) {
-          cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
-          break;
-        }
-      }
-    }
-    return cookieValue;
-  }
 
   //Thanks to: http://stackoverflow.com/questions/819416/adjust-width-height-of-iframe-to-fit-with-content-in-it
   window.addEventListener('DOMContentReady', function(e) {
