@@ -34,7 +34,6 @@ def games(request):
 #         return render(request, 'loadhighscores.html', {"allscores": Score.objects.all()})
 
 
-
 # link to a particular game
 def game(request, name):
     if request.user.is_authenticated():
@@ -50,9 +49,10 @@ def game(request, name):
 def profile_developer(request):
     if request.user.is_authenticated():
         player = Player.objects.get(user=request.user)
-        if not player.developer:
-            return redirect('profile_player')
-        return render(request, 'profile_developer.html')
+        if(player):
+            if player.developer:
+                return render(request, 'profile_developer.html')
+         return redirect('profile_player')
 
 
 # link to player view
