@@ -1,7 +1,4 @@
 from rest_framework import serializers 
-
-from gamestore.models import *
-
 from hello.models import * 
 
 class UserSerializer(serializers.ModelSerializer):
