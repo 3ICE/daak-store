@@ -51,6 +51,9 @@
             'csrfmiddlewaretoken': '{{csrf_token}}'
           },
           dataType: "json",
+          success: function(state){
+            document.getElementById("game_frame").contentWindow.postMessage(state, "*");
+          }
         });
         document.getElementById("game_frame").contentWindow.postMessage(data, "*");
 
@@ -68,8 +71,8 @@
   window.addEventListener('DOMContentReady', function(e) {
     var iframes = document.querySelectorAll("iframe");
     for (var i = 0; i < iframes.length; i++) {
-      iframes[i].width = iFrame.contentWindow.document.body.scrollWidth;
-      iframes[i].height = iFrame.contentWindow.document.body.scrollHeight;
+      iframes[i].width = iFrame.contentWindow.document.body.scrollWidth+10;
+      iframes[i].height = iFrame.contentWindow.document.body.scrollHeight+10;
     }
   });
 </script>
