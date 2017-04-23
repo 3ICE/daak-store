@@ -22,7 +22,7 @@ class ScoreSerializer(serializers.ModelSerializer):
 
 class ScoresSerializer(serializers.ModelSerializer):
     players = UserSerializer(many=True)
-    scores = ScoresSerializer(many=True)
+    scores = ScoreSerializer(many=True)
     game = GameSerializer()
     class Meta:
         model = Score
