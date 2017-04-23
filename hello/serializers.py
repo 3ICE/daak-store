@@ -1,4 +1,7 @@
 from rest_framework import serializers 
+
+from gamestore.models import *
+
 from hello.models import * 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -15,10 +18,10 @@ class GameSerializer(serializers.ModelSerializer):
         fields = ('game_name', )
 
 class ScoreSerializer(serializers.ModelSerializer):
-	
-	class Meta:
-		model = Score
-		fields = ('score', )
+
+    class Meta:
+        model = Score
+        fields = ('score', )
 
 class ScoresSerializer(serializers.ModelSerializer):
     players = UserSerializer(many=True)
@@ -27,4 +30,3 @@ class ScoresSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
         fields = ('game', 'player', 'score')
-
