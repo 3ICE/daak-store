@@ -309,7 +309,7 @@ def pay_failed(request):
 
 # displaying high scores in the high scores page
 @api_view(['GET'])
-def highscores(request, game_name):
+def highscore(request, game_name):
 
     if request.user.is_authenticated() and not request.user.is_anonymous():
         user = request.user
