@@ -346,7 +346,7 @@ def save(request):
         game = Game.objects.get(game_name=game_name)
         user = User.objects.get(username=player_name)
         score = Score.objects.filter(game=game, player=user)
-        score.update(score=state["gameState"])
+        #score.update(score=state["gameState"])
         score.update(state=states)
         return HttpResponse(states, content_type='application/json')
     else:
