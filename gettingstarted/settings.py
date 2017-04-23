@@ -53,6 +53,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django', # 3ICE: Requires `pip install social-auth-app-django`
+    'rest_framework', #required for restful api you have to execute pip install djangorestframework
     'hello'
 )
 

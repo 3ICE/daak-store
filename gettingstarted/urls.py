@@ -8,7 +8,7 @@ admin.autodiscover()
 
 urlpatterns = [
     url(r'^$', hello.views.index, name='index'),
-    url(r'^db', hello.views.db, name='db'),
+    #url(r'^db', hello.views.db, name='db'),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^oauth/', include('social_django.urls', namespace='social')),
     url(r'^login/$', auth_views.login, {'template_name': 'login.html'}, name='login'),
@@ -29,6 +29,8 @@ urlpatterns = [
     url(r'^pay_success/.*', hello.views.pay_success),
     url(r'^pay_cancel/.*', hello.views.pay_cancel),
     url(r'^pay_failed/.*', hello.views.pay_failed),
+    url(r'^highscore/([^/]+)/([^/]*)$', hello.views.highscore),
+    url(r'^highscores/(.+)$', hello.views.highscores),
     url(r'^save/', hello.views.save),
     url(r'^load/', hello.views.load),
 
