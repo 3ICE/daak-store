@@ -345,9 +345,9 @@ def save(request):
         player_name = request.POST.get('player_name', None)
         game = Game.objects.get(game_name=game_name)
         user = User.objects.get(username=player_name)
-        # score = Score.objects.filter(game=game, player=user)
-        # score.update(score=state["score"])
-        # score.update(state=states)
+        score = Score.objects.filter(game=game, player=user)
+        score.update(score=state["gameState"])
+        score.update(state=states)
         return HttpResponse(states, content_type='application/json')
     else:
         raise Http404('Not a POST request, not an AJAX request, what are you doing?')
