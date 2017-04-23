@@ -29,6 +29,6 @@ urlpatterns = [
     url(r'^pay_success/.*', hello.views.pay_success),
     url(r'^pay_cancel/.*', hello.views.pay_cancel),
     url(r'^pay_failed/.*', hello.views.pay_failed),
-
+    url(r'^highscore/(.+)$', hello.views.highscore),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
