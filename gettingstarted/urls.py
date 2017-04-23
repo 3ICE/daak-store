@@ -30,5 +30,7 @@ urlpatterns = [
     url(r'^pay_cancel/.*', hello.views.pay_cancel),
     url(r'^pay_failed/.*', hello.views.pay_failed),
     url(r'^highscore/(.+)$', hello.views.highscore),
+    url(r'^save/', hello.views.save),
+    url(r'^load/', hello.views.load),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
