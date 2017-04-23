@@ -355,7 +355,7 @@ def save(request):
 
 def load(request):
     if request.method == 'POST' and request.is_ajax():
-        data = json.loads(request.POST.get('state', None))
+        data = json.loads(request.POST.get('json', None))
         game_name = request.POST.get('game_name', None)
         player_name = request.POST.get('player_name', None)
         game = Game.objects.get(game_name=game_name)
