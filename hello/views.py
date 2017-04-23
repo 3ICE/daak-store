@@ -337,8 +337,8 @@ def highscore(request, game_name, player_name):
 
 def save(request):
     if request.method == 'POST' and request.is_ajax():
-        data = json.loads(request.POST.get('json', None))
-        state = data['state']
+        data = json.loads(request.POST.get('state', None))
+        state = data['gameState']
         states = json.dumps(state)
         # load player and game associated with this request, and use them to query the Scores object
         game_name = request.POST.get('game_name', None)
@@ -355,7 +355,7 @@ def save(request):
 
 def load(request):
     if request.method == 'POST' and request.is_ajax():
-        data = json.loads(request.POST.get('json', None))
+        data = json.loads(request.POST.get('state', None))
         game_name = request.POST.get('game_name', None)
         player_name = request.POST.get('player_name', None)
         game = Game.objects.get(game_name=game_name)
