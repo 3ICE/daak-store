@@ -15,10 +15,10 @@ class GameSerializer(serializers.ModelSerializer):
         fields = ('game_name', )
 
 class ScoreSerializer(serializers.ModelSerializer):
-	
-	class Meta:
-		model = Score
-		fields = ('score', )
+
+    class Meta:
+        model = Score
+        fields = ('score', )
 
 class ScoresSerializer(serializers.ModelSerializer):
     players = UserSerializer(many=True)
@@ -27,4 +27,3 @@ class ScoresSerializer(serializers.ModelSerializer):
     class Meta:
         model = Score
         fields = ('game', 'players', 'player', 'score')
-
