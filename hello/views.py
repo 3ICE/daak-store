@@ -23,6 +23,8 @@ def games(request):
 
 def game(request, name):
     if request.user.is_authenticated():
+        player = Player.objects.get(user=request.user)
+
         return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
 
 
@@ -240,22 +242,20 @@ def pay_success(request):
         result = request.GET['result']
         sid = "DanielArjunAparajitaKrishna"
         secret_key = "5fe36a21b3cee01cb248a127892391de"
-        username, gamename = pid.split('____')
-        game = Game.objects.get(game_name=gamename)
-        price = game.game_price
+        username, game_name = pid.split('____')
+        game = Game.objects.get(game_name=game_name)
         check_top_hat = 'pid={}&ref={}&result={}&token={}'.format(pid, ref, result, secret_key)
         # check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
         # m = md5(check_string.encode("ascii"))
 
-
         if md5hex(check_top_hat.encode("ascii")) == checksum:
 
             user = User.objects.get(username=username)
-            player = Player.objects.get(user=user)
             if Score.objects.filter(game=game, player=user).exists():
                 raise Http404(
                     "<h2> You don't have to pay us twice!,You already have the game in your inventory " + user.username)
             else:
+                # 3ICE: This is the "receipt" for having purchased the game.
                 Score.objects.create(game=game, player=user, score=0)
 
             return render(request, 'pay_success.html', {'game': game})
@@ -285,10 +285,10 @@ def pay_failed(request):
 
 
 # regular expression fix
-def make_pid(username, gamename):
+def make_pid(username, game_name):
     pid = username
     pid += '____'
-    pid += gamename
+    pid += game_name
     return pid
 
 
@@ -315,7 +315,7 @@ def load(request):
         player_name = request.POST.get('player_name', None)
         game = Game.objects.get(game_name=game_name)
         user = User.objects.get(username=player_name)
-        score= Score.objects.get(game=game, player=user)
+        score = Score.objects.get(game=game, player=user)
 
         if score.state:
             data["messageType"] = "LOAD"
