@@ -9,8 +9,11 @@ from django.core.mail import send_mail
 from django.views.generic.edit import UpdateView
 from hello.models import Game
 from hashlib import md5
-
-
+#FOR RESTFUL
+from hello.serializers import ScoreSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+import json
 
 def index(request):
     return render(request, 'index.html')
@@ -251,3 +254,22 @@ def make_pid(username,gamename):
         pid+= '____'
         pid+= gamename
         return pid
+
+
+
+# displaying high scores in the high scores page
+@api_view(['GET'])
+def highscores(request, game_name):
+
+    if request.user.is_authenticated() and not request.user.is_anonymous():
+        user = request.user
+        game = Game.objects.get(game_name = game_name)
+        score = Score.objects.filter(game=game, player=user)
+
+        if request.method == 'GET':
+            serializer = ScoreSerializer(score)
+            return Response(serializer.data)
+    else:
+        return redirect("login")
+
+
