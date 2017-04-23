@@ -47,11 +47,15 @@ def game(request, name):
 
 # link to developer's view
 def profile_developer(request):
+
     if request.user.is_authenticated():
-        player = Player.objects.get(user=request.user)
-        if(player):
-            if player.developer:
-                return render(request, 'profile_developer.html')
+        try:
+            player = Player.objects.get(user=request.user)
+            if(player):
+                if player.developer:
+                    return render(request, 'profile_developer.html')
+        except:
+            return redirect('profile_player')
     return redirect('profile_player')
 
 
