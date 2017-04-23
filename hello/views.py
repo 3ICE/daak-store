@@ -9,6 +9,11 @@ from django.core.mail import send_mail
 from django.views.generic.edit import UpdateView
 from hello.models import Game
 from hashlib import md5
+
+#FOR RESTFUL
+from hello.serializers import ScoreSerializer
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
 import json
 
 # landing page
@@ -23,7 +28,13 @@ def games(request):
 #link to a particular game
 def game(request, name):
     if request.user.is_authenticated():
-        return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
+        game = Game.objects.get(game_name=name)
+        # 3ICE: Player doesn't have a "receipt" in the Score database table, so make them buy first
+        if Score.objects.filter(game=game, player=request.user).exists():
+            return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
+        else:
+            return redirect('../pay_begin/' + name)
+
 
 #link to developer's view
 def profile_developer(request):
@@ -206,7 +217,17 @@ def md5hex(tohash):
     m.update(tohash)
     return m.hexdigest()
 
+
 #takes to confirmation payment page
+# regular expression fix
+def make_pid(username, game_name):
+    pid = username
+    pid += '____'
+    pid += game_name
+    return pid
+
+
+
 def pay_begin(request, game_name):
     if request.user.is_authenticated():
         game = Game.objects.get(game_name=game_name)
@@ -214,11 +235,18 @@ def pay_begin(request, game_name):
         sid = "DanielArjunAparajitaKrishna"
         price = game.game_price
         secret_key = "5fe36a21b3cee01cb248a127892391de"
+
+        # 3ICE: Unrelated failures:
         check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
-        m = md5(check_string.encode("ascii"))
-        checksum = m.hexdigest()
+        checksum = md5(check_string.encode("ascii")).hexdigest()
         checkstr = "pid=%s&sid=%s&amount=%s&token=%s" % (pid, sid, price, secret_key)
-        check_top_hat = 'pid={}&sid={}&amount={}&token={}'.format(pid, sid, price, secret_key)#dedicated to the guy who helped us
+
+
+        # 3ICE: Thanks to tophattop on slack for prompt assistance:
+        check_top_hat = 'pid={}&sid={}&amount={}&token={}'.format(pid, sid, price, secret_key)
+
+        # 3ICE: In the end it was setting the form input "disabled" that caused the error. Not the above.
+
         return render(request, 'pay_begin.html', {'game_name': game_name, 'pid': pid, 'price': price,
                                                   'checksum': md5hex(check_top_hat.encode("ascii"))})
     else:
@@ -234,24 +262,25 @@ def pay_success(request):
         result = request.GET['result']
         sid = "DanielArjunAparajitaKrishna"
         secret_key = "5fe36a21b3cee01cb248a127892391de"
-        username, gamename = pid.split('____')
-        game = Game.objects.get(game_name=gamename)
-        price = game.game_price
+        username, game_name = pid.split('____')
+        game = Game.objects.get(game_name=game_name)
         check_top_hat = 'pid={}&ref={}&result={}&token={}'.format(pid, ref, result, secret_key)
         # check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
         # m = md5(check_string.encode("ascii"))
 
-
         if md5hex(check_top_hat.encode("ascii")) == checksum:
 
             user = User.objects.get(username=username)
-            player = Player.objects.get(user=user)
             if Score.objects.filter(game=game, player=user).exists():
                 raise Http404(
                     "<h2> You don't have to pay us twice!,You already have the game in your inventory " + user.username)
             else:
+                # 3ICE: This is the "receipt" for having purchased the game.
                 Score.objects.create(game=game, player=user, score=0)
 
+                # 3ICE: Record sales statistics
+                game.game_sales += 1
+                game.save()
             return render(request, 'pay_success.html', {'game': game})
         else:
             return render(request, 'pay_failed.html')
@@ -278,12 +307,20 @@ def pay_failed(request):
         return redirect("login")
 
 
-# regular expression fix
-def make_pid(username, gamename):
-    pid = username
-    pid += '____'
-    pid += gamename
-    return pid
+# displaying high scores in the high scores page
+@api_view(['GET'])
+def highscores(request, game_name):
+
+    if request.user.is_authenticated() and not request.user.is_anonymous():
+        user = request.user
+        game = Game.objects.get(game_name = game_name)
+        score = Score.objects.filter(game=game, player=user)
+
+        if request.method == 'GET':
+            serializer = ScoreSerializer(score)
+            return Response(serializer.data)
+    else:
+        return redirect("login")
 
 
 def save(request):
@@ -309,7 +346,7 @@ def load(request):
         player_name = request.POST.get('player_name', None)
         game = Game.objects.get(game_name=game_name)
         user = User.objects.get(username=player_name)
-        score= Score.objects.get(game=game, player=user)
+        score = Score.objects.get(game=game, player=user)
 
         if score.state:
             data["messageType"] = "LOAD"

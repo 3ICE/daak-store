@@ -17,7 +17,7 @@ class Game(models.Model):
     game_url = models.URLField()
     game_developer = models.ForeignKey(User)
     game_price = models.PositiveIntegerField(default=0)
-    game_copies_sold = models.PositiveIntegerField(default=0)
+    game_sales = models.PositiveIntegerField(default=0)
 
 #stores game score and player name and game name
 class Score(models.Model):

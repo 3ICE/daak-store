@@ -57,10 +57,9 @@
       } else if (data.messageType == "SETTING") {
         document.getElementById("game_frame").width = data.options.width;
         document.getElementById("game_frame").height = data.options.height;
-
       };
-    })
-  });
+    }) // 3ICE: These two brackets close (window).on
+  }); //3ICE: These two close (document).ready and the function(){} inside it.
 
 
   function getCookie(name) {

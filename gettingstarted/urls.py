@@ -2,6 +2,8 @@ from django.conf.urls import include, url
 from django.contrib.auth import views as auth_views
 import hello.views
 from django.contrib import admin
+
+from rest_framework import routers
 admin.autodiscover()
 
 urlpatterns = [
@@ -27,4 +29,8 @@ urlpatterns = [
     url(r'^pay_success/.*', hello.views.pay_success),
     url(r'^pay_cancel/.*', hello.views.pay_cancel),
     url(r'^pay_failed/.*', hello.views.pay_failed),
+    url(r'^save/', hello.views.save),
+    url(r'^load/', hello.views.load),
+
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
