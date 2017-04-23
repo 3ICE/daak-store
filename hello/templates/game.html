@@ -36,7 +36,7 @@
             'game_name': '{{game.game_name}}',
             'player_name': '{{request.user.username}}',
             'json': JSON.stringify(data),
-            'csrf': '{{csrf_token}}'
+            'csrf_token': '{{csrf_token}}'
           },
           dataType: "json",
         });
@@ -48,7 +48,7 @@
             'game_name': '{{game.game_name}}',
             'player_name': '{{request.user.username}}',
             'json': JSON.stringify(data),
-            'csrf': '{{csrf_token}}'
+            'csrf_token': '{{csrf_token}}'
           },
           dataType: "json",
         });
