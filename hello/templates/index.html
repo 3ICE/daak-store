@@ -33,13 +33,27 @@
       </ul>
     </div>
                     <div class="col-md-4">
-                        <h2>Browse from 100+ Games</h2>
-                        <p class="darktext">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                        <h2>Browse a Variety of Games</h2>
+                        <p class="darktext">{% for game in allgames %}
+<a href="{{game.game_name.split|join:"_"}}">
+    <b>
+    {{game.game_name }}
+    </b> by
+    {{game.game_developer}}
+    <br />
+    ${{game.game_price|floatformat:2}}
+  </a>
+
+  {% empty %}
+      <li>No games yet.</li>
+{% endfor %}</p>
                         <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
                     </div>
                     <div class="col-md-4">
-                        <h2>Developer Options</h2>
-                        <p class="darktext">Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+                        <h2>Responsive games to all the platforms</h2>
+                        <p class="darktext">
+                            We have implemented the responsive feature to fit all the devices, so feel free to use your smart phone or tablet
+                         </p>
                         <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
                     </div>
                 </div>
