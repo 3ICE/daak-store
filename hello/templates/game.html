@@ -51,8 +51,8 @@
             'csrfmiddlewaretoken': '{{csrf_token}}'
           },
           dataType: "json",
-          success: function(state){
-            document.getElementById("game_frame").contentWindow.postMessage(state, "*");
+          success: function(data){
+            document.getElementById("game_frame").contentWindow.postMessage(data, "*");
           }
         });
         document.getElementById("game_frame").contentWindow.postMessage(data, "*");
@@ -61,7 +61,7 @@
         document.getElementById("game_frame").width = data.options.width;
         document.getElementById("game_frame").height = data.options.height;
       } else if (data.messageType == "LOAD") {
-        document.getElementById("game_frame").contentWindow.postMessage(data, "*");
+        document.getElementById("game_frame").contentWindow.postMessage(data.gameState, "*");
       }
     }) // 3ICE: These two brackets close (window).on
   }); //3ICE: These two close (document).ready and the function(){} inside it.

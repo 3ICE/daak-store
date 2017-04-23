@@ -371,6 +371,8 @@ def load(request):
         user = User.objects.get(username=player_name)
         score = Score.objects.get(game=game, player=user)
 
+        data["messageType"] = "LOAD"
+        data["gameState"] = score.state
         if score.state:
             data["messageType"] = "LOAD"
             data["gameState"] = score.state
