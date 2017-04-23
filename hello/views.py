@@ -52,7 +52,7 @@ def profile_developer(request):
         if(player):
             if player.developer:
                 return render(request, 'profile_developer.html')
-         return redirect('profile_player')
+     return redirect('profile_player')
 
 
 # link to player view
