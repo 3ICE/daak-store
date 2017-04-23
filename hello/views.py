@@ -18,7 +18,7 @@ import json
 
 # landing page
 def index(request):
-    return render(request, 'index.html')
+    return render(request, 'index.html', {"allgames": Game.objects.all()})
 
 #list of games
 def games(request):
