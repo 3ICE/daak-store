@@ -28,7 +28,7 @@ def game(request, name):
         if Score.objects.filter(game=game, player=request.user).exists():
             return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
         else:
-            return redirect('pay_begin/' + name)
+            return redirect('../pay_begin/' + name)
 
 
 
