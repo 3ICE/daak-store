@@ -339,7 +339,7 @@ def highscores(request, game_name):
             dump = {"game": game.game_name}
 
             for score in scores:
-                dump.append((score.user.user_name:score.score)):
+                dump.append((score.user.username:score.score)):
 
             return Response(Json.dumps(dump))
     else:
