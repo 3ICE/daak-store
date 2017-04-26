@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^save/', hello.views.save),
     url(r'^load/', hello.views.load),
     url(r'^score/', hello.views.score),
+    url(r'^sale_statistics/$', hello.views.sale_statistics, name='sale_statistics'),
    # url(r'^loadhighscores/$', hello.views.loadhighscores, name='loadhighscores'),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
