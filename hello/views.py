@@ -369,7 +369,7 @@ def games_list(request):
     if request.user.is_authenticated() and not request.user.is_anonymous():
         games = Game.objects.all()
         if request.method == 'GET':
-            serializer = GameSerializer(games)
+            serializer = GameSerializer(games, many=True)
             return Response(serializer.data)
     else:
         return redirect("login")
