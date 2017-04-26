@@ -51,8 +51,8 @@
             'csrfmiddlewaretoken': '{{csrf_token}}'
           },
           dataType: "json",
-          success: function(data){
-            alert(JSON.stringify(data, null, 4));
+          success: function(){
+            //alert(JSON.stringify(data, null, 4));
             document.getElementById("game_frame").contentWindow.postMessage(data, "*");
           }
         });
