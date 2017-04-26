@@ -340,19 +340,23 @@ def highscores(request, game_name):
         scores = Score.objects.filter(game=game)
 
         if request.method == 'GET':
-            serializer = ScoreSerializer(scores, many=True)
-            return Response(serializer.data)
+            #serializer = ScoreSerializer(scores, many=True)
+            dump = {"game": game.game_name}
+
+            for score in scores:
+                dump[score.player.username] = score.score
+
+            return Response(json.dumps(dump))
     else:
         return redirect("login")
 
 
 @api_view(['GET'])
-def highscore(request, game_name, player_name):
+def highscore(request, game_name, user_name):
     if request.user.is_authenticated() and not request.user.is_anonymous():
         user = User.objects.get(username=user_name)
         game = Game.objects.get(game_name=game_name)
         score = Score.objects.filter(game=game, player=user)
-
         if request.method == 'GET':
             serializer = ScoreSerializer(score)
             return Response(serializer.data)
@@ -365,7 +369,6 @@ def save(request):
         data = json.loads(request.POST.get('state', None))
         state = data['gameState']
         states = json.dumps(state)
-        states = states.decode('string_escape')
         # load player and game associated with this request, and use them to query the Scores object
         game_name = request.POST.get('game_name', None)
         player_name = request.POST.get('player_name', None)

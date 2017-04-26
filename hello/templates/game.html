@@ -26,6 +26,7 @@
     $(window).on('message', function(e) {
       // For Chrome, the real event is in the event.originalEvent object.
       var data = e.originalEvent.data;
+      alert(JSON.stringify(data, null, 4));
       if (data.messageType == "SCORE") {
         //todo $('#scores').html(data.score);
       } else if (data.messageType == "SAVE") {
@@ -52,7 +53,7 @@
           },
           dataType: "json",
           success: function(data){
-            alert(JSON.stringify(data, null, 4));
+            console.dir(data);
             document.getElementById("game_frame").contentWindow.postMessage(data, "*");
           }
         });
@@ -62,7 +63,7 @@
         document.getElementById("game_frame").width = data.options.width;
         document.getElementById("game_frame").height = data.options.height;
       } else if (data.messageType == "LOAD") {
-        document.getElementById("game_frame").contentWindow.postMessage(data.gameState, "*");
+        document.getElementById("game_frame").contentWindow.postMessage(data, "*");
       }
     }) // 3ICE: These two brackets close (window).on
   }); //3ICE: These two close (document).ready and the function(){} inside it.
@@ -97,6 +98,7 @@
     <iframe id="game_frame" src="{{game.game_url}}" width="1920" height="1080">
   <p>Your browser does not support iframes.</p>
 </iframe>
+
     <br />
     <a href="{{game.game_name.split|join:" _ "}}">
       <b>
@@ -107,4 +109,9 @@
   </div>
   <p><a href="{% url 'games' %}">Go back</a> to games list</p>
 </div>
-{% endblock %}
+<span>Share this game on twitter and invite your friends to play it.</span> <br />
+<div class="addthis_inline_share_toolbox_d5h1">
+<script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-58fce111f368b7c6"></script>
+</div>
+ {% endblock %}
+
