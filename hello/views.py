@@ -339,15 +339,15 @@ def highscores(request, game_name):
             dump = {"game": game.game_name}
 
             for score in scores:
-                dump[score.user.username] = score.score
+                dump[score.player.username] = score.score
 
-            return Response(Json.dumps(dump))
+            return Response(json.dumps(dump))
     else:
         return redirect("login")
 
 
 @api_view(['GET'])
-def highscore(request, game_name, player_name):
+def highscore(request, game_name, user_name):
     if request.user.is_authenticated() and not request.user.is_anonymous():
         user = User.objects.get(username=user_name)
         game = Game.objects.get(game_name=game_name)
