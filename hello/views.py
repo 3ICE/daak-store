@@ -352,10 +352,8 @@ def highscore(request, game_name, player_name):
         user = User.objects.get(username=user_name)
         game = Game.objects.get(game_name=game_name)
         score = Score.objects.filter(game=game, player=user)
-
         if request.method == 'GET':
             serializer = ScoreSerializer(score)
-            
             return Response(serializer.data)
     else:
         return redirect("login")
