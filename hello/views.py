@@ -364,6 +364,15 @@ def highscore(request, game_name, user_name):
     else:
         return redirect("login")
 
+@api_view(['GET'])
+def games_list(request):
+    if request.user.is_authenticated() and not request.user.is_anonymous():
+        games = Game.objects.all()
+        if request.method == 'GET':
+            serializer = GameSerializer(games)
+            return Response(serializer.data)
+    else:
+        return redirect("login")
 
 def save(request):
     if request.method == 'POST' and request.is_ajax():

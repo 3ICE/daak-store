@@ -12,7 +12,7 @@ class GameSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Game
-        fields = ('game_name', )
+        fields = ('game_name', 'game_url', 'game_developer', 'game_price', 'game_sales' )
 
 class ScoreSerializer(serializers.ModelSerializer):
 
