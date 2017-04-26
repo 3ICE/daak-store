@@ -22,10 +22,16 @@ def index(request):
     return render(request, 'index.html', {"allgames": Game.objects.all()})
 
 
+
 # list of games
 def games(request):
     if request.user.is_authenticated():
         return render(request, 'games.html', {"allgames": Game.objects.all()})
+
+
+# def scores(request):
+#     if request.user.is_authenticated():
+#         return render(request, 'loadhighscores.html', {"allscores": Score.objects.all()})
 
 
 # link to a particular game
@@ -41,11 +47,16 @@ def game(request, name):
 
 # link to developer's view
 def profile_developer(request):
+
     if request.user.is_authenticated():
-        player = Player.objects.get(user=request.user)
-        if not player.developer:
+        try:
+            player = Player.objects.get(user=request.user)
+            if(player):
+                if player.developer:
+                    return render(request, 'profile_developer.html')
+        except:
             return redirect('profile_player')
-        return render(request, 'profile_developer.html')
+    return redirect('profile_player')
 
 
 # link to player view
@@ -381,3 +392,12 @@ def load(request):
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:
         raise Http404('Not a POST request, not an AJAX request, what are you doing?')
+
+
+# def loadhighscores(request, id):
+#     if request.user.is_authenticated():
+#         player = request.user
+#         game = Score.objects.get(game=game)
+#         return render_to_response('highscores.html', {'player': player, 'game': game, 'score': score})
+#     else:
+#         return redirect('login.html')
