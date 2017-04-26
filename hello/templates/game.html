@@ -26,7 +26,7 @@
     $(window).on('message', function(e) {
       // For Chrome, the real event is in the event.originalEvent object.
       var data = e.originalEvent.data;
-      alert(JSON.stringify(data, null, 4));
+      //alert(JSON.stringify(data, null, 4));
       if (data.messageType == "SCORE") {
         //todo $('#scores').html(data.score);
       } else if (data.messageType == "SAVE") {
@@ -53,7 +53,7 @@
           },
           dataType: "json",
           success: function(data){
-            console.dir(data);
+            data.gameState=JSON.parse(data.gameState);
             document.getElementById("game_frame").contentWindow.postMessage(data, "*");
           }
         });

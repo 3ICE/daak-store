@@ -1,5 +1,5 @@
 from django.shortcuts import *
-from django.http import HttpResponse, Http404
+from django.http import *
 from django.contrib.auth import *
 from django.contrib.auth.models import User
 from .forms import *
@@ -14,8 +14,8 @@ from hashlib import md5
 from hello.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import json
-import string
+import json 
+
 
 # landing page
 def index(request):
@@ -349,7 +349,7 @@ def highscores(request, game_name):
             for score in scores:
                 dump[score.player.username] = score.score
 
-            return Response(json.dumps(dump))
+            return JsonResponse(dump)
     else:
         return redirect("login")
 
@@ -380,7 +380,7 @@ def save(request):
         score = Score.objects.filter(game=game, player=user)
         # score.update(score=state["gameState"])
         score.update(state=states)
-        return HttpResponse(states, content_type='application/json')
+        return JsonResponse(states, safe=False)
     else:
         raise Http404('Not a POST request, not an AJAX request, what are you doing?')
 
@@ -400,7 +400,7 @@ def load(request):
             data["messageType"] = "LOAD"
             data["gameState"] = score.state
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return JsonResponse(data)
     else:
         raise Http404('Not a POST request, not an AJAX request, what are you doing?')
 
