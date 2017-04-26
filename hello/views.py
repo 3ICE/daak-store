@@ -341,7 +341,7 @@ def highscores(request, game_name):
 
         if request.method == 'GET':
             #serializer = ScoreSerializer(scores, many=True)
-            dump = {"game": game.game_name, "scores": ""} 
+            dump = {"game": game.game_name, "scores": {}} 
             
 
             for score in scores:
