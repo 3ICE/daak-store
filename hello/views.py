@@ -1,5 +1,5 @@
 from django.shortcuts import *
-from django.http import HttpResponse, Http404
+from django.http import *
 from django.contrib.auth import *
 from django.contrib.auth.models import User
 from .forms import *
@@ -14,7 +14,9 @@ from hashlib import md5
 from hello.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import json
+import json 
+
+
 
 
 # landing page
@@ -336,12 +338,12 @@ def highscores(request, game_name):
 
         if request.method == 'GET':
             #serializer = ScoreSerializer(scores, many=True)
-            dump = ([{"game": game.game_name}])
+            dump = {"game": game.game_name}
 
             for score in scores:
                 dump[score.player.username] = score.score
 
-            return Response(json.dumps(dump))
+            return JsonResponse(json.dumps(dump))
     else:
         return redirect("login")
 
