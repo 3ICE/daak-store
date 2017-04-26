@@ -341,7 +341,7 @@ def highscores(request, game_name):
             for score in scores:
                 dump[score.player.username] = score.score
 
-            return Response(Json.dumps(dump))
+            return Response(json.dumps(dump))
     else:
         return redirect("login")
 
