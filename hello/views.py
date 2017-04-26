@@ -352,10 +352,8 @@ def highscore(request, game_name, user_name):
         user = User.objects.get(username=user_name)
         game = Game.objects.get(game_name=game_name)
         score = Score.objects.filter(game=game, player=user)
-
         if request.method == 'GET':
             serializer = ScoreSerializer(score)
-            
             return Response(serializer.data)
     else:
         return redirect("login")
@@ -366,7 +364,6 @@ def save(request):
         data = json.loads(request.POST.get('state', None))
         state = data['gameState']
         states = json.dumps(state)
-        states = states.decode('string_escape')
         # load player and game associated with this request, and use them to query the Scores object
         game_name = request.POST.get('game_name', None)
         player_name = request.POST.get('player_name', None)
