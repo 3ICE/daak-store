@@ -347,7 +347,7 @@ def highscores(request, game_name):
 
 
 @api_view(['GET'])
-def highscore(request, game_name, player_name):
+def highscore(request, game_name, user_name):
     if request.user.is_authenticated() and not request.user.is_anonymous():
         user = User.objects.get(username=user_name)
         game = Game.objects.get(game_name=game_name)
