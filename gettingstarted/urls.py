@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^pay_failed/.*', hello.views.pay_failed),
     url(r'^highscore/([^/]+)/([^/]*)$', hello.views.highscore),
     url(r'^highscores/(.+)$', hello.views.highscores),
+    url(r'^games_list/$', hello.views.games_list),
     url(r'^save/', hello.views.save),
     url(r'^load/', hello.views.load),
     url(r'^score/', hello.views.score),
