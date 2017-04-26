@@ -377,7 +377,7 @@ def save(request):
         score = Score.objects.filter(game=game, player=user)
         # score.update(score=state["gameState"])
         score.update(state=states)
-        return JsonResponse(states)
+        return JsonResponse(states, safe=False)
     else:
         raise Http404('Not a POST request, not an AJAX request, what are you doing?')
 
