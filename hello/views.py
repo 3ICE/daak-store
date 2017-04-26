@@ -70,6 +70,9 @@ def manage_game(request):
     if request.user.is_authenticated():
         return render(request, 'manage_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
+def sale_statistics(request):
+    if request.user.is_authenticated():
+        return render(request, 'sale_statistics.html', {"allgames": Game.objects.filter(game_developer=request.user)})
 
 # linking to registration
 def registration(request):
