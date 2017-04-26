@@ -338,10 +338,11 @@ def highscores(request, game_name):
 
         if request.method == 'GET':
             #serializer = ScoreSerializer(scores, many=True)
-            dump = {"game": game.game_name}
+            dump = {"game": game.game_name, "scores": ""} 
+            
 
             for score in scores:
-                dump[score.player.username] = score.score
+                dump[scores][score.player.username] = score.score
 
             return JsonResponse(dump)
     else:
