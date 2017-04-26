@@ -345,7 +345,7 @@ def highscores(request, game_name):
             
 
             for score in scores:
-                dump[scores][score.player.username] = score.score
+                dump["scores"][score.player.username] = score.score
 
             return JsonResponse(dump)
     else:
