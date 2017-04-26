@@ -14,8 +14,8 @@ from hashlib import md5
 from hello.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import json
-import string
+import json 
+
 
 # landing page
 def index(request):
@@ -346,7 +346,7 @@ def highscores(request, game_name):
             for score in scores:
                 dump[score.player.username] = score.score
 
-            return Response(json.dumps(dump))
+            return JsonResponse(dump)
     else:
         return redirect("login")
 
