@@ -1,5 +1,5 @@
 from django.shortcuts import *
-from django.http import HttpResponse, Http404
+from django.http import *
 from django.contrib.auth import *
 from django.contrib.auth.models import User
 from .forms import *
@@ -372,7 +372,7 @@ def save(request):
         score = Score.objects.filter(game=game, player=user)
         # score.update(score=state["gameState"])
         score.update(state=states)
-        return HttpResponse(states, content_type='application/json')
+        return JsonResponse(states)
     else:
         raise Http404('Not a POST request, not an AJAX request, what are you doing?')
 
@@ -392,7 +392,7 @@ def load(request):
             data["messageType"] = "LOAD"
             data["gameState"] = score.state
 
-        return HttpResponse(json.dumps(data), content_type='application/json')
+        return JsonResponse(data)
     else:
         raise Http404('Not a POST request, not an AJAX request, what are you doing?')
 
