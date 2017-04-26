@@ -335,8 +335,13 @@ def highscores(request, game_name):
         scores = Score.objects.filter(game=game)
 
         if request.method == 'GET':
-            serializer = ScoreSerializer(scores, many=True)
-            return Response(serializer.data)
+            #serializer = ScoreSerializer(scores, many=True)
+            dump = {"game": game.game_name}
+
+            for score in scores:
+                dump.append((score.user.user_name:score.score)):
+
+            return Response(Json.dumps(dump))
     else:
         return redirect("login")
 
@@ -350,6 +355,7 @@ def highscore(request, game_name, player_name):
 
         if request.method == 'GET':
             serializer = ScoreSerializer(score)
+            
             return Response(serializer.data)
     else:
         return redirect("login")
