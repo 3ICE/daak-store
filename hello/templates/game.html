@@ -41,6 +41,18 @@
           },
           dataType: "json",
         });
+      } else if (data.messageType == "SCORE") {
+        $.ajax({
+          type: "POST",
+          url: "/score/",
+          data: {
+            'game_name': '{{game.game_name}}',
+            'player_name': '{{request.user.username}}',
+            'state': JSON.stringify(data),
+            'csrfmiddlewaretoken': '{{csrf_token}}'
+          },
+          dataType: "json",
+        });
       } else if (data.messageType == "LOAD_REQUEST") {
         $.ajax({
           type: "POST",
