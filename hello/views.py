@@ -15,7 +15,7 @@ from hello.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json
-
+import string
 
 # landing page
 def index(request):
@@ -38,7 +38,7 @@ def games(request):
 def game(request, name):
     if request.user.is_authenticated():
         game = Game.objects.get(game_name=name)
-        # 3ICE: Player doesn't have a "receipt" in the Score database table, so make them buy first
+    # 3ICE: Player doesn't have a "receipt" in the Score database table, so make them buy first
         if Score.objects.filter(game=game, player=request.user).exists():
             return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
         else:
@@ -87,6 +87,8 @@ def signup(request):
             name = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             email = form.cleaned_data.get('email')
+            if not name.isalpha():
+                return render(request, 'signup.html', {'form': form, 'msg':"Use only alpha numeric"})
             user = authenticate(username=name, password=raw_password)
             # 3ICE: Temporarily auth them (worked like this before)
             # user_db.active = True
@@ -114,10 +116,13 @@ def signup(request):
 # checks if user is developer and lets him add his game
 def addgame(request):
     if request.user.is_authenticated():
+
         if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
             form = AddGameForm(data=request.POST)
             if form.is_valid():
                 game = form.save(commit=False)
+                if not game.game_name.isalpha():
+                    return render(request, "add_game.html", {"form": form, "msg": "Please use alpha numeric"})
                 game.game_developer = request.user  # gets user
                 game.save()  # saves
             else:
@@ -401,3 +406,5 @@ def load(request):
 #         return render_to_response('highscores.html', {'player': player, 'game': game, 'score': score})
 #     else:
 #         return redirect('login.html')
+
+

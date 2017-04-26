@@ -9,6 +9,9 @@
 
 {% endblock %}
 {% block content %}
+{% if msg %}
+    <p style="color:blue;">{{msg}}</p>
+{% endif %}
 <div align="center" id="centertag" class="registration-container">
   <h2>Sign up</h2>
   <form method="post">
@@ -17,7 +20,7 @@
       <p>
         {{ field.label_tag }}<br />
         {{ field }}<br />
-        {% if field.help_text %} 
+        {% if field.help_text %}
           <small style="color: grey">{{ field.help_text }}</small>
         {% endif %}
         {% for error in field.errors %}
