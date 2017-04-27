@@ -27,12 +27,22 @@
       // For Chrome, the real event is in the event.originalEvent object.
       var data = e.originalEvent.data;
       //alert(JSON.stringify(data, null, 4));
-      if (data.messageType == "SCORE") {
-        //todo $('#scores').html(data.score);
-      } else if (data.messageType == "SAVE") {
+      if (data.messageType == "SAVE") {
         $.ajax({
           type: "POST",
           url: "/save/",
+          data: {
+            'game_name': '{{game.game_name}}',
+            'player_name': '{{request.user.username}}',
+            'state': JSON.stringify(data),
+            'csrfmiddlewaretoken': '{{csrf_token}}'
+          },
+          dataType: "json",
+        });
+      } else if (data.messageType == "SCORE") {
+        $.ajax({
+          type: "POST",
+          url: "/score/",
           data: {
             'game_name': '{{game.game_name}}',
             'player_name': '{{request.user.username}}',

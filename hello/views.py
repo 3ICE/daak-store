@@ -345,10 +345,11 @@ def highscores(request, game_name):
 
         if request.method == 'GET':
             #serializer = ScoreSerializer(scores, many=True)
-            dump = {"game": game.game_name}
+            dump = {"game": game.game_name, "scores": {}} 
+            
 
             for score in scores:
-                dump[score.player.username] = score.score
+                dump["scores"][score.player.username] = score.score
 
             return JsonResponse(dump)
     else:
@@ -367,13 +368,21 @@ def highscore(request, game_name, user_name):
     else:
         return redirect("login")
 
+@api_view(['GET'])
+def games_list(request):
+    if request.user.is_authenticated() and not request.user.is_anonymous():
+        games = Game.objects.all()
+        if request.method == 'GET':
+            serializer = GameSerializer(games, many=True)
+            return Response(serializer.data)
+    else:
+        return redirect("login")
 
 def save(request):
     if request.method == 'POST' and request.is_ajax():
         data = json.loads(request.POST.get('state', None))
         state = data['gameState']
         states = json.dumps(state)
-        # load player and game associated with this request, and use them to query the Scores object
         game_name = request.POST.get('game_name', None)
         player_name = request.POST.get('player_name', None)
         game = Game.objects.get(game_name=game_name)
@@ -382,6 +391,21 @@ def save(request):
         # score.update(score=state["gameState"])
         score.update(state=states)
         return JsonResponse(states, safe=False)
+    else:
+        raise Http404('Not a POST request, not an AJAX request, what are you doing?')
+
+
+def score(request):
+    if request.method == 'POST' and request.is_ajax():
+        data = json.loads(request.POST.get('state', None))
+        state = data['score']
+        game_name = request.POST.get('game_name', None)
+        player_name = request.POST.get('player_name', None)
+        game = Game.objects.get(game_name=game_name)
+        user = User.objects.get(username=player_name)
+        score = Score.objects.filter(game=game, player=user)
+        score.update(score=state)
+        return JsonResponse(state, safe=False)
     else:
         raise Http404('Not a POST request, not an AJAX request, what are you doing?')
 
