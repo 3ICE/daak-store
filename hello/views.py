@@ -299,7 +299,7 @@ def pay_success(request):
         game = Game.objects.get(game_name=game_name)
         check_top_hat = 'pid={}&ref={}&result={}&token={}'.format(pid, ref, result, secret_key)
 
-        game_timestamp = datetime.datetime.now()
+        
         # check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
         # m = md5(check_string.encode("ascii"))
 
