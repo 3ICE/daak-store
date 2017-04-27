@@ -7,7 +7,7 @@
 {% block title %}Welcome {{request.user.username}}{% endblock %}
 
 {% block content %}
-<div align="center" id="centertag" class="registration-container">
+<div id="centertag" class="registration-container">
 <div>
 {% for game in allgames %}
 <a href="{{game.game_name.split|join:"_"}}">

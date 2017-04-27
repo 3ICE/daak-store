@@ -2,7 +2,7 @@
 {% load staticfiles %}
 {% block title %}DAAK Store of Awesome stuff{% endblock %}
 {% block content %}
-<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
+<link href="static/styles.css" rel="stylesheet" type="text/css" />
 
 <div class="jumbotron text-center">
   <div class="container">
@@ -12,13 +12,13 @@
     <h1>Welcome to DAAK-store of awesome game stuffs</h1>
     <p>This is a true gamer's paradise.</p>
     <h2>Unleash the gaming in you.</h2>
-    <a class="btn btn-lg btn-default" href="https://daak-store.herokuapp.com/games/"><span class="glyphicon glyphicon-flash"></span> Play Games</a>
+    <a class="btn btn-lg btn-default" href="games/"><span class="glyphicon glyphicon-flash"></span> Play Games</a>
     <a class="btn btn-lg btn-primary" href="https://github.com/3ICE/daak-store"><span class="glyphicon glyphicon-download"></span> Source on GitHub</a>
   </div>
 </div>
 <div class="container">
   <div class="alert alert-info text-center" role="alert">
-    You can add any games you want and play them in our platform <a href="https://daak-store.herokuapp.com/add_game/" class="alert-link">Add games</a>.
+    You can add any games you want and play them in our platform <a href="add_game/" class="alert-link">Add games</a>.
   </div>
   <hr>
   <div class="row">
@@ -26,48 +26,30 @@
     <div class="col-md-6">
       <h3><span class="glyphicon glyphicon-info-sign"></span> How this Game store works</h3>
       <ul>
-        <li>This app was deployed to Heroku, either using Git or by using <a href="https://github.com/heroku/python-getting-started">Heroku Button</a> on the repository.</li>
-
-        <li>This game store allows you to play multiple games <a href="https://github.com/heroku/python-getting-started">Login here</a> then you can access our game store.</li>
-
-        <li>When Heroku received the source code, it fetched all the dependencies in the <a href="https://github.com/heroku/python-getting-started/blob/master/requirements.txt">requirements.txt file</a>, creating a deployable slug.</li>
+        <li>This app was deployed to Heroku, using Git. Based on the <a href="https://github.com/heroku/python-getting-started/">heroku python-getting-started</a> project.</li>
+        <li>This game store allows you to play multiple games. <a href="login/">Log in here</a>, then you can access our game store.</li>
+        <li>When Heroku received the source code, it fetched all the dependencies in the requirements.txt file, creating a deployable slug.</li>
         <li>The platform then spins up a dyno, a lightweight container that provides an isolated environment in which the slug can be mounted and executed.</li>
-        <li>Check out our Restful Api <a href="https://daak-store.herokuapp.com/highscores/clone3">https://daak-store.herokuapp.com/highscores/GAME ID HERE</a>, for highscores for all users.</li>
-        <li>Check out our Restful Api <a href="https://daak-store.herokuapp.com/highscore/ped/Krish">https://daak-store.herokuapp.com/highscore/GAME/USER ID HERE</a>, for highscores for one user.</li>
+        <li>Check out our <b>Restful API</b> <a href="highscores/CloneClicker">https://daak-store.herokuapp.com/highscores/GAME ID HERE</a>, for highscores for all users.</li>
+        <li>Or <a href="highscore/CloneClicker/DanielBerezvai">https://daak-store.herokuapp.com/highscore/GAME ID HERE/USER ID HERE</a>, for highscores for one user in one game.</li>
       </ul>
-
-<ul>
-        
-        <li>You can scale your app, manage it, and deploy over <a href="https://addons.heroku.com/">150 add-on services</a>, from the Dashboard or CLI.</li>
-      </ul>
-
-
     </div>
-                    <div class="col-md-6">
-                        <h2>Browse a Variety of Games</h2>
-                        
+    <div class="col-md-6">
+        <h2>Browse a Variety of Games</h2>
 <div id="centertag" class="registration-container">
-                        <p class="darktext">
-                          {% for game in allgames %}
-
-<a href="games/{{game.game_name.split|join:"_"}}">
-    <b>
-    {{game.game_name }}
-    </b> by
-    {{game.game_developer}}
-    <br />
-    ${{game.game_price|floatformat:2}}
-  </a>
-
-  {% empty %}
-      <li>No games yet.</li>
-{% endfor %}</p>
-                        <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
-                    </div>
-                
+        <p class="darktext">
+{% for game in allgames %}
+            <a href="games/{{game.game_name.split|join:"_"}}"><!--{{game.game_name}}-->
+                <b>{{game.game_name}}</b> by {{game.game_developer}}<br />
+                ${{game.game_price|floatformat:2}}
+            </a>
+{% empty %}No games yet.
+{% endfor %}
+        </p>
+        <p><a class="btn btn-default" href="#" role="button">View details »</a></p>
+</div>
     </div>
   </div> <!-- row -->
-   <div class="alert alert-info text-center" role="alert">Developed by: <a href="http://3ice.hu/">Daniel Berezvai</a>, Aparajita Chowdhury, Arjun Venkatakrishnan, and <a href="http://krishnabagale.com">Krishna Bagale</a>
-</div>
-</div>
+<div class="alert alert-info text-center" role="alert">Developed by: <a href="http://3ice.hu/">Daniel Berezvai</a>, Aparajita Chowdhury, Arjun Venkatakrishnan, and <a href="http://krishnabagale.com">Krishna Bagale</a></div>
+</div> <!-- container -->
 {% endblock %}

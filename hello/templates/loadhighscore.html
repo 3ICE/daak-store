@@ -7,7 +7,7 @@
 {% block title %}Welcome {{request.user.username}}{% endblock %}
 
 {% block content %}
-<div align="center" id="centertag" class="registration-container">
+<div id="centertag" class="registration-container">
 <div>
 {% for score in allscores %}
 <a href="{{score.game.split|join:"_"}}">

@@ -14,8 +14,9 @@ from hashlib import md5
 from hello.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import json 
 
+import json 
+from datetime import datetime
 
 # landing page
 def index(request):
@@ -27,6 +28,8 @@ def index(request):
 def games(request):
     if request.user.is_authenticated():
         return render(request, 'games.html', {"allgames": Game.objects.all()})
+    else:
+        return redirect('login') # 3ICE: We must ALWAYS return something, if it's a function like this
 
 
 # def scores(request):
@@ -43,11 +46,11 @@ def game(request, name):
             return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
         else:
             return redirect('../pay_begin/' + name)
-
+    else:
+        return redirect('login')
 
 # link to developer's view
 def profile_developer(request):
-
     if request.user.is_authenticated():
         try:
             player = Player.objects.get(user=request.user)
@@ -63,14 +66,19 @@ def profile_developer(request):
 def profile_player(request):
     if request.user.is_authenticated():
         return render(request, 'profile_player.html')
+    else:
+        return redirect('login')
 
 
 # linking page to options with delete, add and edit games
 def manage_game(request):
     if request.user.is_authenticated():
         return render(request, 'manage_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
+    else:
+        return redirect('login')
 
 def sale_statistics(request):
+
     list = []
     set_of_games = Game.objects.filter(game_developer=request.user)
     for game in set_of_games:
@@ -79,10 +87,15 @@ def sale_statistics(request):
             list.append(score.game_timestamp)
         return render(request, 'sale_statistics.html', {"allgames": Game.objects.filter(game_developer=request.user),"time_stamp":list})
 
+    if request.user.is_authenticated():
+        return render(request, 'sale_statistics.html', {"allgames": Game.objects.filter(game_developer=request.user)})
+    else:
+        return redirect('login')
+
+
 # linking to registration
 def registration(request):
     # registered = True
-
     return render(request, 'registration.html')
 
 
@@ -115,7 +128,6 @@ def signup(request):
             return redirect('login')
         else:
             return render(request, 'signup.html', {'form': form})  # displays all errors in red automatically
-
     else:
         form = SignUpForm()  # 3ICE: Possibly stop using this, since we need to send the email
     return render(request, 'signup.html', {'form': form})
@@ -124,20 +136,20 @@ def signup(request):
 # checks if user is developer and lets him add his game
 def addgame(request):
     if request.user.is_authenticated():
-
-        if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
-            form = AddGameForm(data=request.POST)
-            if form.is_valid():
-                game = form.save(commit=False)
-                if not game.game_name.isalpha():
-                    return render(request, "add_game.html", {"form": form, "msg": "Please use alpha numeric"})
-                game.game_developer = request.user  # gets user
-                game.save()  # saves
-            else:
-                print(form.errors)
-            return render(request, "add_game.html", {"form": form})
+    # 3ICE: Don't use "or True", it skips the if check entirely (removed nested if completely)
+        form = AddGameForm(data=request.POST)
+        if form.is_valid():
+            game = form.save(commit=False)
+            if not game.game_name.isalpha():
+                return render(request, "add_game.html", {"form": form, "msg": "Please specify an alphanumeric game name (It's the Game ID)"})
+            if Game.objects.filter(game_name=game.game_name).exists():
+                return render(request, "add_game.html", {"form": form, "msg": "ERROR: That name is already in use"})
+            game.game_developer = request.user  # gets user
+            game.save()
+            return render(request, "add_game.html", {"form": form, "msg": "Game added successfully"})
         else:
-            return redirect("login")
+            print(form.errors)
+        return render(request, "add_game.html", {"form": form})
     else:
         return redirect("login")
 
@@ -298,6 +310,8 @@ def pay_success(request):
         username, game_name = pid.split('____')
         game = Game.objects.get(game_name=game_name)
         check_top_hat = 'pid={}&ref={}&result={}&token={}'.format(pid, ref, result, secret_key)
+
+        
         # check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
         # m = md5(check_string.encode("ascii"))
 
@@ -309,6 +323,7 @@ def pay_success(request):
                     "<h2> You don't have to pay us twice!,You already have the game in your inventory " + user.username)
             else:
                 # 3ICE: This is the "receipt" for having purchased the game.
+                #Krishna added now
                 Score.objects.create(game=game, player=user, score=0)
                 #score_obj =Score.objects.get(game_name=game_name)
                 # 3ICE: Record sales statistics

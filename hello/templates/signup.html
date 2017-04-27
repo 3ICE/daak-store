@@ -12,7 +12,7 @@
 {% if msg %}
     <p style="color:blue;">{{msg}}</p>
 {% endif %}
-<div align="center" id="centertag" class="registration-container">
+<div id="centertag" class="registration-container">
   <h2>Sign up</h2>
   <form method="post">
     {% csrf_token %}
@@ -31,5 +31,5 @@
     <input type="checkbox" name="developer" value="developer_box" checked id="developer"><label for="developer"> I am a developer </label> <br>
     <button type="submit">Sign up</button>
   </form>
-{% endblock %}
 </div>
+{% endblock %}

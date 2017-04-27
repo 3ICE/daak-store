@@ -5,7 +5,7 @@
 <!--<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />-->
 {% endblock %}
 {% block content %}
-<div align="center" id="centertag" class="registration-container">
+<div id="centertag" class="registration-container">
 {% for game in allgames %}
     <b>
     {{game.game_name }}
@@ -18,9 +18,14 @@
     {{game.game_sales}}
   </br>
   </b> Game Bought: </b>
+<<<<<<< HEAD
   <ul>
   {% for time in time_stamp %}
   <li>  {{time|date:"SHORT_DATETIME_FORMAT" }}</li>
+=======
+    {{game.timestamp}}
+
+>>>>>>> ac4eb8a80453e07e000ec829f2acfc611492d1e4
 
   {% endfor %}
   </ul>

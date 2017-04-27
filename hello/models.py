@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import *
-
+import datetime
 
 #contains player information
 class Player(models.Model):
