@@ -1,6 +1,6 @@
 from django.db import models
 from django.contrib.auth.models import *
-
+import datetime
 
 #contains player information
 class Player(models.Model):
@@ -24,3 +24,4 @@ class Score(models.Model):
     player = models.ForeignKey(User)
     score = models.PositiveIntegerField(default=0)
     state = models.TextField(blank=True, null=True)
+    now = datetime.datetime.now()

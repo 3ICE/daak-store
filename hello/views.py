@@ -15,7 +15,7 @@ from hello.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 import json 
-
+import datetime
 
 # landing page
 def index(request):
@@ -124,6 +124,7 @@ def addgame(request):
             form = AddGameForm(data=request.POST)
             if form.is_valid():
                 game = form.save(commit=False)
+
                 if not game.game_name.isalpha():
                     return render(request, "add_game.html", {"form": form, "msg": "Please use alpha numeric"})
                 game.game_developer = request.user  # gets user
@@ -293,6 +294,8 @@ def pay_success(request):
         username, game_name = pid.split('____')
         game = Game.objects.get(game_name=game_name)
         check_top_hat = 'pid={}&ref={}&result={}&token={}'.format(pid, ref, result, secret_key)
+
+        now = datetime.datetime.now()
         # check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
         # m = md5(check_string.encode("ascii"))
 
@@ -304,7 +307,8 @@ def pay_success(request):
                     "<h2> You don't have to pay us twice!,You already have the game in your inventory " + user.username)
             else:
                 # 3ICE: This is the "receipt" for having purchased the game.
-                Score.objects.create(game=game, player=user, score=0)
+                #Krishna added now
+                Score.objects.create(game=game, player=user, now, score=0)
 
                 # 3ICE: Record sales statistics
                 game.game_sales += 1
