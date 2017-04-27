@@ -25,4 +25,4 @@ class Score(models.Model):
     player = models.ForeignKey(User)
     score = models.PositiveIntegerField(default=0)
     state = models.TextField(blank=True, null=True)
-    now = models.DateTimeField(auto_now_add=True)
+    game_timestamp = models.DateTimeField(auto_now_add=True)
