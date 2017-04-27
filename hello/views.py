@@ -16,8 +16,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
 import json 
-import datetime
-import json
+from datetime import datetime
 
 # landing page
 def index(request):
