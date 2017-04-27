@@ -29,6 +29,8 @@ def index(request):
 def games(request):
     if request.user.is_authenticated():
         return render(request, 'games.html', {"allgames": Game.objects.all()})
+    else:
+        return redirect('login') # 3ICE: We must ALWAYS return something, if it's a function like this
 
 
 # def scores(request):
@@ -46,7 +48,7 @@ def game(request, name):
         else:
             return redirect('../pay_begin/' + name)
     else:
-        return redirect('login') # 3ICE: We must ALWAYS return something, if it's a function like this
+        return redirect('login')
 
 # link to developer's view
 def profile_developer(request):
