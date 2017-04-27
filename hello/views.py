@@ -50,7 +50,6 @@ def game(request, name):
 
 # link to developer's view
 def profile_developer(request):
-
     if request.user.is_authenticated():
         try:
             player = Player.objects.get(user=request.user)
@@ -66,21 +65,26 @@ def profile_developer(request):
 def profile_player(request):
     if request.user.is_authenticated():
         return render(request, 'profile_player.html')
+    else:
+        return redirect('login')
 
 
 # linking page to options with delete, add and edit games
 def manage_game(request):
     if request.user.is_authenticated():
         return render(request, 'manage_game.html', {"allgames": Game.objects.filter(game_developer=request.user)})
+    else:
+        return redirect('login')
 
 def sale_statistics(request):
     if request.user.is_authenticated():
         return render(request, 'sale_statistics.html', {"allgames": Game.objects.filter(game_developer=request.user)})
+    else:
+        return redirect('login')
 
 # linking to registration
 def registration(request):
     # registered = True
-
     return render(request, 'registration.html')
 
 
@@ -113,7 +117,6 @@ def signup(request):
             return redirect('login')
         else:
             return render(request, 'signup.html', {'form': form})  # displays all errors in red automatically
-
     else:
         form = SignUpForm()  # 3ICE: Possibly stop using this, since we need to send the email
     return render(request, 'signup.html', {'form': form})
@@ -122,20 +125,17 @@ def signup(request):
 # checks if user is developer and lets him add his game
 def addgame(request):
     if request.user.is_authenticated():
-
-        if request.method == 'POST' or True:  # TODO Don't use "or True", it skips the if check entirely
-            form = AddGameForm(data=request.POST)
-            if form.is_valid():
-                game = form.save(commit=False)
-                if not game.game_name.isalpha():
-                    return render(request, "add_game.html", {"form": form, "msg": "Please use alpha numeric"})
-                game.game_developer = request.user  # gets user
-                game.save()  # saves
-            else:
-                print(form.errors)
-            return render(request, "add_game.html", {"form": form})
+    # 3ICE: Don't use "or True", it skips the if check entirely (removed nested if completely)
+        form = AddGameForm(data=request.POST)
+        if form.is_valid():
+            game = form.save(commit=False)
+            if not game.game_name.isalpha():
+                return render(request, "add_game.html", {"form": form, "msg": "Please use alpha numeric"})
+            game.game_developer = request.user  # gets user
+            game.save()  # saves
         else:
-            return redirect("login")
+            print(form.errors)
+        return render(request, "add_game.html", {"form": form})
     else:
         return redirect("login")
 
