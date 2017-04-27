@@ -308,6 +308,7 @@ def pay_success(request):
 
                 # 3ICE: Record sales statistics
                 game.game_sales += 1
+
                 game.save()
             return render(request, 'pay_success.html', {'game': game})
         else:
