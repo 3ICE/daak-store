@@ -131,9 +131,12 @@ def addgame(request):
         if form.is_valid():
             game = form.save(commit=False)
             if not game.game_name.isalpha():
-                return render(request, "add_game.html", {"form": form, "msg": "Please use alpha numeric"})
+                return render(request, "add_game.html", {"form": form, "msg": "Please specify an alphanumeric game name (It's the Game ID)"})
+            if Game.objects.filter(game_name=game.game_name).exists():
+                return render(request, "add_game.html", {"form": form, "msg": "ERROR: That name is already in use"})
             game.game_developer = request.user  # gets user
-            game.save()  # saves
+            game.save()
+            return render(request, "add_game.html", {"form": form, "msg": "Game added successfully"})
         else:
             print(form.errors)
         return render(request, "add_game.html", {"form": form})
