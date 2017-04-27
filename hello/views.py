@@ -78,17 +78,14 @@ def manage_game(request):
         return redirect('login')
 
 def sale_statistics(request):
-
-    list = []
-    set_of_games = Game.objects.filter(game_developer=request.user)
-    for game in set_of_games:
-        set_of_scores = Score.objects.filter(game=game)
-        for score in set_of_scores:
-            list.append(score.game_timestamp)
-        return render(request, 'sale_statistics.html', {"allgames": Game.objects.filter(game_developer=request.user),"time_stamp":list})
-
     if request.user.is_authenticated():
-        return render(request, 'sale_statistics.html', {"allgames": Game.objects.filter(game_developer=request.user)})
+        list = []
+        set_of_games = Game.objects.filter(game_developer=request.user)
+        for game in set_of_games:
+            set_of_scores = Score.objects.filter(game=game)
+            for score in set_of_scores:
+                list.append(score.game_timestamp)
+        return render(request, 'sale_statistics.html', {"allgames": Game.objects.filter(game_developer=request.user),"time_stamp":list})
     else:
         return redirect('login')
 
@@ -300,6 +297,9 @@ def pay_begin(request, game_name):
 
 # payment succeeded
 def pay_success(request):
+    # create a logic which takes care of checking whether player has already bought the game
+    # if the player has already purchased, throw error, navigate back to the game
+    # else add player to the game or vice versa, navigate back to the games list
     if request.user.is_authenticated():
         pid = request.GET['pid']
         checksum = request.GET['checksum']
@@ -311,33 +311,24 @@ def pay_success(request):
         game = Game.objects.get(game_name=game_name)
         check_top_hat = 'pid={}&ref={}&result={}&token={}'.format(pid, ref, result, secret_key)
 
-        
         # check_string = "pid=" + pid + "&sid=" + sid + "&amount=" + str(price) + "&token=" + secret_key
         # m = md5(check_string.encode("ascii"))
 
         if md5hex(check_top_hat.encode("ascii")) == checksum:
-
             user = User.objects.get(username=username)
             if Score.objects.filter(game=game, player=user).exists():
-                raise Http404(
-                    "<h2> You don't have to pay us twice!,You already have the game in your inventory " + user.username)
+                raise Http404("<h2> You don't have to pay us twice!,You already have the game in your inventory " + user.username)
             else:
                 # 3ICE: This is the "receipt" for having purchased the game.
-                #Krishna added now
                 Score.objects.create(game=game, player=user, score=0)
-                #score_obj =Score.objects.get(game_name=game_name)
                 # 3ICE: Record sales statistics
                 game.game_sales += 1
-                game.game_timestamp=datetime.datetime.now()
                 game.save()
             return render(request, 'pay_success.html', {'game': game,'time':game.game_timestamp})
         else:
             return render(request, 'pay_failed.html')
     else:
         return redirect("login")
-        # create a logic which takes care of checking whether player has already bought the game
-        # if the player has already purchased, throw error, navigate back to the game
-        # else add player to the game or vice versa, navigate back to the games list
 
 
 # payment cancelled
