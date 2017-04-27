@@ -16,10 +16,14 @@
     <br/>
   </b> Total Numbers of sales: </b>
     {{game.game_sales}}
+  </br>
   </b> Game Bought: </b>
-    {{game.timestamps}}
+  <ul>
+  {% for time in time_stamp %}
+  <li>  {{time|date:"SHORT_DATETIME_FORMAT" }}</li>
 
-
+  {% endfor %}
+  </ul>
 
   {% empty %}
       <p>No games yet.</p>
