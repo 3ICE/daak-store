@@ -28,7 +28,8 @@ button {
 position: relative;
 background: #B1DBFF;
 width: 600px;
- margin:0px auto;
+margin: auto;
+text-align: center;
 }
 #centertag a{
   display: block;
