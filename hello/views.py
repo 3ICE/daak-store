@@ -78,10 +78,20 @@ def manage_game(request):
         return redirect('login')
 
 def sale_statistics(request):
+
+    list = []
+    set_of_games = Game.objects.filter(game_developer=request.user)
+    for game in set_of_games:
+        set_of_scores = Score.objects.filter(game=game)
+        for score in set_of_scores:
+            list.append(score.game_timestamp)
+        return render(request, 'sale_statistics.html', {"allgames": Game.objects.filter(game_developer=request.user),"time_stamp":list})
+
     if request.user.is_authenticated():
         return render(request, 'sale_statistics.html', {"allgames": Game.objects.filter(game_developer=request.user)})
     else:
         return redirect('login')
+
 
 # linking to registration
 def registration(request):
@@ -315,12 +325,12 @@ def pay_success(request):
                 # 3ICE: This is the "receipt" for having purchased the game.
                 #Krishna added now
                 Score.objects.create(game=game, player=user, score=0)
-
+                #score_obj =Score.objects.get(game_name=game_name)
                 # 3ICE: Record sales statistics
                 game.game_sales += 1
-
+                game.game_timestamp=datetime.datetime.now()
                 game.save()
-            return render(request, 'pay_success.html', {'game': game})
+            return render(request, 'pay_success.html', {'game': game,'time':game.game_timestamp})
         else:
             return render(request, 'pay_failed.html')
     else:

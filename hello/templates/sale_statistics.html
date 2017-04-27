@@ -2,7 +2,7 @@
 {% block title %}Welcome {{request.user.username}}{% endblock %}
 {% block header %}
 {% load static %}
-<!--<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />-->
+<link href="https://daak-store.herokuapp.com/static/styles.css" rel="stylesheet" type="text/css" />
 {% endblock %}
 {% block content %}
 <div id="centertag" class="registration-container">
@@ -16,10 +16,15 @@
     <br/>
   </b> Total Numbers of sales: </b>
     {{game.game_sales}}
+  </br>
   </b> Game Bought: </b>
-    {{game.timestamp}}
 
+  <ul>
+  {% for time in time_stamp %}
+  <li>  {{time|date:"SHORT_DATETIME_FORMAT" }}</li>
 
+  {% endfor %}
+  </ul>
 
   {% empty %}
       <p>No games yet.</p>
