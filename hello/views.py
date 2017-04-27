@@ -313,7 +313,7 @@ def pay_success(request):
             else:
                 # 3ICE: This is the "receipt" for having purchased the game.
                 #Krishna added now
-                Score.objects.create(game=game, player=user, now, score=0)
+                Score.objects.create(game=game, player=user, score=0)
 
                 # 3ICE: Record sales statistics
                 game.game_sales += 1
