@@ -14,7 +14,7 @@ from hashlib import md5
 from hello.serializers import *
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
-import json 
+import json
 
 
 # landing page
@@ -43,7 +43,8 @@ def game(request, name):
             return render(request, 'game.html', {"game": Game.objects.get(game_name=name.replace("_", " "))})
         else:
             return redirect('../pay_begin/' + name)
-
+    else:
+        return redirect('login') # 3ICE: We must ALWAYS return something, if it's a function like this
 
 # link to developer's view
 def profile_developer(request):
